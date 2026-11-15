@@ -16,3 +16,5 @@ verification/runs/2.1.278/oauth-baseurl/results.json
 verification/runs/2.1.278/oauth-baseurl/transcript.ndjson
 verification/runs/2.1.278/user-nomcp/results.json
 verification/runs/2.1.278/user-nomcp/transcript.ndjson
+# CLI "latest" debug-log symlinks (absolute local paths)
+verification/runs/**/latest
