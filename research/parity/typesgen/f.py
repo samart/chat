@@ -1,5 +1,5 @@
-import sys,re
-s=open('/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/sdk-pkgs/v0.3.325/package/sdk.mjs').read()
+import os,sys,re
+s=open(os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../reference/sdk-pkgs/v0.3.325/package/sdk.mjs')).read()
 mode=sys.argv[1]
 if mode=='def':
   for n in sys.argv[2:]:

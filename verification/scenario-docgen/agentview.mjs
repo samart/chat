@@ -1,5 +1,5 @@
 import { readFileSync } from "node:fs";
-const R = "/Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock";
+const R = new URL("../runs/v2.1.311/mock", import.meta.url).pathname;
 for (const s of process.argv.slice(2)) {
   console.log("=====", s);
   for (const x of readFileSync(`${R}/${s}/transcript.ndjson`, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l))) {

@@ -1,6 +1,6 @@
 // usage: node dump.mjs <scenario> [filter-regex-on-key] [--result-full]
 import { readFileSync } from "node:fs";
-const R = "/Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock";
+const R = new URL("../runs/v2.1.311/mock", import.meta.url).pathname;
 const [name, filt, rf] = process.argv.slice(2);
 const L = readFileSync(`${R}/${name}/transcript.ndjson`, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l));
 export const short = (s) => s

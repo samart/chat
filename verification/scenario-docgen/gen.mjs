@@ -2,7 +2,7 @@
 // sequence and JSON example in the document is taken from the recordings, not retyped.
 //   node gen.mjs <template.md> <out.md>
 import { readFileSync, writeFileSync } from "node:fs";
-const R = "/Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311";
+const R = new URL("../runs/v2.1.311", import.meta.url).pathname;
 const [tplFile, outFile] = process.argv.slice(2);
 const cache = {};
 const load = (s) => (cache[s] ??= readFileSync(`${R}/mock/${s}/transcript.ndjson`, "utf8").split("\n").filter(Boolean).map((l) => JSON.parse(l)));
