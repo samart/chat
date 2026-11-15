@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1520" height="1190" viewBox="0 0 1520 1190" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif">
+  <!-- Source for architecture.png. Baseline: CLI 2.1.311 / SDK 0.3.311. Edit this file, then re-render the PNG at 1:1. -->
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#bdbab2"/>
+    </marker>
+    <style>
+      .box  { fill: #ffffff; stroke: #d6d3cc; stroke-width: 2.5; }
+      .hi   { fill: #e6f0fb; stroke: #1a73e8; stroke-width: 3; }
+      .grp  { fill: none; stroke: #d6d3cc; stroke-width: 2.5; }
+      .dash { fill: none; stroke: #c8c6c0; stroke-width: 2.5; stroke-dasharray: 9 7; }
+      .t    { font-size: 23px; font-weight: 600; fill: #1f1f1f; }
+      .g    { font-size: 23px; font-weight: 600; fill: #1f1f1f; }
+      .b    { font-size: 19px; fill: #555555; }
+      .bm   { font-size: 19px; fill: #555555; font-family: ui-monospace, 'SF Mono', Menlo, monospace; }
+      .lbl  { font-size: 19px; fill: #555555; }
+      .ar   { stroke: #bdbab2; stroke-width: 2.5; fill: none; }
+    </style>
+  </defs>
+
+  <rect width="1520" height="1190" fill="#ffffff"/>
+
+  <text x="44" y="58" style="font-size:27px;font-weight:600;fill:#1f1f1f">Only the protocol client talks to the claude CLI</text>
+
+  <!-- Editor (dashed) -->
+  <rect class="dash" x="44" y="92" width="1432" height="698" rx="18"/>
+  <text class="g" x="72" y="136">Editor (your plugin)</text>
+
+  <!-- Row 1 -->
+  <rect class="box" x="72" y="162" width="496" height="128" rx="14"/>
+  <text class="t" x="98" y="202">Chat webview</text>
+  <text class="b" x="98" y="231">Transcript, composer, approval cards</text>
+  <text class="b" x="98" y="260">Renders only; never sees the CLI</text>
+
+  <rect class="box" x="600" y="162" width="848" height="128" rx="14"/>
+  <text class="t" x="626" y="202">Editor APIs</text>
+  <text class="b" x="626" y="231">Diff tabs, diagnostics, selection,</text>
+  <text class="b" x="626" y="260">open files, workspace folders</text>
+
+  <!-- Plugin host -->
+  <rect class="grp" x="72" y="346" width="1028" height="416" rx="14"/>
+  <text class="g" x="100" y="390">Plugin host (extension process)</text>
+
+  <rect class="hi" x="100" y="414" width="310" height="320" rx="14"/>
+  <text class="t" x="122" y="454">Protocol client</text>
+  <text class="b" x="122" y="483">NDJSON in and out</text>
+  <text class="b" x="122" y="512">control router</text>
+  <text class="b" x="122" y="541">tolerant reader</text>
+  <text class="b" x="122" y="599">routes can_use_tool,</text>
+  <text class="b" x="122" y="628">hook_callback and</text>
+  <text class="b" x="122" y="657">mcp_message to the</text>
+  <text class="b" x="122" y="686">components on the right</text>
+
+  <rect class="box" x="431" y="414" width="310" height="150" rx="14"/>
+  <text class="t" x="453" y="454">Host hooks</text>
+  <text class="b" x="453" y="483">PreToolUse: baseline,</text>
+  <text class="b" x="453" y="512">save dirty buffers</text>
+  <text class="b" x="453" y="541">PostToolUse: diagnostics</text>
+
+  <rect class="box" x="762" y="414" width="310" height="150" rx="14"/>
+  <text class="t" x="784" y="454">claude-vscode MCP</text>
+  <text class="b" x="784" y="483">in-process SDK server</text>
+  <text class="b" x="784" y="512">getDiagnostics only</text>
+  <text class="b" x="784" y="541">(no openDiff in the chat)</text>
+
+  <rect class="box" x="431" y="584" width="310" height="150" rx="14"/>
+  <text class="t" x="453" y="624">Approval broker</text>
+  <text class="b" x="453" y="653">can_use_tool to card</text>
+  <text class="b" x="453" y="682">diff opens from the card</text>
+  <text class="b" x="453" y="711">answers the CLI</text>
+
+  <rect class="box" x="762" y="584" width="310" height="150" rx="14"/>
+  <text class="t" x="784" y="624">Session manager</text>
+  <text class="b" x="784" y="653">One process per tab</text>
+  <text class="b" x="784" y="682">spawn and resume</text>
+  <text class="b" x="784" y="711">restart on crash</text>
+
+  <!-- Terminal IDE server (inside editor, outside the chat path) -->
+  <rect class="box" x="1132" y="346" width="316" height="186" rx="14"/>
+  <text class="t" x="1154" y="386">Terminal IDE server</text>
+  <text class="b" x="1154" y="415">WebSocket, 127.0.0.1</text>
+  <text class="b" x="1154" y="444">openDiff + 11 tools</text>
+  <text class="b" x="1154" y="473">lockfile ~/.claude/ide/</text>
+  <text class="b" x="1154" y="502">not used by the chat</text>
+
+  <!-- Outside the editor -->
+  <rect class="box" x="72" y="848" width="718" height="128" rx="14"/>
+  <text class="t" x="98" y="888">claude CLI (child process)</text>
+  <text class="b" x="98" y="917">Agent loop, tools, context, compaction,</text>
+  <text class="b" x="98" y="946">permission policy, auth, session files</text>
+
+  <rect class="box" x="860" y="848" width="250" height="128" rx="14"/>
+  <text class="t" x="880" y="888">Session transcripts</text>
+  <text class="b" x="880" y="917">~/.claude/projects/</text>
+  <text class="b" x="880" y="946">[cwd]/[session].jsonl</text>
+
+  <rect class="box" x="1132" y="848" width="316" height="128" rx="14"/>
+  <text class="t" x="1154" y="888">claude in a terminal</text>
+  <text class="b" x="1154" y="917">user's own TUI session;</text>
+  <text class="b" x="1154" y="946">finds the server via lockfile</text>
+
+  <rect class="box" x="72" y="1048" width="718" height="100" rx="14"/>
+  <text class="t" x="98" y="1088">Anthropic API</text>
+  <text class="b" x="98" y="1117">Model inference; the CLI holds the credentials</text>
+
+  <!-- Arrows -->
+  <line class="ar" x1="320" y1="294" x2="320" y2="342" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="lbl" x="334" y="324">typed messages</text>
+
+  <line class="ar" x1="690" y1="294" x2="690" y2="410" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="lbl" x="702" y="324">save, diagnostics</text>
+
+  <line class="ar" x1="917" y1="294" x2="917" y2="410" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="lbl" x="929" y="324">editor calls</text>
+
+  <line class="ar" x1="1290" y1="294" x2="1290" y2="342" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="lbl" x="1302" y="324">editor calls</text>
+
+  <line class="ar" x1="255" y1="738" x2="255" y2="844" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="lbl" x="269" y="826">stdin/stdout NDJSON</text>
+
+  <line class="ar" x1="436" y1="980" x2="436" y2="1044" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="lbl" x="450" y="1018">HTTPS</text>
+
+  <line class="ar" x1="790" y1="912" x2="856" y2="912" marker-end="url(#ah)"/>
+  <text class="lbl" x="825" y="900" text-anchor="middle">writes</text>
+
+  <line class="ar" x1="985" y1="848" x2="985" y2="738" marker-end="url(#ah)"/>
+  <text class="lbl" x="997" y="826">reads history</text>
+
+  <line class="ar" x1="1290" y1="536" x2="1290" y2="844" marker-start="url(#ah)" marker-end="url(#ah)"/>
+  <text class="lbl" x="1302" y="676">WebSocket +</text>
+  <text class="lbl" x="1302" y="702">auth token</text>
+</svg>

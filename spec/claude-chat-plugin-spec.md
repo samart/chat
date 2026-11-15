@@ -39,7 +39,7 @@ The plugin hosts a full Claude chat panel inside an editor by running the `claud
 
 ![Plugin architecture: webview, host, CLI child](diagrams/architecture.png)
 
-The webview renders and the host decides; only the protocol client writes to the CLI's stdin or reads its stdout. The approval broker, session manager and editor MCP server all go through the protocol client, so a single place handles framing, request ids and unknown message types.
+The webview renders and the host decides; only the protocol client writes to the CLI's stdin or reads its stdout. The approval broker, session manager, host hooks and in-process MCP server all go through the protocol client, so a single place handles framing, request ids and unknown message types.
 
 | Component | Owns | Talks to |
 | --- | --- | --- |
@@ -47,7 +47,9 @@ The webview renders and the host decides; only the protocol client writes to the
 | Protocol client | Process I/O, NDJSON, control request/response pairing | CLI |
 | Approval broker | Pending `can_use_tool` requests and their cards | Protocol client, webview |
 | Session manager | Process per tab, resume/restart, session list from JSONL | Protocol client, file system |
-| Editor MCP server | Editor tools exposed to Claude | Protocol client (`mcp_message`), editor APIs |
+| Host hooks | `PreToolUse` baseline and autosave, `PostToolUse` diagnostics | Protocol client (`hook_callback`), editor APIs |
+| In-process MCP server (`claude-vscode`) | `getDiagnostics`, the only editor tool the chat's CLI sees | Protocol client (`mcp_message`), editor APIs |
+| Terminal IDE server (optional) | `openDiff` and 11 more tools over WebSocket for a `claude` in the terminal; lockfile | Editor APIs, terminal `claude` (not the chat's CLI) |
 
 ## CLI process lifecycle
 
