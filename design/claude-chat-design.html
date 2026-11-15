@@ -129,7 +129,7 @@ html { scroll-behavior: smooth; }
   <h1>Claude CLI Chat Host</h1>
   <p class="lede">How an editor plugin runs the <code>claude</code> CLI as a child process and builds a full chat panel on top of it: the ways in, the process lifecycle, every message and control flow, permissions, slash commands, sessions and the arguments that tie them together.</p>
   <div class="meta"><span>Derived from: anthropic.claude-code 2.1.311 VSIX (SDK 0.3.311), compared with 2.1.325; live probes of CLI 2.1.311 and 2.1.325</span><span>Updated 2026-11-15</span></div>
-  <p class="lede">Everything here is 2.1.311 behaviour unless tagged <span class="lvl later">2.1.325+</span>: those items come from a later CLI or SDK and must be feature-detected, never assumed. Section 14 lists what the upgrade adds.</p>
+  <p class="lede">Everything here is 2.1.311 behaviour unless tagged <span class="lvl later">2.1.325+</span>: those items come from a later CLI or SDK and must be feature-detected, never assumed. Section 15 lists what the upgrade adds.</p>
 </header>
 
 <div class="page">
@@ -145,6 +145,7 @@ html { scroll-behavior: smooth; }
     <li><a href="#permissions">Permissions</a></li>
     <li><a href="#slash">Slash commands</a></li>
     <li><a href="#sessions">Sessions</a></li>
+    <li><a href="#agentmap">Agent map</a></li>
     <li><a href="#editor">Editor integration</a></li>
     <li><a href="#features">Feature map</a></li>
     <li><a href="#errors">Errors and recovery</a></li>
@@ -415,7 +416,7 @@ stateDiagram-v2
       <tr><td><code>control_request</code>, <code>control_response</code>, <code>control_cancel_request</code>, <code>keep_alive</code></td><td>Control channel</td><td>Not rendered; routed (section 07)</td></tr>
     </tbody>
   </table></div>
-  <p class="caption"><code>parent_tool_use_id</code> on any message means it came from a subagent started by that tool call: nest it under that card. Content blocks to render: <code>text</code>, <code>thinking</code>, <code>redacted_thinking</code>, <code>tool_use</code>, <code>server_tool_use</code>, <code>web_search_tool_result</code>, <code>tool_result</code>. Messages that only exist in 2.1.325+ (such as <code>system/session_writes_lost</code>) are listed in section 14; until adopted, the tolerant reader logs them.</p>
+  <p class="caption"><code>parent_tool_use_id</code> on any message means it came from a subagent started by that tool call: nest it under that card. Content blocks to render: <code>text</code>, <code>thinking</code>, <code>redacted_thinking</code>, <code>tool_use</code>, <code>server_tool_use</code>, <code>web_search_tool_result</code>, <code>tool_result</code>. Messages that only exist in 2.1.325+ (such as <code>system/session_writes_lost</code>) are listed in section 15; until adopted, the tolerant reader logs them.</p>
 </section>
 
 <section id="flows">
@@ -532,7 +533,7 @@ sequenceDiagram
   H->>C: hook output
   Note over H,E: Tool card shows the diff against the baseline, diagnostics and Revert
   </pre></div>
-  <p class="caption">This is how the reference chat shows diffs in 2.1.311 and 2.1.325. It does not call <code>openDiff</code>: that tool lives on the separate WebSocket IDE server and is used only by a <code>claude</code> running in the terminal (section 11).</p>
+  <p class="caption">This is how the reference chat shows diffs in 2.1.311 and 2.1.325. It does not call <code>openDiff</code>: that tool lives on the separate WebSocket IDE server and is used only by a <code>claude</code> running in the terminal (section 12).</p>
 </section>
 
 <section id="control">
@@ -687,8 +688,61 @@ flowchart LR
   <div class="callout">Edit-and-resend of an earlier message is a rewind to just before it, followed by a new user message. Disable rewind while a turn runs, and focus an existing tab instead of opening a second process on the same session.</div>
 </section>
 
+<section id="agentmap">
+  <h2><span class="n">11</span>Agent map</h2>
+  <p class="point">The agent map is a live tree of the main agent and every subagent. No API returns it: one reducer, keyed by <code>task_id</code>, builds it from messages the CLI already streams, and the panel only reads that state. Same handlers and record in 2.1.311 and 2.1.325, all <span class="lvl observed">observed</span>.</p>
+  <div class="frame diagram"><pre class="mermaid">
+flowchart LR
+  S1["system/task_started"] --> R
+  S2["system/task_progress"] --> R
+  S3["system/task_updated, task_notification"] --> R
+  S4["system/background_tasks_changed"] --> R
+  S5["assistant tool_use Agent or Task"] --> R
+  S6["can_use_tool with agent_id"] --> R
+  R["Agent records keyed by task_id"] --> P["Agent map panel: tree by parentToolUseId"]
+  P -->|"stop"| A1["stop_task control request"]
+  P -->|"output"| A2["get_task_output"]
+  P -->|"open"| A3["subagents/agent-id.jsonl"]
+  </pre></div>
+
+  <h3>Turn it on in initialize</h3>
+  <div class="frame"><table>
+    <thead><tr><th>Option</th><th>2.1.311 reference</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td><code>perTaskStopAffordance</code></td><td><code>true</code></td><td>Declares a per-task stop control wired to <code>stop_task</code></td></tr>
+      <tr><td><code>forwardNestedSubagentToolCalls</code></td><td><code>true</code></td><td>Internal: forwards tool calls of nested subagents, so deeper levels appear</td></tr>
+      <tr><td><code>agentProgressSummaries</code></td><td>off</td><td>When on, periodic AI progress summaries. Off: <code>task_progress.summary</code> may be missing, so fall back to <code>description</code> and recent tools</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3>Events to updates</h3>
+  <div class="frame"><table>
+    <thead><tr><th>Input</th><th>Effect on the map</th></tr></thead>
+    <tbody>
+      <tr><td><code>assistant</code> <code>tool_use</code> <code>Agent</code>/<code>Task</code></td><td>Provisional record keyed <code>call:&lt;tool_use_id&gt;</code> if no task exists yet; <code>model</code> from <code>input.model</code>, parent from the message's <code>parent_tool_use_id</code></td></tr>
+      <tr><td><code>task_started</code> (<code>task_type: "local_agent"</code>)</td><td>Create the record, or rename the provisional one to the real <code>task_id</code>. Other task types go to the background-task list. Every start also lands in a foreground-call list with <code>skip_transcript</code></td></tr>
+      <tr><td><code>task_progress</code></td><td>Usage, summary, last 3 tool names. Revives a record that was stopped only because the process exited</td></tr>
+      <tr><td><code>task_updated</code>, <code>task_notification</code></td><td>Status (<code>completed</code> → finished, <code>failed</code> → failed, <code>killed</code>/<code>stopped</code> → stopped), error, end time, result, <code>output_file</code>, foreground ↔ background</td></tr>
+      <tr><td><code>background_tasks_changed</code></td><td>Reconcile the background list; drop backgrounded agents no longer listed</td></tr>
+      <tr><td><code>can_use_tool</code> with <code>agent_id</code></td><td>Show that agent as "Waiting for your permission"</td></tr>
+      <tr><td>Any message with <code>parent_tool_use_id</code></td><td>Belongs to that subagent: nest it in the agent's detail view, not the main transcript</td></tr>
+      <tr><td>Process exit / new <code>session_id</code></td><td>Working records become stopped with <code>processEnded</code> / clear the map</td></tr>
+    </tbody>
+  </table></div>
+  <p class="caption">Stored statuses are <code>working</code>, <code>finished</code>, <code>failed</code>, <code>stopped</code>; <code>waiting</code> is derived for display only. Later model and result facts win by message timestamp (<code>servedModelAt</code>, <code>resultAt</code>).</p>
+
+  <h3>Panel and actions</h3>
+  <ul>
+    <li><strong>Tree:</strong> the main agent is the root; each record hangs under the agent whose tool call id is its <code>parentToolUseId</code>. One status dot per node; the panel opens from a composer button.</li>
+    <li><strong>Detail view:</strong> description, prompt, model, usage, recent tools and result. Result text: last live text (skipped once <code>textRemoved</code>), then stored result, then the spawning call's <code>tool_result</code>, then summary.</li>
+    <li><strong>Stop:</strong> <code>stop_task</code>, then mark the agent stopped if it is still working. <strong>Background output:</strong> <code>get_task_output</code> → <code>output</code>, <code>totalBytes</code>, <code>truncated</code>.</li>
+    <li><strong>Full transcript:</strong> <code>&lt;sessionId&gt;/subagents/[&lt;agentRelPath…&gt;/]agent-&lt;agentId&gt;.jsonl</code> with a <code>.meta.json</code> beside it, read tolerantly.</li>
+  </ul>
+  <div class="callout">On resume, rebuild from the JSONL: scan every <code>Agent</code>/<code>Task</code> call and its <code>tool_result</code> (none = stopped, <code>is_error</code> = failed, else finished), then merge result notices and subagent model names. Before trimming old messages from memory, fold their facts into the map and set <code>textRemoved</code>.</div>
+</section>
+
 <section id="editor">
-  <h2><span class="n">11</span>Editor integration</h2>
+  <h2><span class="n">12</span>Editor integration</h2>
   <p class="point">Context travels on the user message. The chat gets diffs from the approval card plus host hooks, and its only editor tool is <code>getDiagnostics</code>. The 12-tool server with <code>openDiff</code> is a separate WebSocket surface for a terminal <code>claude</code>.</p>
   <div class="frame"><table>
     <thead><tr><th>Server</th><th>Transport</th><th>Tools</th><th>Used by</th></tr></thead>
@@ -721,7 +775,7 @@ flowchart LR
 </section>
 
 <section id="features">
-  <h2><span class="n">12</span>Feature map</h2>
+  <h2><span class="n">13</span>Feature map</h2>
   <p class="point">Every panel feature traced to the protocol piece that powers it. P0 ships first; P1 reaches parity with the official panel.</p>
   <div class="frame"><table>
     <thead><tr><th>Feature</th><th>Powered by</th><th>Priority</th></tr></thead>
@@ -749,7 +803,7 @@ flowchart LR
 </section>
 
 <section id="errors">
-  <h2><span class="n">13</span>Errors and recovery</h2>
+  <h2><span class="n">14</span>Errors and recovery</h2>
   <p class="point">Check <code>is_error</code>, never <code>subtype</code> alone: API failures arrive as <code>result</code> with <code>subtype: "success"</code> and <code>is_error: true</code>.</p>
   <div class="frame"><table>
     <thead><tr><th>Failure</th><th>Signal</th><th>UI</th></tr></thead>
@@ -767,7 +821,7 @@ flowchart LR
 </section>
 
 <section id="drift">
-  <h2><span class="n">14</span>Version drift</h2>
+  <h2><span class="n">15</span>Version drift</h2>
   <p class="point">The protocol changes every release, often without a changelog line. A nightly job diffs each new CLI against the shipped one before you upgrade.</p>
   <ul>
     <li><strong>Free signals:</strong> the SDK's <code>sdk.d.ts</code> (SDK 0.3.N ships with CLI 2.1.N), the settings schema, <code>--help</code> and binary strings, a control-only <code>initialize</code> probe, and 14 scenarios against a local fake Messages API.</li>

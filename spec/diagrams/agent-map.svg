@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="980" viewBox="0 0 1440 980" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif">
+  <!-- Source for agent-map.png. Baseline: CLI 2.1.311 / SDK 0.3.311. Edit this file, then re-render the PNG at 1:1. -->
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#bdbab2"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #d6d3cc; stroke-width: 2.5; }
+      .hi  { fill: #e6f0fb; stroke: #1a73e8; stroke-width: 3; }
+      .t   { font-size: 23px; font-weight: 600; fill: #1f1f1f; }
+      .b   { font-size: 19px; fill: #555555; }
+      .lbl { font-size: 19px; fill: #555555; }
+      .note{ font-size: 18px; fill: #6b6b6b; }
+      .ar  { stroke: #bdbab2; stroke-width: 2.5; fill: none; }
+    </style>
+  </defs>
+
+  <rect width="1440" height="980" fill="#ffffff"/>
+  <text x="44" y="58" style="font-size:27px;font-weight:600;fill:#1f1f1f">The agent map is rebuilt from the message stream, not fetched</text>
+
+  <!-- Six inputs -->
+  <rect class="box" x="44" y="112" width="420" height="100" rx="14"/>
+  <text class="t" x="70" y="152">task_started</text>
+  <text class="b" x="70" y="181">new record, or rename call:&lt;id&gt;</text>
+
+  <rect class="box" x="44" y="232" width="420" height="100" rx="14"/>
+  <text class="t" x="70" y="272">task_progress</text>
+  <text class="b" x="70" y="301">usage, summary, recent tools</text>
+
+  <rect class="box" x="44" y="352" width="420" height="100" rx="14"/>
+  <text class="t" x="70" y="392">task_updated / notification</text>
+  <text class="b" x="70" y="421">status, error, end time, result</text>
+
+  <rect class="box" x="44" y="472" width="420" height="100" rx="14"/>
+  <text class="t" x="70" y="512">background_tasks_changed</text>
+  <text class="b" x="70" y="541">reconcile the background list</text>
+
+  <rect class="box" x="44" y="592" width="420" height="100" rx="14"/>
+  <text class="t" x="70" y="632">assistant tool_use Agent</text>
+  <text class="b" x="70" y="661">provisional record, model, parent</text>
+
+  <rect class="box" x="44" y="712" width="420" height="100" rx="14"/>
+  <text class="t" x="70" y="752">can_use_tool.agent_id</text>
+  <text class="b" x="70" y="781">a working agent shows as waiting</text>
+
+  <!-- Bus into the reducer -->
+  <path class="ar" d="M464,162 H496 M464,282 H496 M464,402 H496 M464,522 H496 M464,642 H496 M464,762 H496 M496,162 V762"/>
+  <line class="ar" x1="496" y1="440" x2="536" y2="440" marker-end="url(#ah)"/>
+
+  <!-- Reducer -->
+  <rect class="hi" x="540" y="330" width="360" height="220" rx="14"/>
+  <text class="t" x="564" y="370">Agent records</text>
+  <text class="b" x="564" y="399">keyed by task_id</text>
+  <text class="b" x="564" y="428">(call:&lt;id&gt; until started)</text>
+  <text class="b" x="564" y="457">status, usage, model,</text>
+  <text class="b" x="564" y="486">result, parentToolUseId,</text>
+  <text class="b" x="564" y="515">processEnded, textRemoved</text>
+
+  <!-- Panel -->
+  <line class="ar" x1="900" y1="440" x2="976" y2="440" marker-end="url(#ah)"/>
+  <rect class="box" x="980" y="330" width="416" height="220" rx="14"/>
+  <text class="t" x="1004" y="370">Agent map panel</text>
+  <text class="b" x="1004" y="399">tree: main agent at root,</text>
+  <text class="b" x="1004" y="428">children by parentToolUseId</text>
+  <text class="b" x="1004" y="457">status: working, waiting,</text>
+  <text class="b" x="1004" y="486">finished, failed, stopped</text>
+  <text class="b" x="1004" y="515">details on click</text>
+
+  <!-- Actions -->
+  <path class="ar" d="M1060,550 V630 H720 V696" marker-end="url(#ah)"/>
+  <line class="ar" x1="1290" y1="550" x2="1290" y2="696" marker-end="url(#ah)"/>
+  <text class="lbl" x="1084" y="620">user actions</text>
+
+  <rect class="box" x="540" y="700" width="360" height="160" rx="14"/>
+  <text class="t" x="564" y="740">Stop and output</text>
+  <text class="b" x="564" y="769">stop_task control request</text>
+  <text class="b" x="564" y="798">(wire killed → stopped)</text>
+  <text class="b" x="564" y="827">get_task_output</text>
+
+  <rect class="box" x="980" y="700" width="416" height="160" rx="14"/>
+  <text class="t" x="1004" y="740">Agent transcript</text>
+  <text class="b" x="1004" y="769">[session]/subagents/</text>
+  <text class="b" x="1004" y="798">[relPath/]agent-[id].jsonl</text>
+  <text class="b" x="1004" y="827">+ .meta.json</text>
+
+  <!-- Notes -->
+  <text class="note" x="44" y="908">Also: process exit sets working agents to stopped (processEnded); a later task_progress revives them. A new session_id clears the map.</text>
+  <text class="note" x="44" y="938">initialize (2.1.311 reference): perTaskStopAffordance and forwardNestedSubagentToolCalls on; agentProgressSummaries off, so summaries may be missing.</text>
+</svg>

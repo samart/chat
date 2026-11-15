@@ -504,38 +504,51 @@ The CLI persists every session as a JSONL transcript. The plugin keeps no conver
 
 The Agent map is a tree of the main agent and every subagent and background task in the session, with live status. There is no API that returns it: the UI builds it from messages the CLI already streams, keeps it up to date as events arrive, and rebuilds it from the transcript on resume. Everything here is **Observed** (reference webview 2.1.311; identical handlers and record in 2.1.325), so build it on a tolerant reducer.
 
-![Agent map data flow: 5 sources, 1 reducer, 3 actions](diagrams/agent-map.png)
+![Agent map data flow: 6 sources, 1 reducer, 2 actions](diagrams/agent-map.png)
 
-Five kinds of messages feed one reducer keyed by `task_id`; the panel only reads it. Its actions go back through a control request or a file read.
+Six kinds of input feed one reducer keyed by `task_id`; the panel only reads it. Its actions go back through a control request or a file read.
+
+### Enabling it
+
+These `initialize` options shape what the CLI sends about subagents. They are SDK options with the same names.
+
+| Option | 2.1.311 reference | Effect |
+| --- | --- | --- |
+| `perTaskStopAffordance` | `true` | Declares that the UI has a per-task stop control wired to `stop_task` |
+| `forwardNestedSubagentToolCalls` | `true` | Internal, not in the `.d.ts`: forwards tool calls made by nested subagents, so deeper levels of the tree appear |
+| `agentProgressSummaries` | unset (off) | When on, the CLI generates periodic progress summaries for running subagents. Off means `task_progress.summary` may be missing: fall back to `description` and recent tools |
+| `forwardSubagentText` | unset | Forwards subagent text and thinking blocks as messages with `parent_tool_use_id` set |
 
 ### Agent record
 
-One record per agent, keyed by `task_id`.
+One record per agent, keyed by `task_id`. Before the CLI sends `task_started`, a record may exist under a provisional key `call:<tool_use_id>`, created from the `Agent`/`Task` tool call. When `task_started` arrives for a task id the map doesn't have yet, and a provisional record has that `tool_use_id`, rename it to the real `task_id` and keep its fields.
 
 | Field | Source |
 | --- | --- |
-| `taskId` | `task_id` on `system/task_*` |
+| `taskId` | `task_id` on `system/task_*` (or `call:<tool_use_id>` until then) |
 | `toolUseId`, `wakeToolUseIds` | `tool_use_id` of the `Agent` (or legacy `Task`) tool call that spawned or later woke it |
 | `parentToolUseId` | `parent_tool_use_id` of the assistant message containing the spawning tool call; null = child of the main agent |
 | `description`, `prompt`, `subagentType`, `isBackgrounded` | `task_started` |
 | `model` | the spawning tool call's `input.model` |
-| `servedModel` | `message.model` of the subagent's own assistant messages |
+| `servedModel`, `servedModelAt` | `message.model` of the subagent's own assistant messages, and that message's timestamp; a later message wins |
 | `status` | Stored values: `working` → `finished` / `failed` / `stopped`. Wire statuses map as `completed` → `finished`, `failed` → `failed`, `killed` and `stopped` → `stopped` (`killed` is never stored). Displayed as **waiting** while a pending `can_use_tool` has `agent_id` = this task. Labels: Working, Waiting for your permission, Finished, Failed, Stopped |
 | `startTime`, `endTime` | host clock at `task_started` / `task_notification`; `end_time` from `task_updated` |
 | `usage` (`totalTokens`, `toolUses`, `durationMs`) | `task_progress.usage`, final value from `task_notification.usage` |
 | `summary`, `recentTools` | `task_progress.summary`, `description`, last 3 `last_tool_name` values |
-| `result`, `outputFile`, `error` | `task_notification` (`summary`, `output_file`), `task_updated.patch.error`, or the spawning call's `tool_result` text |
+| `result`, `resultAt`, `outputFile`, `error` | `task_notification` (`summary`, `output_file`), `task_updated.patch.error`, or the spawning call's `tool_result` text; `resultAt` is the source message's timestamp, and a later one wins |
+| `processEnded` | `true` when the record was set to `stopped` only because the CLI process exited |
+| `textRemoved` | `true` once the agent's final text message has left the in-memory transcript (trimmed); the detail view then stops using live text (see "Tree and panel") |
 
 ### Events → updates
 
 | Message | Effect on the map |
 | --- | --- |
-| `system/task_started` with `task_type: "local_agent"` | Create the record (or merge into one created from its tool call). Other task types (`local_workflow`, shell) go to the separate background-task list |
-| `system/task_progress` | Update usage, summary, recent tools |
-| `system/task_updated` (`patch.status`, `error`, `end_time`, `is_backgrounded`) | Status transitions; foreground ↔ background |
+| `system/task_started` with `task_type: "local_agent"` | Create the record, or rename the provisional `call:<tool_use_id>` record. Every `task_started` also goes into a foreground-call list with `task_type`, `tool_use_id`, `is_backgrounded` and `skip_transcript`. Other task types (`local_workflow`, shell) go to the separate background-task list |
+| `system/task_progress` | Update usage, summary, recent tools. If the record is `stopped` with `processEnded` (the process restarted and the agent is still running), set it back to `working` and clear `endTime` |
+| `system/task_updated` (`patch.status`, `error`, `end_time`, `is_backgrounded`) | Status transitions (`endTime` = `end_time`, else the existing value, else now; clears `processEnded`); foreground ↔ background |
 | `system/task_notification` (`status`, `summary`, `usage`, `output_file`) | Final status and result; end time |
 | `system/background_tasks_changed` (`tasks[]`) | Reconcile the background list; drop backgrounded agents no longer listed |
-| `assistant` with `tool_use` named `Agent` or `Task` | Link the record to its call; take `model` and the parent from the message's `parent_tool_use_id` |
+| `assistant` with `tool_use` named `Agent` or `Task` | Link the record to its call, or create a provisional `call:<tool_use_id>` record if no task exists yet; take `model` and the parent from the message's `parent_tool_use_id` |
 | any message with `parent_tool_use_id` | Belongs to that subagent: hide it from the main transcript and show it in the agent's detail view |
 | `can_use_tool` with `agent_id` | Show that agent as "Waiting for your permission" |
 | process exit | Every `working` record becomes `stopped` (`processEnded: true`) |
@@ -545,7 +558,7 @@ One record per agent, keyed by `task_id`.
 
 - Root = the main agent; each record hangs under the agent whose tool call has id `parentToolUseId`, so nested agents form deeper levels.
 - Panel: title "Agent map", subtitle "N agents · click an agent for details", one node per agent with a status dot (running, waiting, idle = finished, failed = failed or stopped). Opened from a composer button.
-- Detail view: description, prompt, model, usage, recent tools, summary or result, and the agent's own transcript.
+- Detail view: description, prompt, model, usage, recent tools, result, and the agent's own transcript. Result text, first available wins: the agent's last live text (skipped when `textRemoved`), then the stored `result`, then the spawning call's `tool_result` text, then `summary`.
 
 ### Actions
 
@@ -557,7 +570,7 @@ One record per agent, keyed by `task_id`.
 
 ### Rebuilding on resume
 
-When a session is loaded from JSONL, rebuild records by scanning every `Agent`/`Task` tool call and its `tool_result`. Infer status: no result = `stopped`, `is_error` = `failed`, otherwise `finished`. Then merge in later facts: task-result notices injected as user messages, and subagent model names. When old messages are trimmed from the in-memory transcript, fold their facts into the map first so it stays complete.
+When a session is loaded from JSONL, rebuild records by scanning every `Agent`/`Task` tool call and its `tool_result`. Infer status: no result = `stopped`, `is_error` = `failed`, otherwise `finished`. Then merge in later facts: task-result notices injected as user messages (`result`/`resultAt`), and subagent model names (`servedModel`/`servedModelAt`), keeping the newest by message timestamp. When old messages are trimmed from the in-memory transcript, fold their facts into the map first and set `textRemoved` so it stays complete.
 
 ## Configuration
 
