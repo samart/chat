@@ -101,6 +101,7 @@ pre.code { margin: 0; padding: 14px 16px; background: var(--code-bg); font-size:
 .lvl { font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
 .lvl.stable { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
 .lvl.observed { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+.lvl.later { color: var(--muted); border-style: dashed; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 13px; color: var(--muted); margin: 6px 0 14px; }
 
@@ -124,10 +125,11 @@ html { scroll-behavior: smooth; }
 </style>
 
 <header class="masthead">
-  <div class="eyebrow">Design doc · claude CLI 2.1.325 · Agent SDK 0.3.325</div>
+  <div class="eyebrow">Design doc · baseline claude CLI 2.1.311 · Agent SDK 0.3.311</div>
   <h1>Claude CLI Chat Host</h1>
   <p class="lede">How an editor plugin runs the <code>claude</code> CLI as a child process and builds a full chat panel on top of it: the ways in, the process lifecycle, every message and control flow, permissions, slash commands, sessions and the arguments that tie them together.</p>
-  <div class="meta"><span>Derived from: anthropic.claude-code 2.1.325 VSIX + live probes of CLI 2.1.311 and 2.1.325</span><span>Updated 2026-11-15</span></div>
+  <div class="meta"><span>Derived from: anthropic.claude-code 2.1.311 VSIX (SDK 0.3.311), compared with 2.1.325; live probes of CLI 2.1.311 and 2.1.325</span><span>Updated 2026-11-15</span></div>
+  <p class="lede">Everything here is 2.1.311 behaviour unless tagged <span class="lvl later">2.1.325+</span>: those items come from a later CLI or SDK and must be feature-detected, never assumed. Section 14 lists what the upgrade adds.</p>
 </header>
 
 <div class="page">
@@ -169,7 +171,7 @@ html { scroll-behavior: smooth; }
     <div class="path">
       <span class="tag">C · COMPLEMENT</span>
       <h4>Terminal attach</h4>
-      <p>The user runs <code>claude</code> in the integrated terminal; it connects back to your editor's MCP server over a local WebSocket for diffs and diagnostics. No chat panel; the terminal is the UI.</p>
+      <p>The user runs <code>claude</code> in the integrated terminal; it connects back to a separate 12-tool IDE server over a local WebSocket (found through a lockfile) for diffs and diagnostics. No chat panel; the terminal is the UI.</p>
     </div>
   </div>
   <div class="frame"><table>
@@ -177,7 +179,8 @@ html { scroll-behavior: smooth; }
     <tbody>
       <tr><td>Who writes NDJSON</td><td>SDK</td><td>You</td><td>Nobody (TUI)</td></tr>
       <tr><td>Approvals</td><td><code>canUseTool</code> callback</td><td>Answer <code>can_use_tool</code> control requests</td><td>In the terminal</td></tr>
-      <tr><td>Editor tools</td><td><code>mcpServers</code> with an in-process SDK server</td><td>List in <code>initialize.sdkMcpServers</code>, answer <code>mcp_message</code></td><td>WebSocket MCP server + lockfile</td></tr>
+      <tr><td>Editor tools</td><td><code>mcpServers</code> with an in-process SDK server (reference: <code>claude-vscode</code>, <code>getDiagnostics</code> only)</td><td>List in <code>initialize.sdkMcpServers</code>, answer <code>mcp_message</code></td><td>WebSocket IDE server (<code>openDiff</code> and 11 more) + lockfile</td></tr>
+      <tr><td>Diffs</td><td>Approval card + <code>PreToolUse</code>/<code>PostToolUse</code> hooks</td><td>Same, via <code>can_use_tool</code> and <code>hook_callback</code></td><td><code>openDiff</code> on the IDE server</td></tr>
       <tr><td>Hooks in the host</td><td><code>hooks</code> option with JS callbacks</td><td>Register in <code>initialize.hooks</code>, answer <code>hook_callback</code></td><td>Not available</td></tr>
       <tr><td>CLI binary</td><td><code>pathToClaudeCodeExecutable</code> (your managed install)</td><td>You spawn it</td><td>User's install</td></tr>
       <tr><td>Effort</td><td>Low</td><td>High</td><td>Low, but no custom UI</td></tr>
@@ -193,18 +196,26 @@ const input = new PushQueue&lt;SDKUserMessage&gt;();     // async iterable you p
 const q = query({
   prompt: input,
   options: {
-    pathToClaudeCodeExecutable: managedCliPath,      // you manage the CLI
+    pathToClaudeCodeExecutable: managedCliPath,      // you manage the CLI (2.1.311, SDK pinned to 0.3.311)
     cwd: workspaceRoot,
     resume: sessionId,                               // omit for a new chat
     model, permissionMode: "default",
-    includePartialMessages: true,                    // stream_event token deltas
+    includePartialMessages: true,                    // stream_event token deltas (reference: off in remote windows)
     enableFileCheckpointing: true,                   // needed for rewind_files
-    settingSources: trusted ? ["user", "project", "local"] : ["user"],
-    systemPrompt: { type: "preset", preset: "claude_code" },
+    settingSources: trusted ? ["user", "project", "local"] : ["user"],  // plugin rule; 2.1.311 ref always passes all three
+    systemPrompt: { type: "preset", preset: "claude_code", append: editorContextPrompt },
+    thinking: thinkingOn ? { type: "enabled", budgetTokens: 31999 } : { type: "disabled" },
     canUseTool: (toolName, input, { signal, suggestions }) =>
       approvals.ask({ toolName, input, suggestions, signal }),   // resolves allow / deny
-    mcpServers: { ide: createSdkMcpServer({ name: "ide", tools: editorTools }) },
-    hooks: { PreToolUse: [{ matcher: "Edit|Write|MultiEdit", hooks: [captureBaseline] }] },
+    supportedDialogKinds: [],                        // reference 2.1.311 declares 3; declare only what you render
+    mcpServers: { "claude-vscode": createSdkMcpServer({ name: "claude-vscode", tools: [getDiagnostics] }) },
+    hooks: {
+      PreToolUse:  [{ matcher: "Edit|Write|MultiEdit", hooks: [captureBaseline] },
+                    { matcher: "Edit|Write|Read",      hooks: [saveDirtyBuffer] }],
+      PostToolUse: [{ matcher: "Edit|Write|MultiEdit", hooks: [collectDiagnostics] }],
+    },                                               // no onFailure in 0.3.311 (0.3.317+)
+    extraArgs: { "debug-to-stderr": null, "enable-auth-status": null,
+                 "no-chrome": null, "replay-user-messages": null },
     env: { ...cleanEnv(), CLAUDE_CODE_ENTRYPOINT: "my-editor" },
     stderr: (line) =&gt; log.debug(line),
   },
@@ -217,7 +228,7 @@ input.push({ type: "user", message: { role: "user", content: "Fix the failing te
              parent_tool_use_id: null, session_id: "" });
 await q.interrupt();                                 // Stop button
 await q.setPermissionMode("acceptEdits");            // mode pill
-await q.setModel("opus");                            // model picker</pre>
+await q.setModel("opus");                            // model picker (the 2.1.311 ref writes user settings instead)</pre>
   </div>
 
   <div class="codewrap">
@@ -260,11 +271,14 @@ flowchart TB
       PC["Protocol client: NDJSON, control router, tolerant reader"]
       AB["Approval broker: can_use_tool to card"]
       SM["Session manager: process per tab, resume, restart"]
-      MCP["Editor MCP server: openDiff, getDiagnostics, selection"]
+      MCP["In-process MCP server claude-vscode: getDiagnostics"]
+      HK["Host hooks: baseline, autosave, diagnostics"]
+      WS["Terminal IDE server, WebSocket: openDiff + 11 tools"]
     end
     E["Editor APIs: diff tabs, diagnostics, files"]
   end
   CLI["claude CLI child process: agent loop, tools, permissions, auth"]
+  TT["claude in the integrated terminal"]
   J[("Session transcripts ~/.claude/projects")]
   API["Anthropic API"]
   W <-->|"typed postMessage"| AB
@@ -272,13 +286,17 @@ flowchart TB
   AB --- PC
   SM --- PC
   MCP --- PC
+  HK --- PC
   MCP <-->|"editor calls"| E
+  HK <-->|"save, read diagnostics"| E
+  WS <-->|"editor calls"| E
+  TT <-->|"ws, lockfile token"| WS
   PC <-->|"stdin / stdout NDJSON"| CLI
   CLI -->|"writes"| J
   SM -->|"reads history"| J
   CLI <-->|"HTTPS"| API
   </pre></div>
-  <p class="caption">The webview never sees the CLI. Everything that reaches the CLI goes through the protocol client, so framing, request ids and unknown message types are handled in one place.</p>
+  <p class="caption">The webview never sees the CLI. Everything that reaches the CLI goes through the protocol client, so framing, request ids and unknown message types are handled in one place. The WebSocket IDE server is a separate surface for a terminal <code>claude</code>; the chat process never uses it.</p>
 </section>
 
 <section id="lifecycle">
@@ -307,8 +325,8 @@ stateDiagram-v2
     <thead><tr><th>Phase</th><th>What the host does</th><th>Timeouts and rules</th></tr></thead>
     <tbody>
       <tr><td>Discovering</td><td>Configured path → managed install → <code>claude</code> on PATH; run <code>--version</code> once and cache.</td><td>Refuse below the minimum supported version with a setup card.</td></tr>
-      <tr><td>Spawning</td><td>Build argv and env (section 04). Optional process wrapper prefix (ssh, docker exec).</td><td>Strip inherited <code>CLAUDECODE</code>, <code>CLAUDE_CODE_CHILD_SESSION</code>, <code>TRACEPARENT</code>.</td></tr>
-      <tr><td>Initializing</td><td>Send <code>initialize</code> first. Cache commands, models, agents, output styles, account, capabilities.</td><td>30 s. Startup failure reason <code>initialize_not_first</code> exists in 2.1.325: nothing may precede it. Retry spawn once.</td></tr>
+      <tr><td>Spawning</td><td>Build argv and env (section 04). Optional process wrapper prefix (ssh, docker exec).</td><td>Strip inherited <code>CLAUDECODE</code>, <code>CLAUDE_CODE_CHILD_SESSION</code>, <code>TRACEPARENT</code>, <code>TRACESTATE</code>.</td></tr>
+      <tr><td>Initializing</td><td>Send <code>initialize</code> first; nothing may precede it. Cache commands, models, agents, output styles, account, capabilities.</td><td>30 s host timer: SDK 0.3.311 has none, and only waits for the initialize frame to be written before writing prompts. On failure show the stderr tail + Restart; 2.1.311 does not retry. <span class="lvl later">2.1.325+</span> respawns once, holds prompts until the response (660 s), and names the failure (<code>initialize_not_first</code>).</td></tr>
       <tr><td>Ready / Running</td><td>Write user turns; render stdout; answer control requests.</td><td>A user message written mid-turn is queued by the CLI.</td></tr>
       <tr><td>Closed</td><td>Close stdin, wait 5 s, SIGTERM, then SIGKILL.</td><td>Never two processes on one session id.</td></tr>
     </tbody>
@@ -335,22 +353,29 @@ stateDiagram-v2
       <tr><td><code>--effort &lt;level&gt;</code></td><td><code>effort</code></td><td>Effort picker (levels come from <code>models[].supportedEffortLevels</code>)</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>--mcp-config</code> / <code>--strict-mcp-config</code></td><td><code>mcpServers</code> / <code>strictMcpConfig</code></td><td>Plugin-provided MCP servers</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>--add-dir</code></td><td><code>additionalDirectories</code></td><td>Multi-root workspace</td><td><span class="lvl stable">stable</span></td></tr>
-      <tr><td><code>--setting-sources</code></td><td><code>settingSources</code></td><td>Workspace trust: <code>user</code> only when untrusted</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--setting-sources</code></td><td><code>settingSources</code></td><td>Workspace trust: <code>user</code> only when untrusted. This is the plugin's own rule; the 2.1.311 reference always passes <code>user,project,local</code> and has no trust posture</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>--allowedTools</code> / <code>--disallowedTools</code> / <code>--tools</code></td><td>same names</td><td>Plugin policy</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>--max-turns</code> / <code>--max-budget-usd</code></td><td><code>maxTurns</code> / <code>maxBudgetUsd</code></td><td>Optional guards</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>--replay-user-messages</code></td><td><code>extraArgs</code></td><td>Echo user turns with <code>uuid</code> (rewind, edit-and-resend)</td><td><span class="lvl observed">observed</span></td></tr>
       <tr><td><code>--enable-auth-status</code></td><td><code>extraArgs</code></td><td><code>auth_status</code> events for the login banner</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>--debug</code>, <code>--debug-to-stderr</code>, <code>--no-chrome</code></td><td><code>extraArgs</code></td><td>Diagnostics on stderr; no Chrome control</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>--safe-mode</code>, <code>--ignore-persisted-trust</code>, implicit <code>--await-initialize</code> on resume</td><td><code>extraArgs</code> / SDK</td><td>Trust posture and resume handshake</td><td><span class="lvl later">2.1.325+</span></td></tr>
     </tbody>
   </table></div>
+  <p class="caption">The 2.1.311 reference passes exactly five <code>extraArgs</code>: <code>debug</code>, <code>debug-to-stderr</code>, <code>enable-auth-status</code>, <code>no-chrome</code>, <code>replay-user-messages</code>. SDK 0.3.311 adds nothing to argv on resume or continue.</p>
   <h3>Environment</h3>
   <div class="frame"><table>
     <thead><tr><th>Variable</th><th>Value</th><th>Why</th></tr></thead>
     <tbody>
       <tr><td><code>CLAUDE_CODE_ENTRYPOINT</code></td><td>your plugin id</td><td>Identifies the client (reference: <code>claude-vscode</code>; SDK default <code>sdk-ts</code>)</td></tr>
       <tr><td><code>MCP_CONNECTION_NONBLOCKING</code></td><td><code>true</code></td><td>First turn doesn't wait for slow MCP servers</td></tr>
-      <tr><td><code>CLAUDE_CODE_EMIT_STARTUP_TIMING</code>, <code>CLAUDE_CODE_STARTUP_FAILURE_RESULTS</code></td><td><code>1</code></td><td>Startup marks; a <code>result</code> instead of a silent exit on startup failure</td></tr>
-      <tr><td><code>DISABLE_TELEMETRY</code></td><td><code>1</code> if editor telemetry is off</td><td>Respect the user's choice</td></tr>
-      <tr><td><code>CLAUDECODE</code>, <code>CLAUDE_CODE_CHILD_SESSION</code>, <code>TRACEPARENT</code></td><td>delete</td><td>Otherwise the child thinks it is nested in another session</td></tr>
+      <tr><td><code>CLAUDE_CODE_ENABLE_TASKS</code></td><td><code>0</code></td><td>The reference turns off the CLI task list feature</td></tr>
+      <tr><td><code>CLAUDE_CODE_EMIT_STARTUP_TIMING</code></td><td><code>1</code></td><td>Startup timing marks</td></tr>
+      <tr><td><code>DISABLE_TELEMETRY</code></td><td><code>1</code> if editor telemetry is off, otherwise removed</td><td>Respect the user's choice</td></tr>
+      <tr><td><code>CLAUDECODE</code>, <code>CLAUDE_CODE_CHILD_SESSION</code>, <code>TRACEPARENT</code>, <code>TRACESTATE</code></td><td>delete</td><td>Otherwise the child thinks it is nested in another session or trace</td></tr>
+      <tr><td>user-defined</td><td>from plugin settings, applied after the defaults</td><td>Proxies, <code>ANTHROPIC_BASE_URL</code>, Bedrock/Vertex; may override the defaults</td></tr>
+      <tr><td>set by the SDK</td><td><code>CLAUDE_AGENT_SDK_VERSION=0.3.311</code>, <code>CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING=true</code>, <code>CLAUDE_CODE_SDK_READS_SESSION_STATE=1</code>; removes <code>NODE_OPTIONS</code>, <code>DEBUG</code></td><td>A raw-protocol host sets the same</td></tr>
+      <tr><td><code>CLAUDE_CODE_STARTUP_FAILURE_RESULTS</code> <span class="lvl later">2.1.325+</span></td><td><code>1</code></td><td>A <code>result</code> instead of a bare exit on startup failure; the 2.1.311 extension never sets it</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -360,7 +385,7 @@ stateDiagram-v2
   <p class="point">One JSON object per line in each direction. Buffer partial lines, skip blank ones, and never crash on an unknown <code>type</code>, <code>subtype</code> or content block.</p>
   <div class="legend"><span><span class="dir tx">→ stdin</span> host to CLI</span><span><span class="dir rx">← stdout</span> CLI to host</span></div>
   <div class="ndjson" aria-label="Example NDJSON exchange">
-    <div><span class="dir tx">→ stdin</span><span class="l">{"type":"control_request","request_id":"k3j9x2m1p0q","request":{"subtype":"initialize","hooks":{…},"sdkMcpServers":["ide"]}}</span></div>
+    <div><span class="dir tx">→ stdin</span><span class="l">{"type":"control_request","request_id":"k3j9x2m1p0q","request":{"subtype":"initialize","hooks":{…},"sdkMcpServers":["claude-vscode"]}}</span></div>
     <div><span class="dir rx">← stdout</span><span class="l">{"type":"control_response","response":{"subtype":"success","request_id":"k3j9x2m1p0q","response":{"commands":[…],"models":[…],"account":{…}}}}</span></div>
     <div><span class="dir tx">→ stdin</span><span class="l">{"type":"user","message":{"role":"user","content":"Why does this test fail?"},"parent_tool_use_id":null,"session_id":""}</span></div>
     <div><span class="dir rx">← stdout</span><span class="l">{"type":"system","subtype":"init","session_id":"a8f…","model":"claude-opus-5-5","tools":[…],"mcp_servers":[…],"permissionMode":"default"}</span></div>
@@ -384,18 +409,18 @@ stateDiagram-v2
       <tr><td><code>system/status</code>, <code>system/compact_boundary</code></td><td>Compaction</td><td>Status line; transcript divider</td></tr>
       <tr><td><code>system/task_started|task_progress|task_notification|task_updated</code></td><td>Subagents and background tasks</td><td>Task cards</td></tr>
       <tr><td><code>system/commands_changed</code></td><td>Plugins or skills reloaded</td><td>Refresh the slash menu</td></tr>
-      <tr><td><code>system/session_writes_lost</code></td><td>New in 2.1.325: transcript writes failed</td><td>Warning row</td></tr>
       <tr><td><code>tool_progress</code>, <code>tool_use_summary</code></td><td>Long tools</td><td>Elapsed time; card subtitle</td></tr>
-      <tr><td><code>rate_limit_event</code>, <code>auth_status</code>, <code>prompt_suggestion</code></td><td>As they happen</td><td>Banner; login prompt; follow-up chips</td></tr>
+      <tr><td><code>rate_limit_event</code>, <code>auth_status</code></td><td>As they happen</td><td>Banner; login prompt</td></tr>
+      <tr><td><code>prompt_suggestion</code></td><td>After a turn, only if <code>initialize</code> sent <code>promptSuggestions: true</code></td><td>Follow-up chips (plugin choice; the 2.1.311 reference leaves it off)</td></tr>
       <tr><td><code>control_request</code>, <code>control_response</code>, <code>control_cancel_request</code>, <code>keep_alive</code></td><td>Control channel</td><td>Not rendered; routed (section 07)</td></tr>
     </tbody>
   </table></div>
-  <p class="caption"><code>parent_tool_use_id</code> on any message means it came from a subagent started by that tool call: nest it under that card. Content blocks to render: <code>text</code>, <code>thinking</code>, <code>redacted_thinking</code>, <code>tool_use</code>, <code>server_tool_use</code>, <code>web_search_tool_result</code>, <code>tool_result</code>.</p>
+  <p class="caption"><code>parent_tool_use_id</code> on any message means it came from a subagent started by that tool call: nest it under that card. Content blocks to render: <code>text</code>, <code>thinking</code>, <code>redacted_thinking</code>, <code>tool_use</code>, <code>server_tool_use</code>, <code>web_search_tool_result</code>, <code>tool_result</code>. Messages that only exist in 2.1.325+ (such as <code>system/session_writes_lost</code>) are listed in section 14; until adopted, the tolerant reader logs them.</p>
 </section>
 
 <section id="flows">
   <h2><span class="n">06</span>Message flows</h2>
-  <p class="point">Five sequences cover almost everything the panel does: start, a turn with an approval, interrupt, resume or rewind, and an editor diff.</p>
+  <p class="point">Five sequences cover almost everything the panel does: start, a turn with an approval, interrupt, resume or rewind, and an edit shown as a native diff.</p>
 
   <h3>Startup handshake</h3>
   <div class="frame diagram"><pre class="mermaid">
@@ -486,7 +511,7 @@ sequenceDiagram
   Note over H,C: Fork is the same spawn plus --fork-session, giving a new session id
   </pre></div>
 
-  <h3>Editor diff through the in-process MCP server</h3>
+  <h3>An edit shown as a native diff (approval card + host hooks)</h3>
   <div class="frame diagram"><pre class="mermaid">
 sequenceDiagram
   autonumber
@@ -494,13 +519,20 @@ sequenceDiagram
   participant H as Plugin host
   participant E as Editor
   actor U as User
-  C-->>H: control_request mcp_message, tools/call openDiff
-  H->>E: open native diff tab
-  U->>E: edit, then Accept
-  E-->>H: saved contents
-  H->>C: control_response with mcp_response FILE_SAVED and final text
-  Note over C,H: Reject returns DIFF_REJECTED and Claude adjusts
+  C-->>H: hook_callback PreToolUse Edit
+  H->>E: save dirty buffer, capture baseline
+  H->>C: hook output
+  C-->>H: control_request can_use_tool Edit with input
+  H->>E: open native diff of the proposed change
+  U->>H: Allow on the card or in the diff tab
+  H->>C: control_response allow, updatedInput
+  C->>C: apply the edit
+  C-->>H: hook_callback PostToolUse Edit
+  H->>E: read new diagnostics
+  H->>C: hook output
+  Note over H,E: Tool card shows the diff against the baseline, diagnostics and Revert
   </pre></div>
+  <p class="caption">This is how the reference chat shows diffs in 2.1.311 and 2.1.325. It does not call <code>openDiff</code>: that tool lives on the separate WebSocket IDE server and is used only by a <code>claude</code> running in the terminal (section 11).</p>
 </section>
 
 <section id="control">
@@ -509,17 +541,18 @@ sequenceDiagram
   <div class="codewrap"><div class="bar"><span>Envelope</span></div>
 <pre class="code">{"type":"control_request","request_id":"k3j9x2m1p0q","request":{"subtype":"set_model","model":"opus"}}
 {"type":"control_response","response":{"subtype":"success","request_id":"k3j9x2m1p0q","response":{}}}
-{"type":"control_response","response":{"subtype":"error","request_id":"k3j9x2m1p0q","error":"…","error_code":"…"}}
-{"type":"control_cancel_request","request_id":"k3j9x2m1p0q"}</pre></div>
+{"type":"control_response","response":{"subtype":"error","request_id":"k3j9x2m1p0q","error":"Unsupported control request subtype: x"}}
+{"type":"control_cancel_request","request_id":"k3j9x2m1p0q"}
+// error_code (e.g. "unsupported_request") is only sent from SDK 0.3.325: read it if present, never require it</pre></div>
 
   <h3><span class="dir tx">→ stdin</span> Host to CLI</h3>
   <div class="frame"><table>
     <thead><tr><th>Subtype</th><th>SDK method</th><th>Payload → response</th><th>UI</th><th>Level</th></tr></thead>
     <tbody>
-      <tr><td><code>initialize</code></td><td>automatic</td><td>hooks, sdkMcpServers, systemPrompt, agents → commands, models, agents, output styles, account, capabilities, <code>current_permission_mode</code>, <code>fast_mode_state</code></td><td>Menus, pickers, account badge</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>initialize</code></td><td>automatic</td><td>hooks, sdkMcpServers, systemPrompt, agents, <code>promptSuggestions</code>, <code>supportedDialogKinds</code> → commands, models, agents, output styles, account, capabilities, <code>current_permission_mode</code>, <code>fast_mode_state</code></td><td>Menus, pickers, account badge</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>interrupt</code></td><td><code>interrupt()</code></td><td>optional <code>cancel_queued</code> → <code>still_queued</code>, <code>cancelled</code></td><td>Stop</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>set_permission_mode</code></td><td><code>setPermissionMode()</code></td><td><code>mode</code></td><td>Mode pill</td><td><span class="lvl stable">stable</span></td></tr>
-      <tr><td><code>set_model</code></td><td><code>setModel()</code></td><td><code>model</code></td><td>Model picker</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>set_model</code></td><td><code>setModel()</code></td><td><code>model</code></td><td>Model picker (the 2.1.311 reference writes user settings instead)</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>set_max_thinking_tokens</code></td><td><code>setMaxThinkingTokens()</code></td><td>tokens</td><td>Thinking toggle</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>mcp_status</code>, <code>mcp_set_servers</code>, <code>mcp_toggle</code>, <code>mcp_reconnect</code></td><td><code>mcpServerStatus()</code> etc.</td><td>server list, enable flags</td><td>MCP panel</td><td><span class="lvl stable">stable</span></td></tr>
       <tr><td><code>mcp_authenticate</code>, <code>mcp_clear_auth</code></td><td><code>mcpAuthenticate()</code></td><td>serverName → auth URL</td><td>OAuth for remote MCP</td><td><span class="lvl observed">observed</span></td></tr>
@@ -528,20 +561,20 @@ sequenceDiagram
       <tr><td><code>get_settings</code>, <code>update_settings</code></td><td><code>getSettings()</code></td><td>→ merged settings</td><td>Settings view</td><td><span class="lvl observed">observed</span></td></tr>
       <tr><td><code>rename_session</code>, <code>generate_session_title</code></td><td><code>renameSession()</code></td><td>title</td><td>Tab titles</td><td><span class="lvl observed">observed</span></td></tr>
       <tr><td><code>stop_task</code>, <code>get_task_output</code></td><td><code>stopTask()</code></td><td>task id</td><td>Task cards</td><td><span class="lvl observed">observed</span></td></tr>
-      <tr><td><code>reload_plugins</code>, <code>reload_skills</code></td><td><code>reloadPlugins()</code></td><td>→ then <code>commands_changed</code></td><td>After installs</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>reload_plugins</code>, <code>reload_skills</code></td><td><code>reloadPlugins()</code></td><td>optional <code>add_plugins</code> → then <code>commands_changed</code> (<code>refuse_if_busy</code> is 2.1.325+)</td><td>After installs</td><td><span class="lvl observed">observed</span></td></tr>
     </tbody>
   </table></div>
-  <p class="caption">Ignore internal subtypes: everything prefixed <code>ui_</code>, remote control, ultrareview, voice, Chrome and cloud sessions.</p>
+  <p class="caption">SDK 0.3.311 can send 55 host-to-CLI subtypes, the same set as 0.3.325 apart from <code>set_has_subscribers</code>. Ignore the internal ones: everything prefixed <code>ui_</code>, remote control, channels, ultrareview, Chrome, feedback and surveys. Voice (<code>voice_call_talk</code>) and cloud-session requests do not exist in 2.1.311.</p>
 
   <h3><span class="dir rx">← stdout</span> CLI to host</h3>
   <div class="frame"><table>
     <thead><tr><th>Subtype</th><th>Key fields</th><th>Host replies with</th><th>Only if</th></tr></thead>
     <tbody>
       <tr><td><code>can_use_tool</code></td><td><code>tool_name</code>, <code>input</code>, <code>tool_use_id</code>, <code>permission_suggestions</code>, <code>decision_reason</code>, <code>blocked_path</code>, <code>title</code>, <code>agent_id</code></td><td>allow / deny result (section 08)</td><td><code>--permission-prompt-tool stdio</code></td></tr>
-      <tr><td><code>hook_callback</code></td><td><code>callback_id</code>, <code>input</code>, <code>tool_use_id</code></td><td>hook output JSON</td><td>Hooks registered in <code>initialize</code></td></tr>
+      <tr><td><code>hook_callback</code></td><td><code>callback_id</code>, <code>input</code>, <code>tool_use_id</code></td><td>hook output JSON</td><td>Hooks registered in <code>initialize</code> as <code>{matcher, hookCallbackIds, timeout}</code> (no <code>onFailure</code> before 0.3.317)</td></tr>
       <tr><td><code>mcp_message</code></td><td><code>server_name</code>, JSON-RPC <code>message</code></td><td><code>{"mcp_response": …}</code></td><td>SDK MCP servers registered</td></tr>
       <tr><td><code>elicitation</code></td><td><code>mcp_server_name</code>, <code>message</code>, <code>requested_schema</code>, <code>url</code></td><td><code>{"action":"accept"|"decline"|"cancel","content"}</code></td><td>An MCP server asks the user</td></tr>
-      <tr><td><code>request_user_dialog</code></td><td><code>dialog_kind</code>, <code>payload</code></td><td>Kind-specific; unsupported kinds get no reply</td><td>Kinds you declared</td></tr>
+      <tr><td><code>request_user_dialog</code></td><td><code>dialog_kind</code>, <code>payload</code></td><td>Kind-specific; an undeclared kind gets <code>{"behavior":"cancelled"}</code></td><td>Kinds you declared. The 2.1.311 reference declares <code>refusal_fallback_prompt</code>, <code>fable_overage_consent_prompt</code>, <code>auto_mode_server_fallback</code>; <code>send_to_project_remote_control_offer</code> is 2.1.325+</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -574,7 +607,7 @@ flowchart TD
       <tr><td><code>bypassPermissions</code></td><td>Nothing asks; hidden unless the user unlocks it</td><td>Bypass</td></tr>
     </tbody>
   </table></div>
-  <p class="caption">Read the valid modes from the CLI rather than hard-coding them: 2.1.325 also has <code>auto</code>-mode settings, and a bad <code>set_permission_mode</code> returns the full list.</p>
+  <p class="caption">Read the valid modes from the CLI rather than hard-coding them: a bad <code>set_permission_mode</code> returns the full list. The reference's <code>initialPermissionMode</code> setting also offers <code>manual</code>, and <code>auto</code>-mode settings arrive in 2.1.325+.</p>
   <ul>
     <li><code>updatedInput</code> is required on allow: the original input, or the user's edited version, with unknown keys kept.</li>
     <li>Only send <code>updatedPermissions</code> taken from that request's <code>permission_suggestions</code>; drop a <code>setMode: bypassPermissions</code> suggestion unless the user unlocked bypass.</li>
@@ -585,14 +618,14 @@ flowchart TD
 
 <section id="slash">
   <h2><span class="n">09</span>Slash commands</h2>
-  <p class="point">The CLI owns slash commands. The host lists them from <code>initialize.commands</code>, sends the chosen one as the text of a normal user message, and handles a few in its own UI where a panel is better than text.</p>
+  <p class="point">The CLI owns slash commands. The host lists them from <code>initialize.commands</code> and sends the chosen one as the text of a normal user message, but every typed line first goes through a local router: the reference handles about 30 commands in its own UI and sends nothing for them.</p>
   <div class="frame diagram"><pre class="mermaid">
 flowchart LR
   I["initialize.commands"] --> M["Slash menu"]
   CC["system/commands_changed"] --> M
-  HC["Host-only commands"] --> M
-  M --> D{"Handled by host UI?"}
-  D -->|"yes"| P["Open panel, use control requests"]
+  HC["Locally handled commands"] --> M
+  M --> D{"In the local table and not shadowed by a user-defined CLI command?"}
+  D -->|"yes"| P["Open host UI, use control requests"]
   D -->|"no"| U["user message text: /name args"]
   U --> K{"Kind inside the CLI"}
   K -->|"skill, custom or plugin command"| G["Expands to a prompt, normal turn"]
@@ -613,21 +646,24 @@ flowchart LR
     <li>The list depends on auth mode, plugins and skills: 44 commands in the 2.1.325 API-key probe, 58 in a logged-in 2.1.278 run. Never hard-code it.</li>
   </ul>
   <h3>Routing</h3>
+  <p>A local entry gives way when the CLI advertises a user-defined (non-built-in) command of the same name; <code>/remote-control</code>, <code>/rc</code>, <code>/login</code> and <code>/logout</code> give way to any advertised command with that name. From the menu, <code>usage</code> and <code>context</code> open dialogs under the same rule. The table is identical in 2.1.311 and 2.1.325.</p>
   <div class="frame"><table>
     <thead><tr><th>Command</th><th>Route</th><th>Mechanism</th></tr></thead>
     <tbody>
+      <tr><td><code>/model</code></td><td>Local</td><td>Model picker from <code>initialize.models</code> (not while an approval is pending); the reference writes user settings, <code>set_model</code> also works</td></tr>
+      <tr><td><code>/mcp</code></td><td>Local</td><td>MCP panel → <code>mcp_status</code>, <code>mcp_toggle</code>, <code>mcp_authenticate</code></td></tr>
+      <tr><td><code>/context</code>, <code>/usage</code> (menu)</td><td>Local dialog</td><td><code>get_context_usage</code>; usage from <code>get_usage</code>, <code>result</code> and rate-limit events</td></tr>
+      <tr><td><code>/resume</code>, <code>/continue</code>; <code>/rewind</code>, <code>/checkpoint</code>, <code>/undo</code>; <code>/export</code></td><td>Local</td><td>Session picker, rewind flow (section 10), export</td></tr>
+      <tr><td><code>/login</code>, <code>/logout</code></td><td>Local</td><td>Sign in / out through the CLI; never take credentials in the panel</td></tr>
+      <tr><td><code>/status</code>, <code>/copy [N]</code>, <code>/help</code>, <code>/bookmarks</code></td><td>Local</td><td>Status dialog, clipboard, command browser, bookmarks</td></tr>
+      <tr><td><code>/config</code>, <code>/settings</code>, <code>/permissions</code>, <code>/allowed-tools</code>, <code>/hooks</code>, <code>/memory</code>, <code>/skills</code>, <code>/plugin(s)</code>, <code>/marketplace</code>, <code>/sandbox</code></td><td>Local</td><td>Settings and listing dialogs (<code>get_settings</code>, <code>list_permission_rules</code>, <code>get_hooks_listing</code>, <code>get_memory_dialog</code>, …)</td></tr>
+      <tr><td><code>/tasks</code>, <code>/btw [q]</code>, <code>/plan</code>, <code>/bug</code>, <code>/feedback</code></td><td>Local</td><td>Background tasks view, <code>side_question</code>, plan handling, feedback dialog</td></tr>
       <tr><td><code>/compact [instructions]</code></td><td>Send as text</td><td>CLI emits <code>system/status</code> compacting, then <code>compact_boundary</code></td></tr>
       <tr><td><code>/init</code>, <code>/code-review</code>, <code>/security-review</code>, skills, custom <code>.claude/commands</code></td><td>Send as text</td><td>Expanded into a prompt; a normal turn with tools and approvals</td></tr>
-      <tr><td><code>/model</code></td><td>Host UI</td><td>Model picker from <code>initialize.models</code> → <code>set_model</code></td></tr>
-      <tr><td><code>/mcp</code></td><td>Host UI</td><td>MCP panel → <code>mcp_status</code>, <code>mcp_toggle</code>, <code>mcp_authenticate</code></td></tr>
-      <tr><td><code>/context</code>, <code>/usage</code></td><td>Host UI (reference opens a dialog)</td><td><code>get_context_usage</code>; usage from <code>result</code> and rate-limit events</td></tr>
-      <tr><td><code>/clear</code></td><td>Host</td><td>Start a new session tab (new process) rather than reusing the old one</td></tr>
-      <tr><td><code>/rename</code></td><td>Host UI</td><td><code>rename_session</code></td></tr>
-      <tr><td><code>/resume</code>, <code>/rewind</code>, <code>/export</code></td><td>Host UI</td><td>Session list, rewind flow (section 10), Markdown export</td></tr>
-      <tr><td><code>/login</code>, <code>/logout</code></td><td>Host</td><td>Open <code>claude</code> in a terminal; never take credentials in the panel</td></tr>
-      <tr><td><code>/effort</code>, <code>/fast</code></td><td>Host UI</td><td>Restart-free where a control request exists; otherwise applied on next spawn</td></tr>
+      <tr><td><code>/clear</code>, <code>/rename</code>, <code>/effort</code>, <code>/fast</code></td><td>Send as text (reference)</td><td>Plugin choice: may instead open a new tab, use <code>rename_session</code>, or apply on next spawn</td></tr>
     </tbody>
   </table></div>
+  <p class="caption">The reference also routes <code>/remote-control</code>, <code>/rc</code>, <code>/design-login</code> and <code>/chrome</code> locally; those features are out of scope here.</p>
 </section>
 
 <section id="sessions">
@@ -636,14 +672,15 @@ flowchart LR
   <div class="frame"><table>
     <thead><tr><th>Operation</th><th>Mechanism</th><th>UI</th></tr></thead>
     <tbody>
-      <tr><td>Storage</td><td><code>$CLAUDE_CONFIG_DIR/projects/&lt;cwd with / → -&gt;/&lt;sessionId&gt;.jsonl</code> (default <code>~/.claude</code>); entries carry <code>uuid</code> and <code>parentUuid</code></td><td>Read-only; read head and tail for the list</td></tr>
+      <tr><td>Storage</td><td><code>$CLAUDE_CONFIG_DIR/projects/&lt;encoded cwd&gt;/&lt;sessionId&gt;.jsonl</code> (default <code>~/.claude</code>). Encoding: every <code>[^a-zA-Z0-9]</code> → <code>-</code>; over 200 chars → first 200 + <code>-</code> + base-36 of a 32-bit <code>(h&lt;&lt;5)-h+c</code> hash of the original path. Entries carry <code>uuid</code> and <code>parentUuid</code></td><td>Read-only; read head and tail for the list</td></tr>
       <tr><td>New</td><td>Spawn without <code>--resume</code></td><td>New tab</td></tr>
       <tr><td>Resume</td><td><code>--resume &lt;id&gt;</code></td><td>Session list</td></tr>
       <tr><td>Continue last</td><td><code>--continue</code></td><td>Command palette</td></tr>
       <tr><td>Fork</td><td><code>--resume &lt;id&gt; --fork-session</code></td><td>"Fork from here"</td></tr>
       <tr><td>Rewind conversation</td><td>Respawn with <code>--resume-session-at &lt;uuid&gt;</code></td><td>"Rewind to here"</td></tr>
       <tr><td>Rewind code</td><td><code>rewind_files</code> (dry run first); needs file checkpointing</td><td>"Restore code" checkbox</td></tr>
-      <tr><td>Archive</td><td><code>archiveSession</code> / <code>unarchiveSession</code> (SDK exports, new in 0.3.325)</td><td>Context menu</td></tr>
+      <tr><td>Archive</td><td>Host index (2.1.311). <span class="lvl later">0.3.325+</span> SDK exports <code>archiveSession</code> / <code>unarchiveSession</code></td><td>Context menu</td></tr>
+      <tr><td>Subagent transcripts</td><td><code>&lt;sessionId&gt;/subagents/[&lt;agentRelPath…&gt;/]agent-&lt;agentId&gt;.jsonl</code> beside the session file</td><td>Agent map detail view</td></tr>
       <tr><td>Title</td><td><code>generate_session_title</code>, <code>rename_session</code></td><td>Inline edit</td></tr>
     </tbody>
   </table></div>
@@ -652,22 +689,34 @@ flowchart LR
 
 <section id="editor">
   <h2><span class="n">11</span>Editor integration</h2>
-  <p class="point">Context travels on the user message; actions are tools Claude calls on an MCP server the host runs in-process.</p>
+  <p class="point">Context travels on the user message. The chat gets diffs from the approval card plus host hooks, and its only editor tool is <code>getDiagnostics</code>. The 12-tool server with <code>openDiff</code> is a separate WebSocket surface for a terminal <code>claude</code>.</p>
   <div class="frame"><table>
-    <thead><tr><th>Tool (<code>mcp__ide__…</code>)</th><th>Input</th><th>Returns</th></tr></thead>
+    <thead><tr><th>Server</th><th>Transport</th><th>Tools</th><th>Used by</th></tr></thead>
     <tbody>
-      <tr><td><code>openDiff</code></td><td><code>old_file_path</code>, <code>new_file_path</code>, <code>new_file_contents</code>, <code>tab_name</code></td><td><code>FILE_SAVED</code> + final text, or <code>DIFF_REJECTED</code>; blocks until the user decides</td></tr>
+      <tr><td><code>claude-vscode</code> (in-process SDK server)</td><td><code>mcp_message</code> over stdio</td><td><code>getDiagnostics</code> only → <code>mcp__claude-vscode__getDiagnostics</code></td><td>The chat panel's CLI process</td></tr>
+      <tr><td><code>claude-vscode-extension</code></td><td>in-process</td><td>Debugger / Jupyter helpers</td><td>Added only while a debug session or Jupyter is active</td></tr>
+      <tr><td>Terminal IDE server (<code>Claude Code VSCode MCP</code>)</td><td>WebSocket on <code>127.0.0.1</code></td><td>12 tools, below</td><td><code>claude</code> in the integrated terminal (path C)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="frame"><table>
+    <thead><tr><th>Terminal IDE server tool</th><th>Input</th><th>Returns</th></tr></thead>
+    <tbody>
+      <tr><td><code>openDiff</code></td><td><code>old_file_path</code>, <code>new_file_path</code>, <code>new_file_contents</code>, <code>tab_name</code></td><td><code>FILE_SAVED</code> + final text, or <code>DIFF_REJECTED</code> + tab name; closing the tab = rejected; blocks until the user decides</td></tr>
       <tr><td><code>getDiagnostics</code></td><td>optional <code>uri</code></td><td>Errors and warnings per file</td></tr>
       <tr><td><code>getCurrentSelection</code>, <code>getLatestSelection</code></td><td>none</td><td>File, range, text</td></tr>
       <tr><td><code>getOpenEditors</code>, <code>getWorkspaceFolders</code></td><td>none</td><td>Tabs with dirty state; roots</td></tr>
-      <tr><td><code>openFile</code>, <code>checkDocumentDirty</code>, <code>saveDocument</code></td><td><code>filePath</code></td><td>Reveal; dirty flag; save</td></tr>
-      <tr><td><code>close_tab</code>, <code>closeAllDiffTabs</code></td><td><code>tab_name</code></td><td>Cleanup</td></tr>
+      <tr><td><code>openFile</code></td><td><code>filePath</code>, <code>preview</code>, <code>startText</code>, <code>endText</code>, <code>selectToEndOfLine</code>, <code>makeFrontmost</code></td><td>Reveal</td></tr>
+      <tr><td><code>checkDocumentDirty</code>, <code>saveDocument</code></td><td><code>filePath</code></td><td>Dirty flag; save</td></tr>
+      <tr><td><code>close_tab</code>, <code>closeAllDiffTabs</code></td><td><code>tab_name</code> / none</td><td><code>TAB_CLOSED</code> / <code>CLOSED_&lt;n&gt;_DIFF_TABS</code></td></tr>
+      <tr><td><code>executeCode</code></td><td><code>code</code></td><td>Jupyter kernel output</td></tr>
     </tbody>
   </table></div>
   <ul>
     <li><strong>Attachments:</strong> selection (toggle chip), active file path, <code>@</code> mentions, pasted images as <code>image</code> blocks.</li>
-    <li><strong>Host hooks</strong> (as the reference does): <code>PreToolUse</code> on <code>Edit|Write|MultiEdit</code> captures a baseline for the diff; <code>PreToolUse</code> on <code>Edit|Write|Read</code> saves dirty buffers; <code>PostToolUse</code> collects new diagnostics.</li>
-    <li><strong>Terminal attach (path C):</strong> also serve the same tools on <code>127.0.0.1</code> with a random port and a per-session token in a user-only lockfile; the reference uses <code>CLAUDE_CODE_SSE_PORT</code> and an <code>x-claude-code-ide-authorization</code> header.</li>
+    <li><strong>Host hooks</strong> (as the reference does): <code>PreToolUse</code> on <code>Edit|Write|MultiEdit</code> captures a baseline for the diff; <code>PreToolUse</code> on <code>Edit|Write|Read</code> saves dirty buffers; <code>PostToolUse</code> on <code>Edit|Write|MultiEdit</code> collects new diagnostics.</li>
+    <li><strong>Lockfile:</strong> <code>$CLAUDE_CONFIG_DIR/ide/&lt;port&gt;.lock</code> (default <code>~/.claude/ide/</code>), directory <code>0700</code>, file <code>0600</code>, JSON <code>{pid, workspaceFolders, ideName, transport: "ws", runningInWindows, authToken}</code>. Rewritten when folders change, deleted on dispose.</li>
+    <li><strong>Port and auth:</strong> random port 10000–65535 (up to 50 tries) on <code>127.0.0.1</code>; each upgrade must carry <code>x-claude-code-ide-authorization: &lt;authToken&gt;</code> (a random UUID), else close 1008. A new client replaces the old one. Terminals find it through <code>CLAUDE_CODE_SSE_PORT</code>.</li>
+    <li><strong>Notifications to the terminal client:</strong> <code>diagnostics_changed</code>, <code>selection_changed</code>, <code>at_mentioned</code>, and <code>log_event</code> when telemetry is on.</li>
   </ul>
 </section>
 
@@ -683,17 +732,18 @@ flowchart LR
       <tr><td>Approval cards</td><td><code>can_use_tool</code></td><td>P0</td></tr>
       <tr><td>Stop</td><td><code>interrupt</code></td><td>P0</td></tr>
       <tr><td>Slash menu, <code>@</code> mentions, attachment chips</td><td><code>initialize.commands</code>, host file search</td><td>P0</td></tr>
-      <tr><td>Mode pill, model picker</td><td><code>set_permission_mode</code>, <code>set_model</code>, <code>initialize.models</code></td><td>P0</td></tr>
-      <tr><td>Error rows, usage banner</td><td><code>result.is_error</code>, <code>api_error_type</code>, <code>rate_limit_event</code></td><td>P0</td></tr>
+      <tr><td>Mode pill, model picker</td><td><code>set_permission_mode</code>, <code>initialize.models</code>; model via user settings (reference) or <code>set_model</code></td><td>P0</td></tr>
+      <tr><td>Error rows, usage banner</td><td><code>result.is_error</code>, <code>api_error_status</code>, <code>rate_limit_event</code>; <code>api_error_type</code> when present (2.1.325+)</td><td>P0</td></tr>
       <tr><td>Session list, resume, restart</td><td>JSONL files, <code>--resume</code></td><td>P0</td></tr>
-      <tr><td>Native diffs</td><td>Editor MCP <code>openDiff</code>, host hooks</td><td>P1</td></tr>
-      <tr><td>Subagent and task cards</td><td><code>parent_tool_use_id</code>, <code>task_*</code>, <code>stop_task</code></td><td>P1</td></tr>
+      <tr><td>Native diffs</td><td><code>can_use_tool</code> Edit/Write input, <code>PreToolUse</code> baseline and <code>PostToolUse</code> diagnostics hooks</td><td>P1</td></tr>
+      <tr><td>Subagent and task cards, agent map</td><td><code>parent_tool_use_id</code>, <code>task_*</code>, <code>background_tasks_changed</code>, <code>stop_task</code>; stored statuses <code>working</code>/<code>finished</code>/<code>failed</code>/<code>stopped</code> (wire <code>killed</code> → <code>stopped</code>)</td><td>P1</td></tr>
+      <tr><td>Terminal attach</td><td>WebSocket IDE server, lockfile, <code>CLAUDE_CODE_SSE_PORT</code></td><td>P2</td></tr>
       <tr><td>Todo panel, plan card, questions</td><td><code>TodoWrite</code>, <code>ExitPlanMode</code>, <code>AskUserQuestion</code></td><td>P1</td></tr>
       <tr><td>Context meter</td><td><code>modelUsage.contextWindow</code>, <code>get_context_usage</code></td><td>P1</td></tr>
       <tr><td>Rewind and fork</td><td><code>rewind_files</code>, <code>--resume-session-at</code>, <code>--fork-session</code></td><td>P1</td></tr>
       <tr><td>MCP panel</td><td><code>mcp_status</code>, <code>mcp_toggle</code>, <code>mcp_authenticate</code></td><td>P1</td></tr>
       <tr><td>Queued messages</td><td>User message mid-turn; <code>interrupt</code> with <code>cancel_queued</code></td><td>P1</td></tr>
-      <tr><td>Prompt suggestions</td><td><code>prompt_suggestion</code></td><td>P2</td></tr>
+      <tr><td>Prompt suggestions</td><td><code>initialize.promptSuggestions: true</code> → <code>prompt_suggestion</code> (off in the 2.1.311 reference, on in 2.1.325)</td><td>P2</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -704,11 +754,12 @@ flowchart LR
   <div class="frame"><table>
     <thead><tr><th>Failure</th><th>Signal</th><th>UI</th></tr></thead>
     <tbody>
-      <tr><td>API error 429 / 529 / 500 / 400</td><td><code>is_error: true</code>, <code>api_error_status</code>, <code>terminal_reason</code>, and from 2.1.325 <code>api_error_type</code> (<code>rate_limit_error</code>, <code>overloaded_error</code>, <code>api_error</code>, <code>invalid_request_error</code>)</td><td>Error row with Retry; copy chosen from <code>api_error_type</code></td></tr>
+      <tr><td>API error 429 / 529 / 500 / 400</td><td><code>is_error: true</code>, <code>api_error_status</code>, <code>terminal_reason</code>. <span class="lvl later">2.1.325+</span> adds <code>api_error_type</code> (<code>rate_limit_error</code>, <code>overloaded_error</code>, <code>api_error</code>, <code>invalid_request_error</code>)</td><td>Error row with Retry; copy from the HTTP status, or from <code>api_error_type</code> when present</td></tr>
       <tr><td>Interrupted</td><td><code>result</code> <code>error_during_execution</code></td><td>"Stopped" marker</td></tr>
       <tr><td>Max turns or budget</td><td><code>error_max_turns</code>, <code>error_max_budget_usd</code></td><td>Notice + Continue</td></tr>
-      <tr><td>Not logged in / login expiring</td><td><code>auth_status</code>, empty <code>account</code>, <code>credential_expires_at</code> (2.1.325)</td><td>"Log in" opens <code>claude</code> in a terminal</td></tr>
-      <tr><td>Startup failure</td><td>Failure <code>result</code> with reason: <code>config_file_invalid</code>, <code>initialize_not_first</code>, <code>managed_settings_not_delivered</code>, <code>sandbox_required_unavailable</code> and others</td><td>Setup card; link to <code>invalid_config_file</code></td></tr>
+      <tr><td>Not logged in / login expiring</td><td><code>auth_status</code>, empty <code>account</code>; <span class="lvl later">2.1.325+</span> <code>credential_expires_at</code></td><td>"Log in" opens <code>claude</code> in a terminal</td></tr>
+      <tr><td>Initialize timeout</td><td>No response within the host's 30 s timer</td><td>Stderr tail + Restart (no automatic retry in 2.1.311)</td></tr>
+      <tr><td>Startup failure</td><td>2.1.311: the process exits; the SDK reports <code>Claude Code process exited with code N. stderr: …</code>. <span class="lvl later">2.1.325+</span> with <code>CLAUDE_CODE_STARTUP_FAILURE_RESULTS=1</code>: a failure <code>result</code> with a reason (<code>config_file_invalid</code>, <code>initialize_not_first</code>, …) and <code>invalid_config_file</code></td><td>Setup card with the stderr tail; link to the broken file when named</td></tr>
       <tr><td>Process exit mid-turn</td><td>Child <code>exit</code></td><td>Keep transcript; Restart = respawn with <code>--resume</code></td></tr>
       <tr><td>Bad or unknown line</td><td>JSON parse error, unknown type</td><td>Log once per type; never kill the session</td></tr>
     </tbody>
@@ -721,7 +772,9 @@ flowchart LR
   <ul>
     <li><strong>Free signals:</strong> the SDK's <code>sdk.d.ts</code> (SDK 0.3.N ships with CLI 2.1.N), the settings schema, <code>--help</code> and binary strings, a control-only <code>initialize</code> probe, and 14 scenarios against a local fake Messages API.</li>
     <li><strong>Triage:</strong> join the diff with a generated list of what the plugin consumes; classify Breaking, Renders badly, Adoption, Ignorable, Unclassified.</li>
-    <li><strong>2.1.311 → 2.1.325 result:</strong> no breaking changes; adopt <code>api_error_type</code>, <code>credential_expires_at</code>, <code>invalid_config_file</code>, session archive; render <code>session_writes_lost</code> and new startup failure reasons; tolerate the new <code>control_closed</code> type.</li>
+    <li><strong>Baseline:</strong> recommended and minimum CLI 2.1.311 with SDK 0.3.311. 2.1.325 is tested and Ready.</li>
+    <li><strong>2.1.311 → 2.1.325, CLI and SDK surface:</strong> no breaking changes, all additive. Adopt <code>api_error_type</code>, <code>credential_expires_at</code>, <code>invalid_config_file</code> and session archive. Render <code>system/session_writes_lost</code> and the new startup failure reasons. Tolerate the new <code>control_closed</code> type. Hook <code>onFailure</code> + <code>hook_on_failure_supported</code> (0.3.317), the 660 s prompt hold, implicit <code>--await-initialize</code> on resume (0.3.321), and typed <code>error_code</code> on error replies (0.3.325).</li>
+    <li><strong>2.1.311 → 2.1.325, official extension:</strong> same 55 outgoing control subtypes. Added: <code>promptSuggestions: true</code>; per-folder trust (<code>settingSources</code> by trust, <code>workspaceTrust</code> attestation, <code>--ignore-persisted-trust</code>, <code>--safe-mode</code>); <code>CLAUDE_CODE_STARTUP_FAILURE_RESULTS=1</code> and one respawn on initialize timeout; dialog kind <code>send_to_project_remote_control_offer</code>; handling of <code>session_writes_lost</code>, <code>plugin_install</code>, <code>notification</code>, <code>dev_intent</code>; voice and cloud sessions; <code>reload_plugins.refuse_if_busy</code>. Dropped: the <code>createWorktree</code> command.</li>
     <li><strong>In the plugin:</strong> feature-detect from <code>initialize</code> instead of version checks; try an Observed subtype once and remember "Unsupported control request subtype"; log unknown message fingerprints.</li>
   </ul>
 </section>

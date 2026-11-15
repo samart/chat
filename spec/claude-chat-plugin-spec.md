@@ -6,7 +6,7 @@ Nov 15, 2026 · @Trevor Samaroo
 
 The plugin hosts a full Claude chat panel inside an editor by running the `claude` CLI as a child process and speaking its line-delimited JSON protocol ("stream-json") over stdin/stdout. Nothing in the plugin calls the Anthropic API directly: the CLI owns the model loop, tools, context, sessions and auth; the plugin owns the UI, approvals and editor integration.
 
-This spec was derived from the official Claude Code VS Code extension, `anthropic.claude-code` 2.1.325 (linux-x64 VSIX). That extension embeds the `@anthropic-ai/claude-agent-sdk` TypeScript package, which spawns the bundled native binary. Field names below come from that bundle.
+**Baseline: CLI 2.1.311 / Agent SDK 0.3.311.** The reference is the official Claude Code VS Code extension, `anthropic.claude-code` 2.1.311 (darwin-arm64 VSIX), which embeds `@anthropic-ai/claude-agent-sdk` 0.3.311; the SDK spawns the bundled native binary, whose checksum matches the SDK manifest. Field names below come from those bundles. The 2.1.325 extension and SDK 0.3.325 were read as a comparison: anything that exists only there is marked **2.1.325+** (or **0.3.3xx+** for SDK-side changes) and is something to adopt on upgrade, not baseline behaviour. Section 13 ends with the 2.1.311 → 2.1.325 adoption report. Evidence: `research/extension-2.1.311.md`, `research/parity/transport-0.3.311.md`, `research/parity/api-surface.md`.
 
 **Goals**
 
@@ -24,14 +24,15 @@ This spec was derived from the official Claude Code VS Code extension, `anthropi
 
 - The host plugin locates, versions and launches the `claude` binary itself (no bundled copy required).
 - The user has already logged in with `claude` (or has `ANTHROPIC_API_KEY` set). The plugin surfaces login state but does not own credentials.
-- Recommended implementation path: use the Agent SDK (`query()`) with `pathToClaudeCodeExecutable` pointed at the managed binary. Sections 3–5 document the raw protocol so a non-TypeScript host can implement it directly.
+- Recommended implementation path: use the Agent SDK (`query()`, pinned to 0.3.311 to match the CLI) with `pathToClaudeCodeExecutable` pointed at the managed binary. Sections 3–5 document the raw protocol so a non-TypeScript host can implement it directly (the Go client in `claude-cli-go/` does this).
 
 **Stability levels used in this spec**
 
 | Label | Meaning |
 | --- | --- |
 | Stable | Exposed as a public SDK option or method; safe to depend on |
-| Observed | Present in 2.1.325 and used by the reference extension, not documented; pin the CLI version |
+| Observed | Present in 2.1.311 and used by the reference extension, not documented; pin the CLI version |
+| 2.1.325+ | Not in the 2.1.311 baseline; appears in a later CLI/SDK. Feature-detect it, never assume it |
 | Internal | Do not use; listed only so you can ignore it |
 
 ## Architecture
@@ -85,11 +86,13 @@ Conditional flags, each mapped from a plugin option:
 | `--effort <level>` | effort picker | Reasoning effort |
 | `--mcp-config <json>` / `--strict-mcp-config` | plugin-provided MCP servers | Adds servers (e.g. the IDE server, section 7) |
 | `--add-dir <path>` | multi-root workspace | Extra readable/writable roots |
-| `--setting-sources user,project,local` | workspace trust | Which settings files load; drop `project,local` for untrusted folders |
+| `--setting-sources user,project,local` | workspace trust | Which settings files load. The 2.1.311 reference always passes all three; dropping `project,local` for untrusted folders is this plugin's own rule (section 10) |
 | `--allowedTools` / `--disallowedTools` / `--tools` | plugin policy | Tool allow/deny lists |
 | `--max-turns N` / `--max-budget-usd N` | optional guards | Hard limits |
 
-The reference extension also passes these Observed flags: `--debug-to-stderr`, `--enable-auth-status` (auth status events), `--no-chrome`, and `--replay-user-messages` (the CLI echoes each user message back with its `uuid`, needed for rewind and edit-and-resend).
+The 2.1.311 reference passes exactly five Observed flags through `extraArgs`: `--debug`, `--debug-to-stderr`, `--enable-auth-status` (auth status events), `--no-chrome`, and `--replay-user-messages` (the CLI echoes each user message back with its `uuid`, needed for rewind and edit-and-resend). 2.1.325+ adds `--safe-mode` and trust-related launch flags such as `--ignore-persisted-trust`; do not pass them to 2.1.311.
+
+SDK 0.3.311 adds nothing to argv on `--resume` / `--continue`. The implicit `--await-initialize` on resume is 0.3.321+.
 
 ### Environment
 
@@ -97,15 +100,19 @@ The reference extension also passes these Observed flags: `--debug-to-stderr`, `
 | --- | --- | --- |
 | `CLAUDE_CODE_ENTRYPOINT` | your plugin id (reference uses `claude-vscode`; SDK default `sdk-ts`) | Identifies the client; use your own value |
 | `MCP_CONNECTION_NONBLOCKING` | `true` | Don't block the first turn on slow MCP servers |
-| `CLAUDE_CODE_EMIT_STARTUP_TIMING` / `CLAUDE_CODE_STARTUP_FAILURE_RESULTS` | `1` | Observed: startup marks and a `result` on startup failure |
-| `CLAUDECODE`, `CLAUDE_CODE_CHILD_SESSION`, `TRACEPARENT` | delete | Prevent the child thinking it is nested inside another Claude session |
-| `DISABLE_TELEMETRY` | `1` when the editor's telemetry is off | Respect user telemetry choice |
-| user-defined | from setting `claude.environmentVariables` | Proxies, `ANTHROPIC_BASE_URL`, Bedrock/Vertex config |
+| `CLAUDE_CODE_ENABLE_TASKS` | `0` | Observed: the reference disables the CLI's task list feature |
+| `CLAUDE_CODE_EMIT_STARTUP_TIMING` | `1` | Observed: startup timing marks |
+| `CLAUDECODE`, `CLAUDE_CODE_CHILD_SESSION`, `TRACEPARENT`, `TRACESTATE` | delete | Prevent the child thinking it is nested inside another Claude session or trace |
+| `DISABLE_TELEMETRY` | `1` when the editor's telemetry is off, otherwise removed | Respect user telemetry choice |
+| user-defined | from setting `claude.environmentVariables`, applied after the defaults above so they can override them | Proxies, `ANTHROPIC_BASE_URL`, Bedrock/Vertex config |
+| set by the SDK | `CLAUDE_AGENT_SDK_VERSION=0.3.311`, `CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING=true`, `CLAUDE_CODE_SDK_READS_SESSION_STATE=1`; `NODE_OPTIONS` and `DEBUG` removed | A raw-protocol host should set the same |
+
+`CLAUDE_CODE_STARTUP_FAILURE_RESULTS=1` (a `result` on startup failure) is set by the 2.1.325+ reference only; the 2.1.311 extension never assigns it.
 
 ### Startup
 
 1. Spawn with `cwd` = workspace folder containing the active file (or the first root).
-2. Immediately send the `initialize` control request (section 5) and await its response with a timeout (reference: retry the spawn once if initialize times out and the process died).
+2. Immediately send the `initialize` control request (section 5) and await its response with a host-side timeout. SDK 0.3.311 has no timer on this path and only waits for the initialize frame to be *written* before writing prompts, so the timeout is the host's job. If initialize fails, report the failure with the stderr tail; the 2.1.311 reference does not retry. (A single automatic respawn and the 660 s prompt hold are 2.1.325+ / 0.3.317+.)
 3. Cache the initialize response: slash commands, models, output styles, account. Enable UI features based on what it advertises, not on version numbers.
 4. The tab is ready; the first user message can be written. `system/init` arrives at the start of the first turn with session id, tools, MCP server status and model.
 
@@ -158,7 +165,7 @@ User turn:
 | `tool_use_summary` | Collapsed summaries of tool runs | Card subtitle |
 | `rate_limit_event` | Usage-limit warnings | Banner with reset time |
 | `auth_status` | Login state (with `--enable-auth-status`) | Login prompt |
-| `prompt_suggestion` | After a turn, if enabled | Suggested follow-up chips |
+| `prompt_suggestion` | After a turn, only if the host sent `promptSuggestions: true` in `initialize` | Suggested follow-up chips (a plugin choice: the 2.1.311 reference leaves it unset and never gets these) |
 | `control_request` | CLI needs the host (approvals, MCP, hooks) | Section 5 |
 | `control_response` | Answer to a host request | Resolve pending promise by `request_id` |
 | `keep_alive` | Periodically | Ignore; resets liveness timer |
@@ -193,7 +200,7 @@ Turn result:
  "modelUsage":{"claude-opus-5-5":{"inputTokens":1200,"outputTokens":300,"contextWindow":200000}}}
 ```
 
-Check `is_error`, not `subtype`. API failures (429, 529, 500, 400) arrive as `subtype: "success"` with `is_error: true`, plus `terminal_reason` and `api_error_status` (observed in 2.1.278). An interrupt ends with `error_during_execution`. Other error subtypes: `error_max_turns`, `error_max_budget_usd`. In every case show the message and keep the session usable. `modelUsage[*].contextWindow` plus usage drives the context-fill meter.
+Check `is_error`, not `subtype`. API failures (429, 529, 500, 400) arrive as `subtype: "success"` with `is_error: true`, plus `terminal_reason` and `api_error_status` (observed in 2.1.278 and 2.1.311). `api_error_type`, `credential_expires_at` and `invalid_config_file` are 2.1.325+. An interrupt ends with `error_during_execution`. Other error subtypes: `error_max_turns`, `error_max_budget_usd`. In every case show the message and keep the session usable. `modelUsage[*].contextWindow` plus usage drives the context-fill meter.
 
 ## Control protocol
 
@@ -213,7 +220,7 @@ Control messages are request/response pairs that run alongside the chat stream i
 Rules:
 
 - `request_id`: a random string the sender generates (the SDK uses 13 base-36 characters).
-- Every request gets exactly one response. An unknown subtype must be answered with `subtype: "error"` so the other side doesn't hang.
+- Every request gets exactly one response. An unknown subtype must be answered with `subtype: "error"` so the other side doesn't hang. SDK 0.3.311 replies `{"subtype":"error","request_id":…,"error":"Unsupported control request subtype: <x>"}` with no `error_code`; the typed `error_code: "unsupported_request"` is 0.3.325+. Read `error_code` when present, never require it.
 - A `control_cancel_request` from the CLI means "stop waiting": close the matching approval dialog and send no response.
 - Host-side timeout: 60 s for most requests, none for `can_use_tool` (a person is deciding).
 
@@ -221,10 +228,10 @@ Rules:
 
 | Subtype | Payload | Response | Level | UI feature |
 | --- | --- | --- | --- | --- |
-| `initialize` | `hooks`, `sdkMcpServers`, `systemPrompt` / `appendSystemPrompt`, `agents`, `jsonSchema` | `commands`, `models`, `agents`, `output_style`, `available_output_styles`, `account`, `pid` | Stable | Slash menu, model picker, account badge |
+| `initialize` | `hooks`, `sdkMcpServers`, `systemPrompt` / `appendSystemPrompt`, `agents`, `jsonSchema`; Observed: `promptSuggestions`, `supportedDialogKinds`, `perTaskStopAffordance`, `forwardNestedSubagentToolCalls` (`workspaceTrust` exists in the SDK but the 2.1.311 reference never sets it) | `commands`, `models`, `agents`, `output_style`, `available_output_styles`, `account`, `pid` | Stable | Slash menu, model picker, account badge |
 | `interrupt` | optional `cancel_queued: true` | `still_queued`, `cancelled` | Stable | Stop button / Esc |
 | `set_permission_mode` | `mode` | — | Stable | Mode picker, Shift+Tab cycle |
-| `set_model` | `model` | — | Stable | Model picker mid-session |
+| `set_model` | `model` | — | Stable | Model picker mid-session (available in the SDK; the 2.1.311 reference instead writes the model to user settings and pushes them) |
 | `set_max_thinking_tokens` | `max_thinking_tokens` | — | Stable | Thinking toggle |
 | `mcp_status` | — | servers with `name`, `status`, tools | Stable | MCP panel |
 | `mcp_set_servers` | `servers` | added / removed / errors | Stable | Add or remove servers live |
@@ -235,9 +242,9 @@ Rules:
 | `get_settings` / `update_settings` | — / settings | merged settings | Observed | Settings view |
 | `rename_session` / `generate_session_title` | `title` | title | Observed | Tab titles |
 | `stop_task` | task id | — | Observed | Stop one background task |
-| `reload_skills` / `reload_plugins` | — | — | Observed | After installing a plugin |
+| `reload_skills` / `reload_plugins` | `reload_plugins`: optional `add_plugins` (`refuse_if_busy` is 2.1.325+) | — | Observed | After installing a plugin |
 
-Ignore these Internal subtypes: everything prefixed `ui_`, `remote_control`, `ultrareview_launch`, `voice_call_talk`, chrome-browser, cloud-session and survey/feedback requests.
+Ignore these Internal subtypes: everything prefixed `ui_`, `remote_control`, `channel_enable`, `ultrareview_launch`, chrome-browser and survey/feedback requests. 2.1.325+ adds `voice_call_talk` and the cloud-session requests (`list_cloud_sessions`, `get_cloud_session`, `get_cloud_session_transcript`); they do not exist in 2.1.311. The SDK 0.3.311 sends 55 host → CLI subtypes in total, identical to 0.3.325 except `set_has_subscribers` (0.3.312+).
 
 ### CLI → host requests
 
@@ -246,10 +253,10 @@ Ignore these Internal subtypes: everything prefixed `ui_`, `remote_control`, `ul
 | `can_use_tool` | `tool_name`, `input`, `tool_use_id`, `permission_suggestions`, `blocked_path`, `decision_reason`, `title`, `description`, `agent_id` | allow / deny result (section 6) | Approval card |
 | `hook_callback` | `callback_id`, `input`, `tool_use_id` | hook output JSON | Host-implemented hooks (e.g. capture a file baseline before `Edit` for diffs) |
 | `mcp_message` | `server_name`, JSON-RPC `message` | `{"mcp_response": <JSON-RPC reply>}` | In-process MCP servers (section 7) |
-| `elicitation` | `mcp_server_name`, `message`, `requested_schema`, `url` | \`{action: "accept" | "decline" |
-| `request_user_dialog` | `dialog_kind`, `payload` | dialog-specific; unsupported kinds: send nothing | Observed; only kinds you declare in `supportedDialogKinds` |
+| `elicitation` | `mcp_server_name`, `message`, `requested_schema`, `url` | `{action: "accept" \| "decline" \| "cancel", content}`; SDK default when unhandled: `{action: "decline"}` | MCP server input form or URL prompt |
+| `request_user_dialog` | `dialog_kind`, `payload` | dialog-specific; a kind you did not declare: `{behavior: "cancelled"}` | Observed; only kinds you declare in `supportedDialogKinds`. The 2.1.311 reference declares three: `refusal_fallback_prompt`, `fable_overage_consent_prompt`, `auto_mode_server_fallback` (`send_to_project_remote_control_offer` is 2.1.325+) |
 
-`hook_callback` and `mcp_message` only arrive if `initialize` registered hooks or SDK MCP servers. A host that registers none can answer them with an error.
+`hook_callback` and `mcp_message` only arrive if `initialize` registered hooks or SDK MCP servers. A host that registers none can answer them with an error. In SDK 0.3.311 each hook matcher is sent as `{matcher, hookCallbackIds, timeout}`; `onFailure` and the `hook_on_failure_supported` check are 0.3.317+, and a hooks object with an `undefined` event value throws in 0.3.311.
 
 ## Permissions and tool approval
 
@@ -308,21 +315,35 @@ Some tool calls are prompts to the user and need custom cards rather than approv
 
 The editor joins the conversation in two ways. **Context** (selection, open file, diagnostics) is attached to user messages by the plugin. **Actions** (show a diff, read diagnostics, open a file) are tools that Claude calls on an MCP server the plugin hosts.
 
-### Editor MCP server
+### Editor MCP servers
 
-Host it in-process: pass it to the SDK as `mcpServers: {ide: {type: "sdk", ...}}`, or for a raw-protocol host, list its name in `initialize.sdkMcpServers` and answer `mcp_message` requests. Tools are then named `mcp__ide__<tool>`. Optionally also expose it over a local WebSocket so a `claude` started in the integrated terminal can attach (the reference uses a lockfile, `CLAUDE_CODE_SSE_PORT`, and an `x-claude-code-ide-authorization` token).
+The reference runs **two different servers**, and the plugin should keep them apart:
 
-| Tool | Input | Returns | Notes |
+1. **In-process chat server.** Passed to the SDK as `mcpServers: {"claude-vscode": {type: "sdk", ...}}` (a raw-protocol host lists the name in `initialize.sdkMcpServers` and answers `mcp_message`). In 2.1.311 and 2.1.325 alike it registers **only `getDiagnostics`**, so the chat's tool is `mcp__claude-vscode__getDiagnostics`. A second server, `claude-vscode-extension`, is added only while a debugger session or Jupyter is active. The chat does **not** get diffs through `openDiff`: they come from the `can_use_tool` approval card plus the host's `PreToolUse` / `PostToolUse` hooks (see "Edits and diffs" below). The plugin may register more tools here, but that is its own choice and not reference behaviour.
+2. **Terminal IDE server (WebSocket).** The 12-tool server below, for a `claude` started in the integrated terminal. Server name `Claude Code VSCode MCP` (or the editor's app name), version = extension version. Contract in "Terminal attach" below.
+
+| Tool (terminal IDE server) | Input | Returns | Notes |
 | --- | --- | --- | --- |
-| `openDiff` | `old_file_path`, `new_file_path`, `new_file_contents`, `tab_name` | `FILE_SAVED` + final contents, or `DIFF_REJECTED` | Blocks until the user accepts or rejects in a native diff tab; accepted content may include user edits |
-| `getDiagnostics` | optional `uri` | errors and warnings per file | Used after edits to self-check |
+| `openDiff` | `old_file_path`, `new_file_path`, `new_file_contents`, `tab_name` | `FILE_SAVED` + final contents, or `DIFF_REJECTED` + tab name | Blocks until the user accepts or rejects in a native diff tab; closing the tab = rejected; with `files.autoSave` off, saving the file also resolves `FILE_SAVED`. Accepted content may include user edits |
+| `getDiagnostics` | optional `uri` | errors and warnings per file | Also the only tool on the in-process chat server |
 | `getCurrentSelection` / `getLatestSelection` | — | file, range, text |  |
 | `getOpenEditors` | — | open tabs with dirty state |  |
 | `getWorkspaceFolders` | — | roots |  |
-| `openFile` | `filePath`, optional line range or text to select | — | Reveal in editor |
+| `openFile` | `filePath`, `preview`, `startText`, `endText`, `selectToEndOfLine`, `makeFrontmost` | — | Reveal in editor |
 | `checkDocumentDirty` / `saveDocument` | `filePath` | dirty flag / saved | Avoid clobbering unsaved buffers |
-| `close_tab` / `closeAllDiffTabs` | `tab_name` | — | Clean up after diffs |
+| `close_tab` / `closeAllDiffTabs` | `tab_name` / — | `TAB_CLOSED` / `CLOSED_<n>_DIFF_TABS` | Clean up after diffs |
 | `executeCode` | `code` | output | Optional: Jupyter kernel execution |
+
+### Terminal attach
+
+Contract of the reference's WebSocket server (same in 2.1.311 and 2.1.325):
+
+- **Lockfile**: `$CLAUDE_CONFIG_DIR/ide/<port>.lock` (default `~/.claude/ide/<port>.lock`). Directory mode `0700`, file mode `0600`. Rewritten when workspace folders change; deleted on dispose.
+- **Contents** (one JSON object): `pid` (the extension host's parent pid), `workspaceFolders` (fs paths), `ideName` (the editor's app name), `transport: "ws"`, `runningInWindows` (boolean), `authToken` (a random UUID).
+- **Port**: random in 10000–65535, up to 50 attempts, each checked by binding `127.0.0.1`. The server listens on `127.0.0.1` only.
+- **Auth**: every WebSocket upgrade must carry `x-claude-code-ide-authorization: <authToken>`, otherwise it is closed with code 1008 "Unauthorized". A new connection replaces the previous client.
+- **Discovery**: put `CLAUDE_CODE_SSE_PORT=<port>` into the integrated terminal environment.
+- **Server → client notifications**: `diagnostics_changed` (`{uris}`), `selection_changed`, `at_mentioned`, and `log_event` only when telemetry is on.
 
 ### Context attachments
 
@@ -337,6 +358,9 @@ Show each attachment as a removable chip above the input before sending.
 
 ### Edits and diffs
 
+This is how the chat shows diffs in the reference; it does not go through `openDiff`.
+
+- The `can_use_tool` card for `Edit`/`Write` renders the proposed change as an inline diff; **Open diff** opens a native diff view from the host directly.
 - Before an `Edit`/`Write` runs, capture a baseline of the file (the reference uses a host `PreToolUse` hook on `Edit|Write|MultiEdit`). After it runs, show a per-file diff in the tool card, with **Open diff** and **Revert** buttons.
 - Save any dirty buffer before Claude reads or edits that file (the reference uses a `PreToolUse` hook on `Edit|Write|Read`) so the CLI never works on stale content.
 - After edits, collect new diagnostics for the touched files (a `PostToolUse` hook) and show them on the card.
@@ -350,7 +374,7 @@ Show each attachment as a removable chip above the input before sending.
 | New chat | Cmd/Ctrl+N in panel | New session tab |
 | Add selection to chat | Alt+K | Insert `@file#L10-20` mention |
 | Explain / Fix with Claude | context menu | Prefilled prompt with selection |
-| Accept / reject diff | diff tab toolbar | Resolve `openDiff` |
+| Accept / reject diff | diff tab toolbar | Resolve the approval card (chat) or `openDiff` (terminal IDE server) |
 
 ## Chat UI requirements
 
@@ -382,15 +406,45 @@ The panel is a webview with three regions: a header (session title, session swit
 | Multiline input; Enter sends, Shift+Enter newline (configurable) | P0 |
 | Stop button while a turn runs (sends `interrupt`); Esc does the same | P0 |
 | Type while busy: queued messages shown as pending bubbles, cancellable | P1 |
-| `/` menu from `initialize.commands` (name, description, argument hint), refreshed on `commands_changed`; plugin-local commands (`/clear`, `/model`, `/mcp`) handled in the host | P0 |
+| `/` menu from `initialize.commands` (name, description, argument hint), refreshed on `commands_changed`; locally handled commands (table below) open host UI instead of being sent | P0 |
 | `@` mention picker: fuzzy file/folder search in the workspace; also MCP resources | P0 |
 | Paste or drop images and files | P1 |
 | Attachment chips: selection, active file (toggle), mentions | P0 |
 | Mode pill (permission mode) with Shift+Tab cycling | P0 |
-| Model picker from `initialize.models`; effort and thinking toggles | P0 model, P1 others |
+| Model picker from `initialize.models`; effort and thinking toggles. The 2.1.311 reference changes the model by writing user settings; `set_model` is the SDK's mid-session alternative. Thinking on = `{type: "enabled", budgetTokens: 31999}`, off = `{type: "disabled"}` | P0 model, P1 others |
 | Context meter: percent of context window used, click for breakdown (`get_context_usage`) | P1 |
 | Session cost and token totals from `result` | P1 |
 | Prompt history with Up/Down | P1 |
+
+### Locally handled slash commands
+
+Typed text passes through a local router before it is sent. A match opens host UI and nothing goes to the CLI. A local entry gives way when the CLI advertises a user-defined (non-built-in) command of the same name; `/remote-control`, `/rc`, `/login` and `/logout` give way to any advertised command with that name. From the menu, `usage` and `context` open dialogs (same give-way rule) and everything else submits `/<name>`. Same table in 2.1.311 and 2.1.325.
+
+| Typed command | Local action |
+| --- | --- |
+| `/status` | Status dialog |
+| `/copy [N]` | Copy to clipboard |
+| `/skills` | Skills dialog |
+| `/login`, `/logout` | Sign in / sign out |
+| `/tasks` (and aliases) | Background tasks view |
+| `/sandbox`, `/sandbox exclude <pattern>` | Sandbox dialog, or add an excluded command |
+| `/btw [question]` | Side question (`side_question`) |
+| `/export [args]` | Export dialog or direct export |
+| `/plan [args]` | Plan handling, once the CLI's command list has arrived |
+| `/bug`, `/feedback [report]` | Feedback dialog |
+| `/mcp` | MCP servers panel |
+| `/config`, `/settings` | Settings |
+| `/hooks` | Hooks listing |
+| `/memory` | Memory (CLAUDE.md) |
+| `/permissions`, `/allowed-tools` | Permission rules |
+| `/plugin`, `/plugins`, `/marketplace` | Plugins |
+| `/rewind`, `/checkpoint`, `/undo` | Rewind dialog |
+| `/resume`, `/continue` | Session picker |
+| `/help` | Slash-command browser |
+| `/bookmarks` | Bookmarks |
+| `/model` | Model picker (not while an approval is pending) |
+
+The reference also routes `/remote-control`, `/rc`, `/design-login` and `/chrome` locally; they belong to non-goal features, so pass them through or hide them.
 
 ### Panels and dialogs
 
@@ -413,7 +467,7 @@ The CLI persists every session as a JSONL transcript. The plugin keeps no conver
 
 ### Storage
 
-- Location: `$CLAUDE_CONFIG_DIR/projects/<encoded cwd>/<sessionId>.jsonl`, where `CLAUDE_CONFIG_DIR` defaults to `~/.claude` and the cwd is encoded by replacing `/` with `-` (e.g. `-Users-me-src-app`).
+- Location: `$CLAUDE_CONFIG_DIR/projects/<encoded cwd>/<sessionId>.jsonl`, where `CLAUDE_CONFIG_DIR` defaults to `~/.claude`. Encoding (same in the extension, SDK and 2.1.311 binary): replace every character matching `/[^a-zA-Z0-9]/g` with `-` (e.g. `/Users/me/src/app` → `-Users-me-src-app`). If the result is longer than 200 characters, keep the first 200, then `-`, then a hash of the **original** path: `h = (h << 5) - h + charCode | 0` over UTF-16 code units, written as `Math.abs(h).toString(36)`.
 - One JSON entry per line: user/assistant messages with `uuid` and `parentUuid`, summaries, and metadata. Treat the file format as **Observed**: read it tolerantly and never write to it.
 - Session list: scan the current workspace's folder, newest first by mtime. Show the title (custom or generated), first prompt, last activity and git branch. Read the head and tail of each file only; never parse whole files to build the list.
 
@@ -429,7 +483,7 @@ The CLI persists every session as a JSONL transcript. The plugin keeps no conver
 | Rewind code | `rewind_files` with `user_message_id` (needs file checkpointing enabled) and `dry_run` first to preview | Same menu, "Restore code" checkbox |
 | Rename | `rename_session`, plus host index | Inline title edit |
 | Auto title | `generate_session_title` after the first exchange | — |
-| Archive / delete | host index only (archive); delete moves the JSONL to trash after confirmation | Context menu |
+| Archive / delete | host index only (archive; the SDK's `archiveSession` / `unarchiveSession` are 0.3.325+); delete moves the JSONL to trash after confirmation | Context menu |
 | Export | render transcript to Markdown | "Export…" |
 
 ### Rewind rules
@@ -446,7 +500,7 @@ The CLI persists every session as a JSONL transcript. The plugin keeps no conver
 
 ## Agent map
 
-The Agent map is a tree of the main agent and every subagent and background task in the session, with live status. There is no API that returns it: the UI builds it from messages the CLI already streams, keeps it up to date as events arrive, and rebuilds it from the transcript on resume. Everything here is **Observed** (reference webview 2.1.325), so build it on a tolerant reducer.
+The Agent map is a tree of the main agent and every subagent and background task in the session, with live status. There is no API that returns it: the UI builds it from messages the CLI already streams, keeps it up to date as events arrive, and rebuilds it from the transcript on resume. Everything here is **Observed** (reference webview 2.1.311; identical handlers and record in 2.1.325), so build it on a tolerant reducer.
 
 ![Agent map data flow: 5 sources, 1 reducer, 3 actions](diagrams/agent-map.png)
 
@@ -464,7 +518,7 @@ One record per agent, keyed by `task_id`.
 | `description`, `prompt`, `subagentType`, `isBackgrounded` | `task_started` |
 | `model` | the spawning tool call's `input.model` |
 | `servedModel` | `message.model` of the subagent's own assistant messages |
-| `status` | `working` → `finished` / `failed` / `stopped` / `killed`; displayed as **waiting** while a pending `can_use_tool` has `agent_id` = this task |
+| `status` | Stored values: `working` → `finished` / `failed` / `stopped`. Wire statuses map as `completed` → `finished`, `failed` → `failed`, `killed` and `stopped` → `stopped` (`killed` is never stored). Displayed as **waiting** while a pending `can_use_tool` has `agent_id` = this task. Labels: Working, Waiting for your permission, Finished, Failed, Stopped |
 | `startTime`, `endTime` | host clock at `task_started` / `task_notification`; `end_time` from `task_updated` |
 | `usage` (`totalTokens`, `toolUses`, `durationMs`) | `task_progress.usage`, final value from `task_notification.usage` |
 | `summary`, `recentTools` | `task_progress.summary`, `description`, last 3 `last_tool_name` values |
@@ -495,9 +549,9 @@ One record per agent, keyed by `task_id`.
 
 | Action | Mechanism |
 | --- | --- |
-| Stop an agent | `stop_task` control request (`stopTask()`), then mark it `killed` if still working |
+| Stop an agent | `stop_task` control request (`stopTask()`), then mark it stopped (wire `killed`) if still working |
 | View a background task's output | `get_task_output` → `output`, `totalBytes`, `truncated` |
-| View an agent's full transcript | Read `$CLAUDE_CONFIG_DIR/projects/<encoded cwd>/<sessionId>/subagents/agent-<agentId>.jsonl`. The `.meta.json` beside it has `agentType`, `description`, `toolUseId`, `spawnDepth`, `finished` |
+| View an agent's full transcript | Read `$CLAUDE_CONFIG_DIR/projects/<encoded cwd>/<sessionId>/subagents/[<agentRelPath…>/]agent-<agentId>.jsonl`; the optional `agentRelPath` segments nest deeper agents. A `.meta.json` file sits beside it (`.meta.json` is a reserved suffix); its fields `agentType`, `description`, `toolUseId`, `finished` are read tolerantly, and `spawnDepth` is not confirmed from extension code |
 
 ### Rebuilding on resume
 
@@ -516,7 +570,7 @@ Modelled on the reference extension's `claudeCode.*` settings; rename the prefix
 | `executablePath` | string, unset | Discovery step 1 (section 3) |
 | `processWrapper` | string, unset | Command prefix for the spawn |
 | `environmentVariables` | `[{name, value}]`, `[]` | Child env |
-| `initialPermissionMode` | enum, unset | `--permission-mode`; unset = CLI's default |
+| `initialPermissionMode` | enum, unset (reference values: `default`, `manual`, `acceptEdits`, `plan`, `bypassPermissions`) | `--permission-mode`; unset = CLI's default |
 | `allowDangerouslySkipPermissions` | bool, false | Shows bypass mode; `--allow-dangerously-skip-permissions` |
 | `autosave` | bool, true | Save dirty buffers before Claude reads or writes them |
 | `attachOpenFile` / `attachSelection` | bool, true | Context attachments (section 7) |
@@ -527,9 +581,13 @@ Modelled on the reference extension's `claudeCode.*` settings; rename the prefix
 | `scrollToBottomOnSend` | bool, true | Transcript |
 | `archiveInactiveSessions` | days, 14 | Session list |
 | `continueAfterReload` | bool, true | Resume a running turn after the editor reloads |
-| `preferredLocation` | `panel` / `sidebar` / `editor` | Where the chat opens |
+| `preferredLocation` | `panel` / `sidebar` / `editor` (reference: `panel`, `sidebar`) | Where the chat opens |
+
+The reference's 23 `claudeCode.*` settings and 9 keybindings are identical in 2.1.311 and 2.1.325. The 2.1.311 extension also has a `claude-vscode.createWorktree` command that 2.1.325 dropped; it is optional here.
 
 ### Workspace trust
+
+This is the plugin's own requirement, not observed reference behaviour. The 2.1.311 reference does not run in untrusted workspaces at all (`untrustedWorkspaces.supported: false`), always passes `user,project,local`, and has no per-folder trust posture, `workspaceTrust` attestation, `--ignore-persisted-trust` or `safe-mode` (all 2.1.325+).
 
 - Trusted folder: `--setting-sources user,project,local`, so project hooks, MCP servers and permission rules apply.
 - Untrusted folder: `--setting-sources user` only. Project files can contain hooks that run shell commands, so never load them before the user trusts the folder.
@@ -549,9 +607,9 @@ Every failure leaves the tab in a recoverable state with one clear next action. 
 | CLI not found / too old | discovery, `--version` | Setup card: install or set path; link to docs |
 | Not logged in | `auth_status` event, `initialize` `account` empty, or auth error in `result` | "Log in" button that opens `claude` in a terminal (the reference runs login via the CLI, never in-panel credential entry) |
 | Terms or policy update required | stderr text | Notification with "Resolve in terminal" |
-| Initialize timeout | no response within 30 s | Retry spawn once, then show stderr tail + Restart |
+| Initialize timeout | no response within 30 s (host timer; SDK 0.3.311 has none) | Show stderr tail + Restart. The 2.1.311 reference does not retry automatically; a single respawn is 2.1.325+ |
 | Process exits mid-turn | `exit` event | Mark turn interrupted, keep transcript, Restart = respawn with `--resume` |
-| API / overload error | `result` with `is_error`: true and api\_error\_status (subtype may still be success) | Inline error row with Retry (re-sends nothing; asks Claude to continue) |
+| API / overload error | `result` with `is_error`: true and `api_error_status` (subtype may still be success); use `api_error_type` when present (2.1.325+) | Inline error row with Retry (re-sends nothing; asks Claude to continue) |
 | Usage limit hit | `rate_limit_event`, error `result` | Banner with reset time; disable send until then or allow model switch |
 | Max turns / budget reached | `result` subtype | Notice + "Continue" button |
 | Malformed line on stdout | JSON parse error | Log and skip the line; never kill the session |
@@ -565,7 +623,7 @@ Every failure leaves the tab in a recoverable state with one clear next action. 
 - **Permission integrity**: only the user's click resolves an approval (section 6), and "always allow" rules come only from the CLI's suggestions.
 - **Workspace trust** gates project settings (section 10).
 - **Child env hygiene**: pass through only what the user configured plus the variables in section 3; log env names, never values.
-- **Local IDE server** (if exposed over WebSocket): bind to 127.0.0.1, random port, per-session auth token in a user-only-readable lockfile.
+- **Local IDE server** (if exposed over WebSocket): follow the terminal-attach contract in section 7: `127.0.0.1` only, random port 10000–65535, a random-UUID `authToken` checked on every upgrade (`x-claude-code-ide-authorization`, close 1008 otherwise), lockfile in a `0700` directory with mode `0600`, deleted on dispose.
 
 ## Delivery plan
 
@@ -575,7 +633,7 @@ Build it in five milestones, each usable on its own. The protocol layer and tole
 | --- | --- | --- |
 | M1 Protocol core | Discovery, spawn, NDJSON reader/writer, control request router, `initialize`, `interrupt`, tolerant reader, stderr log | Scripted session against a real CLI: send a prompt, receive `init` → `assistant` → `result`; interrupt mid-stream ends the turn in under 1 s; unknown types logged, not fatal |
 | M2 Minimum chat | Webview transcript with streaming markdown, Bash/Read/Edit tool cards, approval cards, mode pill, model picker, Stop, error rows; verification pipeline: static manifest diff + initialize probe in CI | A user can fix a failing test end to end with approvals; denied tool shows the feedback path; the nightly CI job produces a report for the current CLI |
-| M3 Editor integration | Editor MCP server (`openDiff`, diagnostics, selection, open file), attachments, `@` mentions, `/` menu, autosave hook, diff + revert on edit cards | Claude-proposed edit opens a native diff; accepting saves with user tweaks; selection chip arrives in the prompt |
+| M3 Editor integration | In-process `getDiagnostics` server, Edit/Write baseline + autosave + diagnostics hooks, native diff from the approval card, attachments, `@` mentions, `/` menu with local commands, diff + revert on edit cards; optional terminal IDE server (`openDiff` etc.) with lockfile | Claude-proposed edit opens a native diff from the approval card; accepting applies it; selection chip arrives in the prompt; a terminal `claude` attaches through the lockfile |
 | M4 Sessions | Session list, resume, fork, rewind (conversation + code), rename, multiple tabs, restart-with-resume | Kill the CLI mid-turn and resume with no lost history; rewind restores files listed in the dry run |
 | M5 Parity | Subagent cards, todos, plan card, AskUserQuestion, compaction divider, context meter, MCP panel, permission rules, usage banner, paid scenario probes in the verification pipeline | Every P1 row in section 8 checked; release gate in section 13 green for the pinned CLI |
 
@@ -650,8 +708,8 @@ An item can be both R and A (render it now, build proper UI later); the more sev
 
 ### Release gating
 
-- **min**: computed — the oldest CLI that has every item in the consumption manifest. Enforced at startup (section 3).
-- **recommended**: an exact pinned version; moving it needs a person to approve the report.
+- **min**: computed — the oldest CLI that has every item in the consumption manifest. Enforced at startup (section 3). For this spec's baseline consumption, that is 2.1.311.
+- **recommended**: an exact pinned version; moving it needs a person to approve the report. Currently 2.1.311 (SDK 0.3.311); 2.1.325 is tested and Ready (report below).
 - **maxTested**: newer CLIs still run, with a non-blocking "untested version" notice.
 - **blocked**: a remote list of known-bad versions that can be changed without shipping the plugin.
 - **Cadence**: nightly `npm view @anthropic-ai/claude-agent-sdk dist-tags`; on a new version run the free signals and triage. Run paid scenarios only when B or U touches CLI → host message shapes, a default changes, or the minor version bumps.
@@ -697,6 +755,8 @@ Real output from running both pipelines on 2.1.278, 2.1.300 and 2.1.325 (no mode
 
 ### Adoption report: 2.1.311 → 2.1.325
 
+This report describes what the plugin gains by moving up from its 2.1.311 baseline. Nothing listed here may be assumed present at 2.1.311. `api_error_type`, `credential_expires_at`, `invalid_config_file` and `control_closed` appear in neither extension bundle, so they remain SDK/binary findings.
+
 **Verdict: Ready to upgrade. No breaking changes; 7 adoption candidates, 3 items need a renderer.** Both darwin-arm64 binaries were verified against npm integrity and the release manifest's SHA-256, then run through the full free suite (hermetic probe + 14 mock scenarios); all 15 checks passed on both versions. Message sequences were identical on both versions apart from one test-environment notice (see below). Run on 2026-11-15.
 
 | Class | Item | Evidence | Plugin action |
@@ -717,6 +777,21 @@ Real output from running both pipelines on 2.1.278, 2.1.300 and 2.1.325 (no mode
 | I | Slash commands `/project`, `/use-case` added; 4 descriptions changed | Binary strings | None: the `/` menu reads `initialize.commands` |
 | I | Subcommand flag `--registry` removed; `--discard`, `--event`, `--path`, `--trusted-folder` added; 5 hidden flags; 110 env-var names | Binary strings, `--help` | None: the plugin does not pass these |
 
-Noise caught and excluded: 2.1.311 emits a `system/informational` billing notice in plan mode only because traffic goes through the mock gateway (127.0.0.1); 2.1.325 does not. It is a test-environment artifact, not a protocol change, and the mock suite should suppress it. Not covered: the official extension delta, since only the 2.1.325 VSIX was downloaded.
+Noise caught and excluded: 2.1.311 emits a `system/informational` billing notice in plan mode only because traffic goes through the mock gateway (127.0.0.1); 2.1.325 does not. It is a test-environment artifact, not a protocol change, and the mock suite should suppress it.
 
-The trial scripts and manifests are in the session scratchpad (`verify/` and `tools/`); move them into the plugin repo to keep them.
+**Official extension and SDK delta (2.1.311 → 2.1.325).** From static reads of both VSIX bundles and both `sdk.mjs` files. Outgoing control requests are identical (55 subtypes); every difference is additive.
+
+| Class | Item | Plugin action |
+| --- | --- | --- |
+| A | Extension asks for `promptSuggestions: true` | Prompt-suggestion chips become reference behaviour; keep them behind feature detection |
+| A | Per-folder trust: `settingSources` `user` only when untrusted, `workspaceTrust` attestation in `initialize`, `--ignore-persisted-trust` / `CLAUDE_CODE_IGNORE_PERSISTED_TRUST=1`, `--safe-mode` | The plugin already applies its own untrusted rule (section 10); adopt the attestation and flags only after upgrading |
+| A | `CLAUDE_CODE_STARTUP_FAILURE_RESULTS=1`; one automatic respawn when initialize times out and the process died | Set the variable and add the retry once on 2.1.325+ |
+| A | SDK 0.3.317+: hook `onFailure`, `hook_on_failure_supported`, 660 s prompt hold before the initialize response | Use `onFailure: "block"` for the autosave/baseline hooks only after the response confirms support |
+| A | SDK 0.3.321+: implicit `--await-initialize` on resume/continue with the bundled binary | No action for a host that passes `pathToClaudeCodeExecutable` |
+| A | SDK 0.3.325: typed `error_code` (`unsupported_request`) on error replies | Prefer it over matching the error text |
+| R | `request_user_dialog` kind `send_to_project_remote_control_offer` | Not declared; the CLI never sends it unless declared |
+| R | Extension handles `system/session_writes_lost`, `plugin_install`, `notification`, `dev_intent` | Same as the R rows above; tolerant reader covers them until then |
+| I | `voice_call_talk`, cloud-session requests, `reload_plugins.refuse_if_busy` | Non-goals / unused |
+| I | 2.1.311-only command `claude-vscode.createWorktree`; one setting description changed | None |
+
+The trial scripts and manifests are in `verification/` and `tools/` in this repo.
