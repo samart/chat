@@ -1,0 +1,748 @@
+<title>Claude CLI Chat Host</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap">
+<style>
+/* Layout: a protocol reference. Sticky contents rail on wide screens, one reading column, wide exhibits (diagrams, tables, code) scroll inside their own frames. Direction colour-codes every message: stdin (host to CLI) vs stdout (CLI to host). */
+:root {
+  --bg: #f7f8f9;
+  --surface: #ffffff;
+  --ink: #16191d;
+  --muted: #5a626d;
+  --line: #dde1e6;
+  --accent: #1f5f8b;
+  --accent-soft: #e4eef6;
+  --tx: #1f5f8b;       /* host -> CLI (stdin) */
+  --tx-soft: #e4eef6;
+  --rx: #8a5a12;       /* CLI -> host (stdout) */
+  --rx-soft: #f6eedf;
+  --ok: #2c7a4b;
+  --warn: #9a5b00;
+  --bad: #b3261e;
+  --code-bg: #f0f2f4;
+  --font-body: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-head: "IBM Plex Sans Condensed", "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111418; --surface: #171b20; --ink: #e6e9ed; --muted: #9aa3ad; --line: #2a3038;
+    --accent: #79b4e0; --accent-soft: #1b2a37; --tx: #79b4e0; --tx-soft: #1b2a37;
+    --rx: #e0b46a; --rx-soft: #30271a; --ok: #6cc28f; --warn: #e0a24a; --bad: #f08a80; --code-bg: #1d2228;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111418; --surface: #171b20; --ink: #e6e9ed; --muted: #9aa3ad; --line: #2a3038;
+  --accent: #79b4e0; --accent-soft: #1b2a37; --tx: #79b4e0; --tx-soft: #1b2a37;
+  --rx: #e0b46a; --rx-soft: #30271a; --ok: #6cc28f; --warn: #e0a24a; --bad: #f08a80; --code-bg: #1d2228;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font-family: var(--font-body); font-size: 15.5px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0 64px;
+}
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 3px; }
+code, pre, .mono { font-family: var(--font-mono); font-size: 0.86em; }
+:not(pre) > code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; overflow-wrap: anywhere; }
+
+.page { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; }
+@media (max-width: 900px) { .page { grid-template-columns: minmax(0, 1fr); gap: 0; } .toc { display: none; } }
+
+header.masthead { max-width: 1240px; margin: 0 auto; padding-block: 40px 28px; border-bottom: 1px solid var(--line); margin-bottom: 32px; }
+.eyebrow { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+h1, h2, h3 { font-family: var(--font-head); text-wrap: balance; line-height: 1.2; }
+h1 { font-size: clamp(30px, 5vw, 44px); margin: 8px 0 12px; font-weight: 700; letter-spacing: -0.01em; }
+.lede { max-width: 70ch; font-size: 17px; color: var(--muted); margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 8px 20px; margin-top: 18px; font-family: var(--font-mono); font-size: 12.5px; color: var(--muted); }
+
+.toc { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 20px); align-self: start; max-height: calc(100vh - 40px); overflow-y: auto; font-size: 13.5px; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; counter-reset: toc; }
+.toc li { counter-increment: toc; }
+.toc a { display: grid; grid-template-columns: 26px 1fr; padding: 4px 8px; border-radius: 6px; color: var(--muted); text-decoration: none; }
+.toc a::before { content: counter(toc, decimal-leading-zero); font-family: var(--font-mono); font-size: 11.5px; padding-top: 2px; }
+.toc a:hover { background: var(--accent-soft); color: var(--ink); }
+
+main { min-width: 0; }
+section { padding-block: 8px 28px; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+section:last-child { border-bottom: 0; }
+h2 { font-size: 26px; margin: 0 0 6px; display: flex; gap: 12px; align-items: baseline; }
+h2 .n { font-family: var(--font-mono); font-size: 13px; color: var(--accent); font-weight: 500; }
+h3 { font-size: 18px; margin: 26px 0 8px; }
+p, ul, ol { max-width: 72ch; }
+.point { font-size: 16.5px; margin-top: 4px; }
+li + li { margin-top: 4px; }
+
+.frame { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow-x: auto; margin: 14px 0 6px; }
+.frame.diagram { padding: 16px; }
+.caption { font-size: 13px; color: var(--muted); margin: 4px 0 16px; max-width: 72ch; }
+pre.mermaid { margin: 0; background: transparent; font-family: var(--font-body); text-align: center; min-width: 560px; }
+
+table { border-collapse: collapse; width: 100%; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--bg); position: sticky; top: 0; }
+tr:last-child td { border-bottom: 0; }
+td code { white-space: nowrap; }
+.frame table { min-width: 640px; }
+
+pre.code { margin: 0; padding: 14px 16px; background: var(--code-bg); font-size: 13px; line-height: 1.55; overflow-x: auto; tab-size: 2; }
+.codewrap { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; margin: 14px 0; }
+.codewrap .bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 6px 12px; background: var(--surface); border-bottom: 1px solid var(--line); font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+.copy { font: inherit; font-size: 12px; color: var(--accent); background: none; border: 1px solid var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; }
+
+/* direction chips: the subject's own notation */
+.dir { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-mono); font-size: 11.5px; font-weight: 500; padding: 1px 7px; border-radius: 999px; white-space: nowrap; }
+.dir.tx { color: var(--tx); background: var(--tx-soft); }
+.dir.rx { color: var(--rx); background: var(--rx-soft); }
+.lvl { font-family: var(--font-mono); font-size: 11px; padding: 1px 6px; border-radius: 4px; border: 1px solid var(--line); color: var(--muted); white-space: nowrap; }
+.lvl.stable { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 40%, transparent); }
+.lvl.observed { color: var(--warn); border-color: color-mix(in srgb, var(--warn) 40%, transparent); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 10px 18px; font-size: 13px; color: var(--muted); margin: 6px 0 14px; }
+
+.paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin: 16px 0; }
+@media (max-width: 760px) { .paths { grid-template-columns: minmax(0, 1fr); } }
+.path { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; min-width: 0; display: grid; gap: 6px; align-content: start; }
+.path.pick { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.path .tag { font-family: var(--font-mono); font-size: 11.5px; color: var(--accent); letter-spacing: 0.04em; }
+.path h4 { margin: 0; font-family: var(--font-head); font-size: 17px; }
+.path p { margin: 0; font-size: 14px; color: var(--muted); }
+
+.ndjson { font-family: var(--font-mono); font-size: 12.5px; display: grid; gap: 4px; margin: 14px 0; }
+.ndjson div { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 10px; align-items: start; padding: 6px 10px; border-radius: 6px; background: var(--surface); border: 1px solid var(--line); }
+.ndjson span.l { overflow-wrap: anywhere; }
+
+.callout { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 10px 14px; border-radius: 0 8px 8px 0; max-width: 72ch; margin: 14px 0; font-size: 14.5px; }
+.callout.warn { border-left-color: var(--warn); background: var(--rx-soft); }
+
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+html { scroll-behavior: smooth; }
+</style>
+
+<header class="masthead">
+  <div class="eyebrow">Design doc · claude CLI 2.1.325 · Agent SDK 0.3.325</div>
+  <h1>Claude CLI Chat Host</h1>
+  <p class="lede">How an editor plugin runs the <code>claude</code> CLI as a child process and builds a full chat panel on top of it: the ways in, the process lifecycle, every message and control flow, permissions, slash commands, sessions and the arguments that tie them together.</p>
+  <div class="meta"><span>Derived from: anthropic.claude-code 2.1.325 VSIX + live probes of CLI 2.1.311 and 2.1.325</span><span>Updated 2026-11-15</span></div>
+</header>
+
+<div class="page">
+<nav class="toc" aria-label="Contents">
+  <ol>
+    <li><a href="#paths">Interaction paths</a></li>
+    <li><a href="#architecture">Architecture</a></li>
+    <li><a href="#lifecycle">Process lifecycle</a></li>
+    <li><a href="#arguments">Spawn arguments</a></li>
+    <li><a href="#wire">Wire protocol</a></li>
+    <li><a href="#flows">Message flows</a></li>
+    <li><a href="#control">Control protocol</a></li>
+    <li><a href="#permissions">Permissions</a></li>
+    <li><a href="#slash">Slash commands</a></li>
+    <li><a href="#sessions">Sessions</a></li>
+    <li><a href="#editor">Editor integration</a></li>
+    <li><a href="#features">Feature map</a></li>
+    <li><a href="#errors">Errors and recovery</a></li>
+    <li><a href="#drift">Version drift</a></li>
+  </ol>
+</nav>
+
+<main>
+
+<section id="paths">
+  <h2><span class="n">01</span>Interaction paths</h2>
+  <p class="point">Use the Agent SDK in the plugin host. It is exactly what the official extension does, and it handles framing, request ids, the initialize handshake and approvals for you. Drop to the raw protocol only if your host is not Node.</p>
+  <div class="paths">
+    <div class="path pick">
+      <span class="tag">A · RECOMMENDED</span>
+      <h4>Agent SDK <code>query()</code></h4>
+      <p>TypeScript package <code>@anthropic-ai/claude-agent-sdk</code> (a Python SDK also exists). Spawns the CLI you point it at, returns an async iterator of messages plus methods such as <code>interrupt()</code> and <code>setModel()</code>.</p>
+    </div>
+    <div class="path">
+      <span class="tag">B · ANY LANGUAGE</span>
+      <h4>Raw stream-json</h4>
+      <p>Spawn <code>claude</code> yourself and speak NDJSON on stdin/stdout. Needed for a JVM (JetBrains) or Rust host. You implement the handshake, control routing and approvals.</p>
+    </div>
+    <div class="path">
+      <span class="tag">C · COMPLEMENT</span>
+      <h4>Terminal attach</h4>
+      <p>The user runs <code>claude</code> in the integrated terminal; it connects back to your editor's MCP server over a local WebSocket for diffs and diagnostics. No chat panel; the terminal is the UI.</p>
+    </div>
+  </div>
+  <div class="frame"><table>
+    <thead><tr><th>Concern</th><th>A · Agent SDK</th><th>B · Raw stream-json</th><th>C · Terminal attach</th></tr></thead>
+    <tbody>
+      <tr><td>Who writes NDJSON</td><td>SDK</td><td>You</td><td>Nobody (TUI)</td></tr>
+      <tr><td>Approvals</td><td><code>canUseTool</code> callback</td><td>Answer <code>can_use_tool</code> control requests</td><td>In the terminal</td></tr>
+      <tr><td>Editor tools</td><td><code>mcpServers</code> with an in-process SDK server</td><td>List in <code>initialize.sdkMcpServers</code>, answer <code>mcp_message</code></td><td>WebSocket MCP server + lockfile</td></tr>
+      <tr><td>Hooks in the host</td><td><code>hooks</code> option with JS callbacks</td><td>Register in <code>initialize.hooks</code>, answer <code>hook_callback</code></td><td>Not available</td></tr>
+      <tr><td>CLI binary</td><td><code>pathToClaudeCodeExecutable</code> (your managed install)</td><td>You spawn it</td><td>User's install</td></tr>
+      <tr><td>Effort</td><td>Low</td><td>High</td><td>Low, but no custom UI</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="codewrap">
+    <div class="bar"><span>Path A · plugin host (TypeScript)</span><button class="copy" type="button" data-copy="sdk">Copy</button></div>
+<pre class="code" id="sdk">import { query, createSdkMcpServer } from "@anthropic-ai/claude-agent-sdk";
+
+const input = new PushQueue&lt;SDKUserMessage&gt;();     // async iterable you push user turns into
+
+const q = query({
+  prompt: input,
+  options: {
+    pathToClaudeCodeExecutable: managedCliPath,      // you manage the CLI
+    cwd: workspaceRoot,
+    resume: sessionId,                               // omit for a new chat
+    model, permissionMode: "default",
+    includePartialMessages: true,                    // stream_event token deltas
+    enableFileCheckpointing: true,                   // needed for rewind_files
+    settingSources: trusted ? ["user", "project", "local"] : ["user"],
+    systemPrompt: { type: "preset", preset: "claude_code" },
+    canUseTool: (toolName, input, { signal, suggestions }) =>
+      approvals.ask({ toolName, input, suggestions, signal }),   // resolves allow / deny
+    mcpServers: { ide: createSdkMcpServer({ name: "ide", tools: editorTools }) },
+    hooks: { PreToolUse: [{ matcher: "Edit|Write|MultiEdit", hooks: [captureBaseline] }] },
+    env: { ...cleanEnv(), CLAUDE_CODE_ENTRYPOINT: "my-editor" },
+    stderr: (line) =&gt; log.debug(line),
+  },
+});
+
+const caps = await q.supportedCommands();            // from the initialize response
+for await (const msg of q) ui.post(msg);             // system / stream_event / assistant / user / result
+
+input.push({ type: "user", message: { role: "user", content: "Fix the failing test" },
+             parent_tool_use_id: null, session_id: "" });
+await q.interrupt();                                 // Stop button
+await q.setPermissionMode("acceptEdits");            // mode pill
+await q.setModel("opus");                            // model picker</pre>
+  </div>
+
+  <div class="codewrap">
+    <div class="bar"><span>Path B · minimal raw host (Python, any language works)</span><button class="copy" type="button" data-copy="raw">Copy</button></div>
+<pre class="code" id="raw">proc = Popen([cli, "--output-format", "stream-json", "--input-format", "stream-json",
+              "--verbose", "--permission-prompt-tool", "stdio", "--include-partial-messages"],
+             stdin=PIPE, stdout=PIPE, cwd=workspace, env=clean_env, text=True, bufsize=1)
+
+def send(obj): proc.stdin.write(json.dumps(obj) + "\n"); proc.stdin.flush()
+
+rid = new_id()
+send({"type": "control_request", "request_id": rid, "request": {"subtype": "initialize"}})
+send({"type": "user", "message": {"role": "user", "content": "hi"},
+      "parent_tool_use_id": None, "session_id": ""})
+
+for line in proc.stdout:
+    msg = json.loads(line)
+    t = msg.get("type")
+    if t == "control_request":                     # CLI needs us: approvals, MCP, hooks
+        answer = route(msg["request"])           # can_use_tool -> {"behavior": "allow", "updatedInput": ...}
+        send({"type": "control_response",
+              "response": {"subtype": "success", "request_id": msg["request_id"], "response": answer}})
+    elif t == "control_response":
+        pending.pop(msg["response"]["request_id"]).resolve(msg["response"])
+    elif t in ("keep_alive",):
+        continue
+    else:
+        ui.post(msg)                             # unknown types too: tolerant reader</pre>
+  </div>
+</section>
+
+<section id="architecture">
+  <h2><span class="n">02</span>Architecture</h2>
+  <p class="point">Only the protocol client touches the CLI's stdin and stdout. The webview renders; the host decides; the CLI owns the agent loop, tools, context, auth and transcripts.</p>
+  <div class="frame diagram"><pre class="mermaid">
+flowchart TB
+  subgraph EDITOR["Editor process"]
+    W["Chat webview: transcript, composer, approval cards"]
+    subgraph HOST["Plugin host"]
+      PC["Protocol client: NDJSON, control router, tolerant reader"]
+      AB["Approval broker: can_use_tool to card"]
+      SM["Session manager: process per tab, resume, restart"]
+      MCP["Editor MCP server: openDiff, getDiagnostics, selection"]
+    end
+    E["Editor APIs: diff tabs, diagnostics, files"]
+  end
+  CLI["claude CLI child process: agent loop, tools, permissions, auth"]
+  J[("Session transcripts ~/.claude/projects")]
+  API["Anthropic API"]
+  W <-->|"typed postMessage"| AB
+  W <-->|"typed postMessage"| SM
+  AB --- PC
+  SM --- PC
+  MCP --- PC
+  MCP <-->|"editor calls"| E
+  PC <-->|"stdin / stdout NDJSON"| CLI
+  CLI -->|"writes"| J
+  SM -->|"reads history"| J
+  CLI <-->|"HTTPS"| API
+  </pre></div>
+  <p class="caption">The webview never sees the CLI. Everything that reaches the CLI goes through the protocol client, so framing, request ids and unknown message types are handled in one place.</p>
+</section>
+
+<section id="lifecycle">
+  <h2><span class="n">03</span>Process lifecycle</h2>
+  <p class="point">One chat tab owns one long-lived CLI process and one session id. The process outlives turns; a crash is recovered by respawning with <code>--resume</code>, so no history is lost.</p>
+  <div class="frame diagram"><pre class="mermaid">
+stateDiagram-v2
+  [*] --> Discovering
+  Discovering --> Unavailable: binary missing or below min version
+  Discovering --> Spawning
+  Spawning --> Initializing: process started
+  Initializing --> Ready: initialize response
+  Initializing --> Crashed: timeout or exit
+  Ready --> Running: user message written
+  Running --> AwaitingApproval: can_use_tool
+  AwaitingApproval --> Running: control_response
+  Running --> Interrupting: interrupt
+  Interrupting --> Ready: result
+  Running --> Ready: result
+  Running --> Crashed: process exit
+  Crashed --> Spawning: Restart with --resume
+  Ready --> Closed: tab closed
+  Closed --> [*]
+  </pre></div>
+  <div class="frame"><table>
+    <thead><tr><th>Phase</th><th>What the host does</th><th>Timeouts and rules</th></tr></thead>
+    <tbody>
+      <tr><td>Discovering</td><td>Configured path → managed install → <code>claude</code> on PATH; run <code>--version</code> once and cache.</td><td>Refuse below the minimum supported version with a setup card.</td></tr>
+      <tr><td>Spawning</td><td>Build argv and env (section 04). Optional process wrapper prefix (ssh, docker exec).</td><td>Strip inherited <code>CLAUDECODE</code>, <code>CLAUDE_CODE_CHILD_SESSION</code>, <code>TRACEPARENT</code>.</td></tr>
+      <tr><td>Initializing</td><td>Send <code>initialize</code> first. Cache commands, models, agents, output styles, account, capabilities.</td><td>30 s. Startup failure reason <code>initialize_not_first</code> exists in 2.1.325: nothing may precede it. Retry spawn once.</td></tr>
+      <tr><td>Ready / Running</td><td>Write user turns; render stdout; answer control requests.</td><td>A user message written mid-turn is queued by the CLI.</td></tr>
+      <tr><td>Closed</td><td>Close stdin, wait 5 s, SIGTERM, then SIGKILL.</td><td>Never two processes on one session id.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="arguments">
+  <h2><span class="n">04</span>Spawn arguments and environment</h2>
+  <p class="point">Three flags are always on; everything else maps one-to-one from a UI control or plugin setting. Through the SDK, each flag below is an option of the same name.</p>
+  <div class="codewrap"><div class="bar"><span>Always on</span></div>
+<pre class="code">claude --output-format stream-json --input-format stream-json --verbose \
+       --permission-prompt-tool stdio --include-partial-messages</pre></div>
+  <div class="frame"><table>
+    <thead><tr><th>Flag</th><th>SDK option</th><th>Driven by</th><th>Level</th></tr></thead>
+    <tbody>
+      <tr><td><code>--resume &lt;id&gt;</code></td><td><code>resume</code></td><td>Opening a past chat; crash restart</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--continue</code></td><td><code>continue</code></td><td>"Continue last chat"</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--fork-session</code></td><td><code>forkSession</code></td><td>"Fork from here"</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--resume-session-at &lt;uuid&gt;</code></td><td><code>resumeSessionAt</code></td><td>Rewind conversation to a message</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>--model</code> / <code>--fallback-model</code></td><td><code>model</code> / <code>fallbackModel</code></td><td>Model picker</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--permission-mode</code></td><td><code>permissionMode</code></td><td>Mode pill: <code>default</code>, <code>acceptEdits</code>, <code>plan</code>, <code>bypassPermissions</code></td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--allow-dangerously-skip-permissions</code></td><td><code>allowDangerouslySkipPermissions</code></td><td>Setting that unlocks bypass mode</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--thinking=adaptive|disabled</code>, <code>--max-thinking-tokens</code></td><td><code>thinking</code></td><td>Thinking toggle</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--effort &lt;level&gt;</code></td><td><code>effort</code></td><td>Effort picker (levels come from <code>models[].supportedEffortLevels</code>)</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--mcp-config</code> / <code>--strict-mcp-config</code></td><td><code>mcpServers</code> / <code>strictMcpConfig</code></td><td>Plugin-provided MCP servers</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--add-dir</code></td><td><code>additionalDirectories</code></td><td>Multi-root workspace</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--setting-sources</code></td><td><code>settingSources</code></td><td>Workspace trust: <code>user</code> only when untrusted</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--allowedTools</code> / <code>--disallowedTools</code> / <code>--tools</code></td><td>same names</td><td>Plugin policy</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--max-turns</code> / <code>--max-budget-usd</code></td><td><code>maxTurns</code> / <code>maxBudgetUsd</code></td><td>Optional guards</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>--replay-user-messages</code></td><td><code>extraArgs</code></td><td>Echo user turns with <code>uuid</code> (rewind, edit-and-resend)</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>--enable-auth-status</code></td><td><code>extraArgs</code></td><td><code>auth_status</code> events for the login banner</td><td><span class="lvl observed">observed</span></td></tr>
+    </tbody>
+  </table></div>
+  <h3>Environment</h3>
+  <div class="frame"><table>
+    <thead><tr><th>Variable</th><th>Value</th><th>Why</th></tr></thead>
+    <tbody>
+      <tr><td><code>CLAUDE_CODE_ENTRYPOINT</code></td><td>your plugin id</td><td>Identifies the client (reference: <code>claude-vscode</code>; SDK default <code>sdk-ts</code>)</td></tr>
+      <tr><td><code>MCP_CONNECTION_NONBLOCKING</code></td><td><code>true</code></td><td>First turn doesn't wait for slow MCP servers</td></tr>
+      <tr><td><code>CLAUDE_CODE_EMIT_STARTUP_TIMING</code>, <code>CLAUDE_CODE_STARTUP_FAILURE_RESULTS</code></td><td><code>1</code></td><td>Startup marks; a <code>result</code> instead of a silent exit on startup failure</td></tr>
+      <tr><td><code>DISABLE_TELEMETRY</code></td><td><code>1</code> if editor telemetry is off</td><td>Respect the user's choice</td></tr>
+      <tr><td><code>CLAUDECODE</code>, <code>CLAUDE_CODE_CHILD_SESSION</code>, <code>TRACEPARENT</code></td><td>delete</td><td>Otherwise the child thinks it is nested in another session</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="wire">
+  <h2><span class="n">05</span>Wire protocol</h2>
+  <p class="point">One JSON object per line in each direction. Buffer partial lines, skip blank ones, and never crash on an unknown <code>type</code>, <code>subtype</code> or content block.</p>
+  <div class="legend"><span><span class="dir tx">→ stdin</span> host to CLI</span><span><span class="dir rx">← stdout</span> CLI to host</span></div>
+  <div class="ndjson" aria-label="Example NDJSON exchange">
+    <div><span class="dir tx">→ stdin</span><span class="l">{"type":"control_request","request_id":"k3j9x2m1p0q","request":{"subtype":"initialize","hooks":{…},"sdkMcpServers":["ide"]}}</span></div>
+    <div><span class="dir rx">← stdout</span><span class="l">{"type":"control_response","response":{"subtype":"success","request_id":"k3j9x2m1p0q","response":{"commands":[…],"models":[…],"account":{…}}}}</span></div>
+    <div><span class="dir tx">→ stdin</span><span class="l">{"type":"user","message":{"role":"user","content":"Why does this test fail?"},"parent_tool_use_id":null,"session_id":""}</span></div>
+    <div><span class="dir rx">← stdout</span><span class="l">{"type":"system","subtype":"init","session_id":"a8f…","model":"claude-opus-5-5","tools":[…],"mcp_servers":[…],"permissionMode":"default"}</span></div>
+    <div><span class="dir rx">← stdout</span><span class="l">{"type":"stream_event","event":{"type":"content_block_delta","index":0,"delta":{"type":"text_delta","text":"The test"}}}</span></div>
+    <div><span class="dir rx">← stdout</span><span class="l">{"type":"assistant","message":{"id":"msg_01…","content":[{"type":"tool_use","id":"toolu_01…","name":"Bash","input":{"command":"npm test"}}]}}</span></div>
+    <div><span class="dir rx">← stdout</span><span class="l">{"type":"control_request","request_id":"p91…","request":{"subtype":"can_use_tool","tool_name":"Bash","input":{"command":"npm test"},"tool_use_id":"toolu_01…","permission_suggestions":[…]}}</span></div>
+    <div><span class="dir tx">→ stdin</span><span class="l">{"type":"control_response","response":{"subtype":"success","request_id":"p91…","response":{"behavior":"allow","updatedInput":{"command":"npm test"}}}}</span></div>
+    <div><span class="dir rx">← stdout</span><span class="l">{"type":"user","message":{"role":"user","content":[{"type":"tool_result","tool_use_id":"toolu_01…","content":"1 failing"}]}}</span></div>
+    <div><span class="dir rx">← stdout</span><span class="l">{"type":"result","subtype":"success","is_error":false,"num_turns":3,"total_cost_usd":0.0412,"usage":{…},"modelUsage":{…}}</span></div>
+  </div>
+
+  <h3>CLI to host message catalog</h3>
+  <div class="frame"><table>
+    <thead><tr><th>type / subtype</th><th>When</th><th>Render as</th></tr></thead>
+    <tbody>
+      <tr><td><code>system/init</code></td><td>Start of the first turn</td><td>Session header: id, model, tools, MCP status</td></tr>
+      <tr><td><code>stream_event</code></td><td>Many per turn</td><td>Live text, thinking and tool-input typing; replaced by the final block</td></tr>
+      <tr><td><code>assistant</code></td><td>Each completed content block (merge by <code>message.id</code>)</td><td>Markdown, thinking rows, tool cards</td></tr>
+      <tr><td><code>user</code></td><td>After each tool runs; echoed user turns</td><td><code>tool_result</code> into its card</td></tr>
+      <tr><td><code>result</code></td><td>End of every turn</td><td>Stop spinner, cost, usage, errors (check <code>is_error</code>)</td></tr>
+      <tr><td><code>system/status</code>, <code>system/compact_boundary</code></td><td>Compaction</td><td>Status line; transcript divider</td></tr>
+      <tr><td><code>system/task_started|task_progress|task_notification|task_updated</code></td><td>Subagents and background tasks</td><td>Task cards</td></tr>
+      <tr><td><code>system/commands_changed</code></td><td>Plugins or skills reloaded</td><td>Refresh the slash menu</td></tr>
+      <tr><td><code>system/session_writes_lost</code></td><td>New in 2.1.325: transcript writes failed</td><td>Warning row</td></tr>
+      <tr><td><code>tool_progress</code>, <code>tool_use_summary</code></td><td>Long tools</td><td>Elapsed time; card subtitle</td></tr>
+      <tr><td><code>rate_limit_event</code>, <code>auth_status</code>, <code>prompt_suggestion</code></td><td>As they happen</td><td>Banner; login prompt; follow-up chips</td></tr>
+      <tr><td><code>control_request</code>, <code>control_response</code>, <code>control_cancel_request</code>, <code>keep_alive</code></td><td>Control channel</td><td>Not rendered; routed (section 07)</td></tr>
+    </tbody>
+  </table></div>
+  <p class="caption"><code>parent_tool_use_id</code> on any message means it came from a subagent started by that tool call: nest it under that card. Content blocks to render: <code>text</code>, <code>thinking</code>, <code>redacted_thinking</code>, <code>tool_use</code>, <code>server_tool_use</code>, <code>web_search_tool_result</code>, <code>tool_result</code>.</p>
+</section>
+
+<section id="flows">
+  <h2><span class="n">06</span>Message flows</h2>
+  <p class="point">Five sequences cover almost everything the panel does: start, a turn with an approval, interrupt, resume or rewind, and an editor diff.</p>
+
+  <h3>Startup handshake</h3>
+  <div class="frame diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant W as Webview
+  participant H as Plugin host
+  participant C as claude CLI
+  W->>H: open tab
+  H->>H: discover binary, check version
+  H->>C: spawn with stream-json flags
+  H->>C: control_request initialize, hooks, sdkMcpServers
+  C-->>H: control_response commands, models, agents, account, capabilities
+  H-->>W: ready, fill slash menu, model and mode pickers
+  Note over H,C: system/init only arrives with the first user turn
+  </pre></div>
+
+  <h3>A turn with streaming and a tool approval</h3>
+  <div class="frame diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor U as User
+  participant W as Webview
+  participant H as Plugin host
+  participant C as claude CLI
+  participant A as Anthropic API
+  U->>W: type prompt, press Enter
+  W->>H: send text and attachments
+  H->>C: user message
+  C-->>H: system/init
+  C->>A: Messages API request
+  A-->>C: SSE stream
+  C-->>H: stream_event deltas
+  H-->>W: append text live
+  C-->>H: assistant with tool_use Bash
+  C-->>H: control_request can_use_tool
+  H-->>W: approval card on the tool card
+  U->>W: Allow
+  W->>H: approve request_id
+  H->>C: control_response allow, updatedInput
+  C->>C: run tool
+  C-->>H: user with tool_result
+  H-->>W: fill tool card output
+  C->>A: next request with tool result
+  A-->>C: SSE stream
+  C-->>H: assistant final text
+  C-->>H: result with cost and usage
+  H-->>W: turn done
+  </pre></div>
+
+  <h3>Interrupt</h3>
+  <div class="frame diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor U as User
+  participant W as Webview
+  participant H as Plugin host
+  participant C as claude CLI
+  U->>W: Stop button or Esc
+  W->>H: interrupt
+  H->>C: control_request interrupt
+  C-->>H: control_cancel_request for any pending approval
+  H-->>W: close that approval card as cancelled
+  C-->>H: control_response with still_queued and cancelled
+  C-->>H: result error_during_execution
+  H-->>W: mark turn stopped, composer ready
+  </pre></div>
+
+  <h3>Resume, fork and rewind</h3>
+  <div class="frame diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  actor U as User
+  participant H as Plugin host
+  participant F as Session JSONL
+  participant C as claude CLI
+  U->>H: open session from list
+  H->>F: read transcript, render history at once
+  H->>C: spawn with --resume id
+  H->>C: initialize
+  U->>H: Rewind to here, restore code
+  H->>C: rewind_files user_message_id, dry_run true
+  C-->>H: files that would change
+  U->>H: confirm
+  H->>C: rewind_files user_message_id
+  H->>C: close process
+  H->>C: spawn with --resume id --resume-session-at uuid
+  Note over H,C: Fork is the same spawn plus --fork-session, giving a new session id
+  </pre></div>
+
+  <h3>Editor diff through the in-process MCP server</h3>
+  <div class="frame diagram"><pre class="mermaid">
+sequenceDiagram
+  autonumber
+  participant C as claude CLI
+  participant H as Plugin host
+  participant E as Editor
+  actor U as User
+  C-->>H: control_request mcp_message, tools/call openDiff
+  H->>E: open native diff tab
+  U->>E: edit, then Accept
+  E-->>H: saved contents
+  H->>C: control_response with mcp_response FILE_SAVED and final text
+  Note over C,H: Reject returns DIFF_REJECTED and Claude adjusts
+  </pre></div>
+</section>
+
+<section id="control">
+  <h2><span class="n">07</span>Control protocol</h2>
+  <p class="point">Request and response pairs run beside the chat stream in both directions, matched by <code>request_id</code>. Every request gets exactly one response; an unknown subtype is answered with an error so neither side hangs.</p>
+  <div class="codewrap"><div class="bar"><span>Envelope</span></div>
+<pre class="code">{"type":"control_request","request_id":"k3j9x2m1p0q","request":{"subtype":"set_model","model":"opus"}}
+{"type":"control_response","response":{"subtype":"success","request_id":"k3j9x2m1p0q","response":{}}}
+{"type":"control_response","response":{"subtype":"error","request_id":"k3j9x2m1p0q","error":"…","error_code":"…"}}
+{"type":"control_cancel_request","request_id":"k3j9x2m1p0q"}</pre></div>
+
+  <h3><span class="dir tx">→ stdin</span> Host to CLI</h3>
+  <div class="frame"><table>
+    <thead><tr><th>Subtype</th><th>SDK method</th><th>Payload → response</th><th>UI</th><th>Level</th></tr></thead>
+    <tbody>
+      <tr><td><code>initialize</code></td><td>automatic</td><td>hooks, sdkMcpServers, systemPrompt, agents → commands, models, agents, output styles, account, capabilities, <code>current_permission_mode</code>, <code>fast_mode_state</code></td><td>Menus, pickers, account badge</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>interrupt</code></td><td><code>interrupt()</code></td><td>optional <code>cancel_queued</code> → <code>still_queued</code>, <code>cancelled</code></td><td>Stop</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>set_permission_mode</code></td><td><code>setPermissionMode()</code></td><td><code>mode</code></td><td>Mode pill</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>set_model</code></td><td><code>setModel()</code></td><td><code>model</code></td><td>Model picker</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>set_max_thinking_tokens</code></td><td><code>setMaxThinkingTokens()</code></td><td>tokens</td><td>Thinking toggle</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>mcp_status</code>, <code>mcp_set_servers</code>, <code>mcp_toggle</code>, <code>mcp_reconnect</code></td><td><code>mcpServerStatus()</code> etc.</td><td>server list, enable flags</td><td>MCP panel</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>mcp_authenticate</code>, <code>mcp_clear_auth</code></td><td><code>mcpAuthenticate()</code></td><td>serverName → auth URL</td><td>OAuth for remote MCP</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>rewind_files</code></td><td><code>rewindFiles()</code></td><td><code>user_message_id</code>, <code>dry_run</code> → files</td><td>Restore code</td><td><span class="lvl stable">stable</span></td></tr>
+      <tr><td><code>get_context_usage</code></td><td><code>getContextUsage()</code></td><td>→ per-category tokens (makes token-count calls; on demand only)</td><td>Context meter</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>get_settings</code>, <code>update_settings</code></td><td><code>getSettings()</code></td><td>→ merged settings</td><td>Settings view</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>rename_session</code>, <code>generate_session_title</code></td><td><code>renameSession()</code></td><td>title</td><td>Tab titles</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>stop_task</code>, <code>get_task_output</code></td><td><code>stopTask()</code></td><td>task id</td><td>Task cards</td><td><span class="lvl observed">observed</span></td></tr>
+      <tr><td><code>reload_plugins</code>, <code>reload_skills</code></td><td><code>reloadPlugins()</code></td><td>→ then <code>commands_changed</code></td><td>After installs</td><td><span class="lvl observed">observed</span></td></tr>
+    </tbody>
+  </table></div>
+  <p class="caption">Ignore internal subtypes: everything prefixed <code>ui_</code>, remote control, ultrareview, voice, Chrome and cloud sessions.</p>
+
+  <h3><span class="dir rx">← stdout</span> CLI to host</h3>
+  <div class="frame"><table>
+    <thead><tr><th>Subtype</th><th>Key fields</th><th>Host replies with</th><th>Only if</th></tr></thead>
+    <tbody>
+      <tr><td><code>can_use_tool</code></td><td><code>tool_name</code>, <code>input</code>, <code>tool_use_id</code>, <code>permission_suggestions</code>, <code>decision_reason</code>, <code>blocked_path</code>, <code>title</code>, <code>agent_id</code></td><td>allow / deny result (section 08)</td><td><code>--permission-prompt-tool stdio</code></td></tr>
+      <tr><td><code>hook_callback</code></td><td><code>callback_id</code>, <code>input</code>, <code>tool_use_id</code></td><td>hook output JSON</td><td>Hooks registered in <code>initialize</code></td></tr>
+      <tr><td><code>mcp_message</code></td><td><code>server_name</code>, JSON-RPC <code>message</code></td><td><code>{"mcp_response": …}</code></td><td>SDK MCP servers registered</td></tr>
+      <tr><td><code>elicitation</code></td><td><code>mcp_server_name</code>, <code>message</code>, <code>requested_schema</code>, <code>url</code></td><td><code>{"action":"accept"|"decline"|"cancel","content"}</code></td><td>An MCP server asks the user</td></tr>
+      <tr><td><code>request_user_dialog</code></td><td><code>dialog_kind</code>, <code>payload</code></td><td>Kind-specific; unsupported kinds get no reply</td><td>Kinds you declared</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="permissions">
+  <h2><span class="n">08</span>Permissions</h2>
+  <p class="point">The CLI decides whether a tool needs approval; the host only renders the question and returns the user's answer. Never auto-approve in the host: policy lives in CLI settings so the terminal and the panel behave the same.</p>
+  <div class="frame diagram"><pre class="mermaid">
+flowchart TD
+  T["Claude calls a tool"] --> P{"CLI rules and permission mode"}
+  P -->|"allowed"| R["Tool runs"]
+  P -->|"denied by rule"| X["Error returned to Claude"]
+  P -->|"ask"| Q["control_request can_use_tool"]
+  Q --> K["Approval card on the tool card"]
+  K -->|"Allow"| A1["allow + updatedInput"]
+  K -->|"Always allow ..."| A2["allow + updatedPermissions from suggestions"]
+  K -->|"Deny with feedback"| D1["deny + message"]
+  K -->|"Deny and stop"| D2["deny + interrupt true"]
+  A1 --> R
+  A2 --> R
+  D1 --> X
+  D2 --> S["Turn ends"]
+  </pre></div>
+  <div class="frame"><table>
+    <thead><tr><th>Mode</th><th>Behaviour</th><th>Label</th></tr></thead>
+    <tbody>
+      <tr><td><code>default</code></td><td>Ask for edits, shell, anything not allow-listed</td><td>Ask before edits</td></tr>
+      <tr><td><code>acceptEdits</code></td><td>Edits auto-approved; shell still asks</td><td>Edit automatically</td></tr>
+      <tr><td><code>plan</code></td><td>Read-only; ends in an <code>ExitPlanMode</code> request showing the plan</td><td>Plan mode</td></tr>
+      <tr><td><code>bypassPermissions</code></td><td>Nothing asks; hidden unless the user unlocks it</td><td>Bypass</td></tr>
+    </tbody>
+  </table></div>
+  <p class="caption">Read the valid modes from the CLI rather than hard-coding them: 2.1.325 also has <code>auto</code>-mode settings, and a bad <code>set_permission_mode</code> returns the full list.</p>
+  <ul>
+    <li><code>updatedInput</code> is required on allow: the original input, or the user's edited version, with unknown keys kept.</li>
+    <li>Only send <code>updatedPermissions</code> taken from that request's <code>permission_suggestions</code>; drop a <code>setMode: bypassPermissions</code> suggestion unless the user unlocked bypass.</li>
+    <li><code>AskUserQuestion</code> is answered with allow and <code>updatedInput</code> = input plus <code>answers</code>. <code>ExitPlanMode</code> approve = allow then <code>set_permission_mode</code>; keep planning = deny with feedback.</li>
+    <li>A <code>control_cancel_request</code> for a pending approval closes its card as "cancelled".</li>
+  </ul>
+</section>
+
+<section id="slash">
+  <h2><span class="n">09</span>Slash commands</h2>
+  <p class="point">The CLI owns slash commands. The host lists them from <code>initialize.commands</code>, sends the chosen one as the text of a normal user message, and handles a few in its own UI where a panel is better than text.</p>
+  <div class="frame diagram"><pre class="mermaid">
+flowchart LR
+  I["initialize.commands"] --> M["Slash menu"]
+  CC["system/commands_changed"] --> M
+  HC["Host-only commands"] --> M
+  M --> D{"Handled by host UI?"}
+  D -->|"yes"| P["Open panel, use control requests"]
+  D -->|"no"| U["user message text: /name args"]
+  U --> K{"Kind inside the CLI"}
+  K -->|"skill, custom or plugin command"| G["Expands to a prompt, normal turn"]
+  K -->|"built-in local command"| L["Runs in the CLI, reports via system messages and result"]
+  </pre></div>
+  <h3>Command record</h3>
+  <div class="codewrap"><div class="bar"><span>initialize.commands[] · 2.1.325 hermetic probe</span></div>
+<pre class="code">{ "name": "compact", "description": "Free up context by summarizing the conversation so far",
+  "argumentHint": "&lt;optional custom summarization instructions&gt;", "builtin": true }
+
+{ "name": "clear", "description": "Start a new session with empty context; previous session stays on disk (resumable with /resume)",
+  "argumentHint": "[name]", "aliases": ["reset", "new"], "builtin": true }
+
+// "aliases" appears on some entries; the reference webview also reads "plugin" on plugin-provided commands</pre></div>
+  <ul>
+    <li>Show <code>/name</code>, the description and <code>argumentHint</code>. When two commands share a name, insert the plugin-qualified alias (<code>plugin:name</code>), as the reference does.</li>
+    <li>Treat <code>builtin</code> as optional: the 2.1.278 probe showed it missing on plugin commands.</li>
+    <li>The list depends on auth mode, plugins and skills: 44 commands in the 2.1.325 API-key probe, 58 in a logged-in 2.1.278 run. Never hard-code it.</li>
+  </ul>
+  <h3>Routing</h3>
+  <div class="frame"><table>
+    <thead><tr><th>Command</th><th>Route</th><th>Mechanism</th></tr></thead>
+    <tbody>
+      <tr><td><code>/compact [instructions]</code></td><td>Send as text</td><td>CLI emits <code>system/status</code> compacting, then <code>compact_boundary</code></td></tr>
+      <tr><td><code>/init</code>, <code>/code-review</code>, <code>/security-review</code>, skills, custom <code>.claude/commands</code></td><td>Send as text</td><td>Expanded into a prompt; a normal turn with tools and approvals</td></tr>
+      <tr><td><code>/model</code></td><td>Host UI</td><td>Model picker from <code>initialize.models</code> → <code>set_model</code></td></tr>
+      <tr><td><code>/mcp</code></td><td>Host UI</td><td>MCP panel → <code>mcp_status</code>, <code>mcp_toggle</code>, <code>mcp_authenticate</code></td></tr>
+      <tr><td><code>/context</code>, <code>/usage</code></td><td>Host UI (reference opens a dialog)</td><td><code>get_context_usage</code>; usage from <code>result</code> and rate-limit events</td></tr>
+      <tr><td><code>/clear</code></td><td>Host</td><td>Start a new session tab (new process) rather than reusing the old one</td></tr>
+      <tr><td><code>/rename</code></td><td>Host UI</td><td><code>rename_session</code></td></tr>
+      <tr><td><code>/resume</code>, <code>/rewind</code>, <code>/export</code></td><td>Host UI</td><td>Session list, rewind flow (section 10), Markdown export</td></tr>
+      <tr><td><code>/login</code>, <code>/logout</code></td><td>Host</td><td>Open <code>claude</code> in a terminal; never take credentials in the panel</td></tr>
+      <tr><td><code>/effort</code>, <code>/fast</code></td><td>Host UI</td><td>Restart-free where a control request exists; otherwise applied on next spawn</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="sessions">
+  <h2><span class="n">10</span>Sessions</h2>
+  <p class="point">The CLI persists each session as JSONL; the host keeps only a small index for titles, pins and archive state, and renders history straight from the files.</p>
+  <div class="frame"><table>
+    <thead><tr><th>Operation</th><th>Mechanism</th><th>UI</th></tr></thead>
+    <tbody>
+      <tr><td>Storage</td><td><code>$CLAUDE_CONFIG_DIR/projects/&lt;cwd with / → -&gt;/&lt;sessionId&gt;.jsonl</code> (default <code>~/.claude</code>); entries carry <code>uuid</code> and <code>parentUuid</code></td><td>Read-only; read head and tail for the list</td></tr>
+      <tr><td>New</td><td>Spawn without <code>--resume</code></td><td>New tab</td></tr>
+      <tr><td>Resume</td><td><code>--resume &lt;id&gt;</code></td><td>Session list</td></tr>
+      <tr><td>Continue last</td><td><code>--continue</code></td><td>Command palette</td></tr>
+      <tr><td>Fork</td><td><code>--resume &lt;id&gt; --fork-session</code></td><td>"Fork from here"</td></tr>
+      <tr><td>Rewind conversation</td><td>Respawn with <code>--resume-session-at &lt;uuid&gt;</code></td><td>"Rewind to here"</td></tr>
+      <tr><td>Rewind code</td><td><code>rewind_files</code> (dry run first); needs file checkpointing</td><td>"Restore code" checkbox</td></tr>
+      <tr><td>Archive</td><td><code>archiveSession</code> / <code>unarchiveSession</code> (SDK exports, new in 0.3.325)</td><td>Context menu</td></tr>
+      <tr><td>Title</td><td><code>generate_session_title</code>, <code>rename_session</code></td><td>Inline edit</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout">Edit-and-resend of an earlier message is a rewind to just before it, followed by a new user message. Disable rewind while a turn runs, and focus an existing tab instead of opening a second process on the same session.</div>
+</section>
+
+<section id="editor">
+  <h2><span class="n">11</span>Editor integration</h2>
+  <p class="point">Context travels on the user message; actions are tools Claude calls on an MCP server the host runs in-process.</p>
+  <div class="frame"><table>
+    <thead><tr><th>Tool (<code>mcp__ide__…</code>)</th><th>Input</th><th>Returns</th></tr></thead>
+    <tbody>
+      <tr><td><code>openDiff</code></td><td><code>old_file_path</code>, <code>new_file_path</code>, <code>new_file_contents</code>, <code>tab_name</code></td><td><code>FILE_SAVED</code> + final text, or <code>DIFF_REJECTED</code>; blocks until the user decides</td></tr>
+      <tr><td><code>getDiagnostics</code></td><td>optional <code>uri</code></td><td>Errors and warnings per file</td></tr>
+      <tr><td><code>getCurrentSelection</code>, <code>getLatestSelection</code></td><td>none</td><td>File, range, text</td></tr>
+      <tr><td><code>getOpenEditors</code>, <code>getWorkspaceFolders</code></td><td>none</td><td>Tabs with dirty state; roots</td></tr>
+      <tr><td><code>openFile</code>, <code>checkDocumentDirty</code>, <code>saveDocument</code></td><td><code>filePath</code></td><td>Reveal; dirty flag; save</td></tr>
+      <tr><td><code>close_tab</code>, <code>closeAllDiffTabs</code></td><td><code>tab_name</code></td><td>Cleanup</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><strong>Attachments:</strong> selection (toggle chip), active file path, <code>@</code> mentions, pasted images as <code>image</code> blocks.</li>
+    <li><strong>Host hooks</strong> (as the reference does): <code>PreToolUse</code> on <code>Edit|Write|MultiEdit</code> captures a baseline for the diff; <code>PreToolUse</code> on <code>Edit|Write|Read</code> saves dirty buffers; <code>PostToolUse</code> collects new diagnostics.</li>
+    <li><strong>Terminal attach (path C):</strong> also serve the same tools on <code>127.0.0.1</code> with a random port and a per-session token in a user-only lockfile; the reference uses <code>CLAUDE_CODE_SSE_PORT</code> and an <code>x-claude-code-ide-authorization</code> header.</li>
+  </ul>
+</section>
+
+<section id="features">
+  <h2><span class="n">12</span>Feature map</h2>
+  <p class="point">Every panel feature traced to the protocol piece that powers it. P0 ships first; P1 reaches parity with the official panel.</p>
+  <div class="frame"><table>
+    <thead><tr><th>Feature</th><th>Powered by</th><th>Priority</th></tr></thead>
+    <tbody>
+      <tr><td>Streaming markdown with code actions</td><td><code>stream_event</code> → <code>assistant</code></td><td>P0</td></tr>
+      <tr><td>Thinking rows</td><td><code>thinking_delta</code>, <code>thinking</code>, <code>redacted_thinking</code></td><td>P0</td></tr>
+      <tr><td>Tool cards (Bash, Read, Edit first)</td><td><code>tool_use</code>, <code>tool_result</code>, <code>tool_progress</code></td><td>P0</td></tr>
+      <tr><td>Approval cards</td><td><code>can_use_tool</code></td><td>P0</td></tr>
+      <tr><td>Stop</td><td><code>interrupt</code></td><td>P0</td></tr>
+      <tr><td>Slash menu, <code>@</code> mentions, attachment chips</td><td><code>initialize.commands</code>, host file search</td><td>P0</td></tr>
+      <tr><td>Mode pill, model picker</td><td><code>set_permission_mode</code>, <code>set_model</code>, <code>initialize.models</code></td><td>P0</td></tr>
+      <tr><td>Error rows, usage banner</td><td><code>result.is_error</code>, <code>api_error_type</code>, <code>rate_limit_event</code></td><td>P0</td></tr>
+      <tr><td>Session list, resume, restart</td><td>JSONL files, <code>--resume</code></td><td>P0</td></tr>
+      <tr><td>Native diffs</td><td>Editor MCP <code>openDiff</code>, host hooks</td><td>P1</td></tr>
+      <tr><td>Subagent and task cards</td><td><code>parent_tool_use_id</code>, <code>task_*</code>, <code>stop_task</code></td><td>P1</td></tr>
+      <tr><td>Todo panel, plan card, questions</td><td><code>TodoWrite</code>, <code>ExitPlanMode</code>, <code>AskUserQuestion</code></td><td>P1</td></tr>
+      <tr><td>Context meter</td><td><code>modelUsage.contextWindow</code>, <code>get_context_usage</code></td><td>P1</td></tr>
+      <tr><td>Rewind and fork</td><td><code>rewind_files</code>, <code>--resume-session-at</code>, <code>--fork-session</code></td><td>P1</td></tr>
+      <tr><td>MCP panel</td><td><code>mcp_status</code>, <code>mcp_toggle</code>, <code>mcp_authenticate</code></td><td>P1</td></tr>
+      <tr><td>Queued messages</td><td>User message mid-turn; <code>interrupt</code> with <code>cancel_queued</code></td><td>P1</td></tr>
+      <tr><td>Prompt suggestions</td><td><code>prompt_suggestion</code></td><td>P2</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="errors">
+  <h2><span class="n">13</span>Errors and recovery</h2>
+  <p class="point">Check <code>is_error</code>, never <code>subtype</code> alone: API failures arrive as <code>result</code> with <code>subtype: "success"</code> and <code>is_error: true</code>.</p>
+  <div class="frame"><table>
+    <thead><tr><th>Failure</th><th>Signal</th><th>UI</th></tr></thead>
+    <tbody>
+      <tr><td>API error 429 / 529 / 500 / 400</td><td><code>is_error: true</code>, <code>api_error_status</code>, <code>terminal_reason</code>, and from 2.1.325 <code>api_error_type</code> (<code>rate_limit_error</code>, <code>overloaded_error</code>, <code>api_error</code>, <code>invalid_request_error</code>)</td><td>Error row with Retry; copy chosen from <code>api_error_type</code></td></tr>
+      <tr><td>Interrupted</td><td><code>result</code> <code>error_during_execution</code></td><td>"Stopped" marker</td></tr>
+      <tr><td>Max turns or budget</td><td><code>error_max_turns</code>, <code>error_max_budget_usd</code></td><td>Notice + Continue</td></tr>
+      <tr><td>Not logged in / login expiring</td><td><code>auth_status</code>, empty <code>account</code>, <code>credential_expires_at</code> (2.1.325)</td><td>"Log in" opens <code>claude</code> in a terminal</td></tr>
+      <tr><td>Startup failure</td><td>Failure <code>result</code> with reason: <code>config_file_invalid</code>, <code>initialize_not_first</code>, <code>managed_settings_not_delivered</code>, <code>sandbox_required_unavailable</code> and others</td><td>Setup card; link to <code>invalid_config_file</code></td></tr>
+      <tr><td>Process exit mid-turn</td><td>Child <code>exit</code></td><td>Keep transcript; Restart = respawn with <code>--resume</code></td></tr>
+      <tr><td>Bad or unknown line</td><td>JSON parse error, unknown type</td><td>Log once per type; never kill the session</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="drift">
+  <h2><span class="n">14</span>Version drift</h2>
+  <p class="point">The protocol changes every release, often without a changelog line. A nightly job diffs each new CLI against the shipped one before you upgrade.</p>
+  <ul>
+    <li><strong>Free signals:</strong> the SDK's <code>sdk.d.ts</code> (SDK 0.3.N ships with CLI 2.1.N), the settings schema, <code>--help</code> and binary strings, a control-only <code>initialize</code> probe, and 14 scenarios against a local fake Messages API.</li>
+    <li><strong>Triage:</strong> join the diff with a generated list of what the plugin consumes; classify Breaking, Renders badly, Adoption, Ignorable, Unclassified.</li>
+    <li><strong>2.1.311 → 2.1.325 result:</strong> no breaking changes; adopt <code>api_error_type</code>, <code>credential_expires_at</code>, <code>invalid_config_file</code>, session archive; render <code>session_writes_lost</code> and new startup failure reasons; tolerate the new <code>control_closed</code> type.</li>
+    <li><strong>In the plugin:</strong> feature-detect from <code>initialize</code> instead of version checks; try an Observed subtype once and remember "Unsupported control request subtype"; log unknown message fingerprints.</li>
+  </ul>
+</section>
+
+</main>
+</div>
+
+<script>
+document.querySelectorAll("button.copy").forEach(function (b) {
+  b.addEventListener("click", function () {
+    var el = document.getElementById(b.getAttribute("data-copy"));
+    var text = el ? el.textContent : "";
+    var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); };
+    try {
+      navigator.clipboard.writeText(text).then(done, function () { selectText(el); });
+    } catch (e) { selectText(el); }
+  });
+});
+function selectText(el) {
+  if (!el) return;
+  var r = document.createRange(); r.selectNodeContents(el);
+  var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+}
+</script>

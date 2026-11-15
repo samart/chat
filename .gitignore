@@ -1,0 +1,18 @@
+# Large third-party binaries and unpacked packages (re-downloadable; see README)
+reference/cli-bins/
+reference/vsix-2.1.325/
+reference/sdk-pkgs/
+tools/ts/node_modules/
+# Hermetic run state (throwaway config dirs written by the CLI under test)
+verification/runs/**/config/
+verification/runs/**/cwd/
+reference/vsix-2.1.311/
+research/parity/*.pretty.js
+verification/runs/**/home/
+# Captured runs containing personal account info (kept local only)
+verification/runs/2.1.278/isolated/results.json
+verification/runs/2.1.278/isolated/transcript.ndjson
+verification/runs/2.1.278/oauth-baseurl/results.json
+verification/runs/2.1.278/oauth-baseurl/transcript.ndjson
+verification/runs/2.1.278/user-nomcp/results.json
+verification/runs/2.1.278/user-nomcp/transcript.ndjson

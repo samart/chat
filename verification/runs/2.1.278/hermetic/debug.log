@@ -1,0 +1,182 @@
+2026-11-15T17:51:22.423Z [DEBUG] MDM settings load completed in 0ms
+2026-11-15T17:51:22.425Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:51:22.425Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: none
+2026-11-15T17:51:22.426Z [DEBUG] [init] configureGlobalMTLS starting
+2026-11-15T17:51:22.426Z [DEBUG] [init] configureGlobalMTLS complete
+2026-11-15T17:51:22.426Z [DEBUG] [init] configureGlobalAgents starting
+2026-11-15T17:51:22.426Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-11-15T17:51:22.426Z [DEBUG] CA certs: Loaded 121 bundled root certificates
+2026-11-15T17:51:22.435Z [DEBUG] CA certs: system store returned empty
+2026-11-15T17:51:22.435Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:51:22.435Z [DEBUG] [init] configureGlobalAgents complete
+2026-11-15T17:51:22.435Z [DEBUG] Git remote URL: null
+2026-11-15T17:51:22.435Z [DEBUG] No git remote URL found
+2026-11-15T17:51:22.436Z [DEBUG] Error log sink initialized
+2026-11-15T17:51:22.436Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/settings.json
+2026-11-15T17:51:22.456Z [ERROR] Failed to save config with lock: Error: ENOENT: no such file or directory, lstat '/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json'
+2026-11-15T17:51:22.456Z [DEBUG] Setting permissions for new file: 600
+2026-11-15T17:51:22.456Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.56230688c6eb
+2026-11-15T17:51:22.456Z [DEBUG] Temp file written successfully, size: 84 bytes
+2026-11-15T17:51:22.456Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.56230688c6eb to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.456Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.457Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:51:22.457Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.002ecc477429
+2026-11-15T17:51:22.457Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:51:22.457Z [DEBUG] Temp file written successfully, size: 167 bytes
+2026-11-15T17:51:22.457Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.002ecc477429 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.457Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.458Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:51:22.458Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.3b4e5da37699
+2026-11-15T17:51:22.458Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:51:22.458Z [DEBUG] Temp file written successfully, size: 203 bytes
+2026-11-15T17:51:22.458Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.3b4e5da37699 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.458Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.458Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:51:22.458Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.4b466e11b930
+2026-11-15T17:51:22.458Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:51:22.458Z [DEBUG] Temp file written successfully, size: 242 bytes
+2026-11-15T17:51:22.458Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.4b466e11b930 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.459Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.459Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:51:22.459Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.9bc673402e1c
+2026-11-15T17:51:22.459Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:51:22.459Z [DEBUG] Temp file written successfully, size: 269 bytes
+2026-11-15T17:51:22.459Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.9bc673402e1c to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.459Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.460Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:51:22.460Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.13ec2f653c57
+2026-11-15T17:51:22.460Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:51:22.460Z [DEBUG] Temp file written successfully, size: 317 bytes
+2026-11-15T17:51:22.460Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.13ec2f653c57 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.460Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.460Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:51:22.460Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.21bb0d412006
+2026-11-15T17:51:22.460Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:51:22.460Z [DEBUG] Temp file written successfully, size: 343 bytes
+2026-11-15T17:51:22.460Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.21bb0d412006 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.461Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.464Z [DEBUG] [Claude in Chrome] Disabled: OAuth token has no scope accepted by /api/oauth/validate (needs user:profile, user:office, or user:ccr_inference; env-var and setup-token sessions default to user:inference only)
+2026-11-15T17:51:22.473Z [DEBUG] [ToolSearch:optimistic] disabled: ANTHROPIC_BASE_URL=http://127.0.0.1:8787 is not a first-party Anthropic host. Set ENABLE_TOOL_SEARCH=true (or auto / auto:N) if your proxy forwards tool_reference blocks.
+2026-11-15T17:51:22.474Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic/.claude/settings.json
+2026-11-15T17:51:22.474Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic/.claude/settings.local.json
+2026-11-15T17:51:22.474Z [DEBUG] [STARTUP] Loading MCP configs...
+2026-11-15T17:51:22.474Z [DEBUG] [STARTUP] Running setup()...
+2026-11-15T17:51:22.477Z [DEBUG] installed_plugins.json doesn't exist, returning empty V2 object
+2026-11-15T17:51:22.477Z [DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+2026-11-15T17:51:22.477Z [DEBUG] getPluginSkills: Processing 0 enabled plugins
+2026-11-15T17:51:22.477Z [DEBUG] Total plugin workflows loaded: 0
+2026-11-15T17:51:22.477Z [DEBUG] Total plugin commands loaded: 0
+2026-11-15T17:51:22.477Z [DEBUG] Total plugin skills loaded: 0 (0 duplicate/user-owned entries skipped)
+2026-11-15T17:51:22.477Z [DEBUG] Loading skills from: managed=/Library/Application Support/ClaudeCode/.claude/skills, user=/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/skills, project=[]
+2026-11-15T17:51:22.477Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/agents: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/agents'
+2026-11-15T17:51:22.478Z [DEBUG] Total plugin agents loaded: 0
+2026-11-15T17:51:22.478Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/commands: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/commands'
+2026-11-15T17:51:22.478Z [DEBUG] Loaded 0 unique skills (0 unconditional, 0 conditional, managed: 0, user: 0, project: 0, additional: 0, legacy commands: 0)
+2026-11-15T17:51:22.479Z [INFO] [uds-messaging] Listening: /tmp/cc-socks/12937.sock
+2026-11-15T17:51:22.479Z [INFO] [uds-messaging] Inject messages (auth line optional here): { echo '{"type":"auth","token":"[REDACTED]"$CLAUDE_CODE_MESSAGING_TOKEN"'"}'; echo '{"type":"user","message":{"role":"user","content":"hello"}}'; } | socat - UNIX-CONNECT:/tmp/cc-socks/12937.sock
+2026-11-15T17:51:22.480Z [INFO] [uds-messaging] Connect when the data is ready (e.g. out=$(cmd); printf '%s\n' "$out" | nc -U "$CLAUDE_CODE_MESSAGING_SOCKET" — or the socat form above): a connection that sends no complete line within 30000 ms is closed
+2026-11-15T17:51:22.480Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:51:22.480Z [DEBUG] Error log sink initialized
+2026-11-15T17:51:22.480Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic/.claude/settings.json
+2026-11-15T17:51:22.481Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/settings.json
+2026-11-15T17:51:22.481Z [DEBUG] installed plugins' hooks modules not loaded: rollout flag (tengu_plugin_hooks_modules) is off, from the default (GrowthBook is off for this session: a third-party provider, or telemetry opted out); built-in plugins load regardless
+2026-11-15T17:51:22.481Z [DEBUG] sec-default@builtin not seated: installed plugins' hooks modules are off in this process
+2026-11-15T17:51:22.481Z [DEBUG] Registered 0 hooks from 0 plugins
+2026-11-15T17:51:22.481Z [DEBUG] [STARTUP] setup() completed in 7ms
+2026-11-15T17:51:22.481Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T17:51:22.481Z [DEBUG] Cleared proxy agent cache
+2026-11-15T17:51:22.481Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:51:22.482Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic/.claude/settings.local.json
+2026-11-15T17:51:22.482Z [DEBUG] [STARTUP] Loading commands and agents...
+2026-11-15T17:51:22.483Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 40 bundled skills, 0 builtin plugin skills
+2026-11-15T17:51:22.485Z [DEBUG] [STARTUP] Commands and agents loaded in 3ms
+2026-11-15T17:51:22.485Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-11-15T17:51:22.485Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-11-15T17:51:22.485Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2026-11-15T17:51:22.485Z [DEBUG] Starting background startup prefetches
+2026-11-15T17:51:22.485Z [DEBUG] [Bootstrap] Skipped: Nonessential traffic disabled
+2026-11-15T17:51:22.500Z [DEBUG] [STARTUP] MCP configs resolved in 0ms (awaited at +26ms)
+2026-11-15T17:51:22.500Z [DEBUG] Total LSP servers loaded: 0
+2026-11-15T17:51:22.501Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2026-11-15T17:51:22.501Z [DEBUG] LSP manager initialized with 0 servers
+2026-11-15T17:51:22.501Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T17:51:22.501Z [DEBUG] Cleared proxy agent cache
+2026-11-15T17:51:22.501Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:51:22.501Z [DEBUG] LSP server manager initialized successfully
+2026-11-15T17:51:22.502Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2026-11-15T17:51:22.502Z [DEBUG] Initialized versioned plugins system with 0 plugins
+2026-11-15T17:51:22.502Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:51:22.502Z [DEBUG] [MCP] --mcp-config servers running fully async (nonblocking)
+2026-11-15T17:51:22.502Z [DEBUG] [MCP] claude.ai connectors running fully async (nonblocking)
+2026-11-15T17:51:22.504Z [DEBUG] [auto-mode] verifyAutoModeGateAccess: enabledState=enabled disabledBySettings=false model=claude-haiku-4-5-20251001 modelSupported=false disableFastModeBreakerFires=false carouselAvailable=false canEnterAuto=false
+2026-11-15T17:51:22.504Z [WARN] auto mode disabled: model claude-haiku-4-5-20251001 does not support auto mode
+2026-11-15T17:51:22.504Z [DEBUG] [auto-mode] kickOutOfAutoIfNeeded applying: ctx.mode=default ctx.prePlanMode=undefined reason=model
+2026-11-15T17:51:22.504Z [DEBUG] [auto-mode] verifyAutoModeGateAccess setAvailable: true -> false
+2026-11-15T17:51:22.504Z [DEBUG] [servedCatalog] off (essential_traffic)
+2026-11-15T17:51:22.506Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-11-15T17:51:22.506Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+2026-11-15T17:51:22.508Z [DEBUG] Plugin autoupdate: command-source refresh disabled by tengu_plugin_command_source_refresh (still excluding command-sourced plugins from the regular pass)
+2026-11-15T17:51:22.509Z [DEBUG] Plugin autoupdate: skipped (auto-updater disabled)
+2026-11-15T17:51:22.512Z [DEBUG] [ScheduledTasks] scheduler start() — enabled=false, hasTasks=false
+2026-11-15T17:51:22.513Z [DEBUG] mcp runtime arm: v2 (source: default)
+2026-11-15T17:51:22.520Z [DEBUG] session.start: raised (surface none, not interactive)
+2026-11-15T17:51:22.520Z [DEBUG] [claudeai-mcp] Disabled: API-key auth precedence active
+2026-11-15T17:51:22.524Z [DEBUG] installPluginsForHeadless: starting
+2026-11-15T17:51:22.524Z [DEBUG] installPluginsForHeadless: no marketplaces declared
+2026-11-15T17:51:22.525Z [DEBUG] [sessionRegistry] sweep permitted (domain darwin)
+2026-11-15T17:51:22.525Z [DEBUG] MCP server "probe_stdio": Starting connection with timeout of 30000ms
+2026-11-15T17:51:22.526Z [DEBUG] MCP server "probe_broken": Starting connection with timeout of 30000ms
+2026-11-15T17:51:22.527Z [WARN] [3P telemetry] Event dropped (no event logger initialized): mcp_server_connection
+2026-11-15T17:51:22.527Z [DEBUG] MCP server "probe_broken": Connection failed after 0ms (ENOENT): ENOENT: no such file or directory, posix_spawn 'stdio'
+2026-11-15T17:51:22.527Z [ERROR] MCP server "probe_broken" Connection failed (ENOENT): ENOENT: no such file or directory, posix_spawn 'stdio'
+2026-11-15T17:51:22.527Z [DEBUG] Ripgrep first use test: PASSED (mode=embedded, path=/opt/homebrew/lib/node_modules/@anthropic-ai/claude-code/bin/claude.exe)
+2026-11-15T17:51:22.528Z [DEBUG] "rg error (signal=undefined, code=2, stderr: rg: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/plugins/cache: IO error for operation on /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/plugins/cache: No such file or directory (os error 2)\n), 0 results"
+2026-11-15T17:51:22.528Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/output-styles: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/output-styles'
+2026-11-15T17:51:22.528Z [DEBUG] Total plugin output styles loaded: 0
+2026-11-15T17:51:22.529Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:51:22.529Z [DEBUG] Watching /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic for /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic/.claude to appear
+2026-11-15T17:51:22.529Z [DEBUG] Watching for changes in setting files /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/settings.json...
+2026-11-15T17:51:22.530Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:51:22.530Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.7e23dfd85d42
+2026-11-15T17:51:22.530Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:51:22.531Z [DEBUG] Temp file written successfully, size: 423 bytes
+2026-11-15T17:51:22.531Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json.tmp.12937.7e23dfd85d42 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json
+2026-11-15T17:51:22.532Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/.claude.json written atomically
+2026-11-15T17:51:22.537Z [DEBUG] Git remote URL: null
+2026-11-15T17:51:22.537Z [DEBUG] No git remote URL found
+2026-11-15T17:51:22.549Z [DEBUG] MCP server "probe_stdio": Successfully connected (transport: stdio) in 24ms
+2026-11-15T17:51:22.550Z [DEBUG] MCP server "probe_stdio": Connection established with capabilities: {"hasTools":true,"hasPrompts":false,"hasResources":false,"hasResourceSubscribe":false,"serverVersion":{"name":"fake-mcp","version":"0.0.1"},"protocolEra":"legacy","negotiatedProtocolVersion":"2025-11-25"}
+2026-11-15T17:51:22.550Z [DEBUG] [MCP] Server "probe_stdio" connected with subscribe=false
+2026-11-15T17:51:22.835Z [DEBUG] [fs.watch probe] verdict: delivers
+2026-11-15T17:51:25.036Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:51:25.038Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/hermetic/config/settings.json
+2026-11-15T17:51:25.043Z [DEBUG] act_dont_rederive_arm_active source=growthbook
+2026-11-15T17:51:25.058Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.058Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.058Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.058Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.059Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.060Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.060Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.060Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.060Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.060Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.060Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.066Z [DEBUG] [API REQUEST] /v1/messages/count_tokens source=count_tokens
+2026-11-15T17:51:25.068Z [INFO] [prepareContextForPlanMode] plain plan entry, prePlanMode=default
+2026-11-15T17:51:25.071Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic/.claude/settings.json
+2026-11-15T17:51:25.071Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-hermetic/.claude/settings.local.json
+2026-11-15T17:51:25.071Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:51:26.576Z [DEBUG] MCP server "probe_stdio": Sending SIGINT to MCP server process
+2026-11-15T17:51:26.577Z [DEBUG] MCP server "probe_stdio": STDIO connection closed after 4s (cleanly)
+2026-11-15T17:51:26.578Z [DEBUG] MCP server "probe_stdio": Cleared connection cache for reconnection
+2026-11-15T17:51:26.628Z [DEBUG] MCP server "probe_stdio": MCP server process exited cleanly
+2026-11-15T17:51:26.629Z [DEBUG] [uds-messaging] Shutting down
+2026-11-15T17:51:26.630Z [DEBUG] LSP server manager shut down successfully

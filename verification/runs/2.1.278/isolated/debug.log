@@ -1,0 +1,198 @@
+2026-11-15T17:45:07.226Z [DEBUG] MDM settings load completed in 0ms
+2026-11-15T17:45:07.228Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:45:07.259Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: none
+2026-11-15T17:45:07.260Z [DEBUG] [init] configureGlobalMTLS starting
+2026-11-15T17:45:07.260Z [DEBUG] [init] configureGlobalMTLS complete
+2026-11-15T17:45:07.260Z [DEBUG] [init] configureGlobalAgents starting
+2026-11-15T17:45:07.260Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-11-15T17:45:07.260Z [DEBUG] CA certs: Loaded 121 bundled root certificates
+2026-11-15T17:45:07.269Z [DEBUG] CA certs: system store returned empty
+2026-11-15T17:45:07.269Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:45:07.269Z [DEBUG] [init] configureGlobalAgents complete
+2026-11-15T17:45:07.270Z [DEBUG] Git remote URL: null
+2026-11-15T17:45:07.270Z [DEBUG] No git remote URL found
+2026-11-15T17:45:07.270Z [DEBUG] Error log sink initialized
+2026-11-15T17:45:07.284Z [DEBUG] [ToolSearch:optimistic] mode=tst, ENABLE_TOOL_SEARCH=undefined, result=true
+2026-11-15T17:45:07.284Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated/.claude/settings.json
+2026-11-15T17:45:07.284Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated/.claude/settings.local.json
+2026-11-15T17:45:07.284Z [DEBUG] [STARTUP] Loading MCP configs...
+2026-11-15T17:45:07.285Z [DEBUG] [STARTUP] Running setup()...
+2026-11-15T17:45:07.291Z [DEBUG] Loaded 10 installed plugins from /Users/user/.claude/plugins/installed_plugins.json
+2026-11-15T17:45:07.291Z [DEBUG] Found 1 plugins (1 enabled, 0 disabled)
+2026-11-15T17:45:07.291Z [DEBUG] getPluginSkills: Processing 1 enabled plugins
+2026-11-15T17:45:07.291Z [DEBUG] Checking plugin agents-md: skillsPath=none, skillsPaths=0 paths
+2026-11-15T17:45:07.291Z [DEBUG] Total plugin workflows loaded: 0
+2026-11-15T17:45:07.292Z [DEBUG] Total plugin commands loaded: 0
+2026-11-15T17:45:07.292Z [DEBUG] Total plugin skills loaded: 0 (0 duplicate/user-owned entries skipped)
+2026-11-15T17:45:07.292Z [DEBUG] Loading skills from: managed=/Library/Application Support/ClaudeCode/.claude/skills, user=/Users/user/.claude/skills, project=[]
+2026-11-15T17:45:07.294Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/agents: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/agents'
+2026-11-15T17:45:07.294Z [DEBUG] Total plugin agents loaded: 0
+2026-11-15T17:45:07.294Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/commands: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/commands'
+2026-11-15T17:45:07.295Z [DEBUG] Loaded 0 unique skills (0 unconditional, 0 conditional, managed: 0, user: 0, project: 0, additional: 0, legacy commands: 0)
+2026-11-15T17:45:07.297Z [INFO] [uds-messaging] Listening: /tmp/cc-socks/9952.sock
+2026-11-15T17:45:07.297Z [INFO] [uds-messaging] Inject messages (auth line optional here): { echo '{"type":"auth","token":"[REDACTED]"$CLAUDE_CODE_MESSAGING_TOKEN"'"}'; echo '{"type":"user","message":{"role":"user","content":"hello"}}'; } | socat - UNIX-CONNECT:/tmp/cc-socks/9952.sock
+2026-11-15T17:45:07.297Z [INFO] [uds-messaging] Connect when the data is ready (e.g. out=$(cmd); printf '%s\n' "$out" | nc -U "$CLAUDE_CODE_MESSAGING_SOCKET" — or the socat form above): a connection that sends no complete line within 30000 ms is closed
+2026-11-15T17:45:07.298Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:45:07.298Z [DEBUG] Error log sink initialized
+2026-11-15T17:45:07.298Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated/.claude/settings.json
+2026-11-15T17:45:07.306Z [DEBUG] installed plugins' hooks modules not loaded: rollout flag (tengu_plugin_hooks_modules) is off, from GrowthBook (the disk cache of an earlier session); built-in plugins load regardless
+2026-11-15T17:45:07.307Z [DEBUG] sec-default@builtin not seated: installed plugins' hooks modules are off in this process
+2026-11-15T17:45:07.322Z [DEBUG] plugin agents-md: no pluginConfigs["agents-md@builtin"].options in user, --settings or managed settings (project settings are not read); every option is its default
+2026-11-15T17:45:07.322Z [DEBUG] hooks module agents-md@builtin loaded (native, environment 1, tier builtin); events: session.start,prompt.context,agent.spawn,tool.call
+2026-11-15T17:45:07.323Z [DEBUG] engine.create: no plugin-provided interfaces; $ built for agents-md
+2026-11-15T17:45:07.323Z [DEBUG] plugin.register: agents-md (builtin, agents-md@builtin), judged by core alone: admitted
+2026-11-15T17:45:07.323Z [DEBUG] Registered 0 hooks from 1 plugins
+2026-11-15T17:45:07.325Z [DEBUG] [STARTUP] setup() completed in 40ms
+2026-11-15T17:45:07.325Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T17:45:07.325Z [DEBUG] Cleared proxy agent cache
+2026-11-15T17:45:07.325Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:45:07.326Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated/.claude/settings.local.json
+2026-11-15T17:45:07.326Z [DEBUG] [STARTUP] Loading commands and agents...
+2026-11-15T17:45:07.328Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 40 bundled skills, 0 builtin plugin skills
+2026-11-15T17:45:07.329Z [DEBUG] Artifact input schema built: capabilities=true comments=true db=true assets=true files=true types=true type_catalog=true read_page_data=false room=false verify=false delete=true copy_from=true preview=false open=true endpoints=false pin=true flag_source=disk gb_fresh=false assets_source=disk
+2026-11-15T17:45:07.332Z [DEBUG] [STARTUP] Commands and agents loaded in 6ms
+2026-11-15T17:45:07.333Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-11-15T17:45:07.333Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-11-15T17:45:07.333Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2026-11-15T17:45:07.333Z [DEBUG] Starting background startup prefetches
+2026-11-15T17:45:07.333Z [DEBUG] [Bootstrap] Fetching
+2026-11-15T17:45:07.336Z [DEBUG] Passes: Using fresh cached eligibility data
+2026-11-15T17:45:07.336Z [DEBUG] [STARTUP] MCP configs resolved in 1ms (awaited at +52ms)
+2026-11-15T17:45:07.337Z [DEBUG] mcp runtime arm: v2 (source: growthbook)
+2026-11-15T17:45:07.345Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T17:45:07.345Z [DEBUG] Cleared proxy agent cache
+2026-11-15T17:45:07.345Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:45:07.346Z [DEBUG] All plugins already exist, skipping migration
+2026-11-15T17:45:07.346Z [DEBUG] Fast mode unavailable: Fast mode is currently unavailable
+2026-11-15T17:45:07.346Z [DEBUG] [MCP] --mcp-config servers running fully async (nonblocking)
+2026-11-15T17:45:07.346Z [DEBUG] [MCP] claude.ai connectors running fully async (nonblocking)
+2026-11-15T17:45:07.346Z [DEBUG] Total LSP servers loaded: 0
+2026-11-15T17:45:07.347Z [DEBUG] Initialized versioned plugins system with 10 plugins
+2026-11-15T17:45:07.347Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2026-11-15T17:45:07.347Z [DEBUG] LSP manager initialized with 0 servers
+2026-11-15T17:45:07.348Z [DEBUG] MCP server "probe_stdio": Starting connection with timeout of 30000ms
+2026-11-15T17:45:07.349Z [DEBUG] LSP server manager initialized successfully
+2026-11-15T17:45:07.349Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2026-11-15T17:45:07.350Z [DEBUG] MCP server "probe_broken": Starting connection with timeout of 30000ms
+2026-11-15T17:45:07.354Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-11-15T17:45:07.354Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+2026-11-15T17:45:07.356Z [DEBUG] [event-loop-stall] detector started (interval=200ms, threshold=500ms)
+2026-11-15T17:45:07.357Z [DEBUG] Grove: Using fresh cached config
+2026-11-15T17:45:07.361Z [WARN] [3P telemetry] Event dropped (no event logger initialized): mcp_server_connection
+2026-11-15T17:45:07.361Z [DEBUG] MCP server "probe_broken": Connection failed after 11ms (ENOENT): ENOENT: no such file or directory, posix_spawn 'stdio'
+2026-11-15T17:45:07.361Z [ERROR] MCP server "probe_broken" Connection failed (ENOENT): ENOENT: no such file or directory, posix_spawn 'stdio'
+2026-11-15T17:45:07.364Z [DEBUG] $.session (agents-md): no session bound; id, cwd and model answered from the process
+2026-11-15T17:45:07.364Z [DEBUG] $.fs.ancestors (agents-md): project memory is off
+2026-11-15T17:45:07.364Z [DEBUG] $.fs.ancestors (agents-md): project memory is off
+2026-11-15T17:45:07.364Z [DEBUG] hooks module agents-md@builtin prompt.context settled in 0.7ms (native link, next() included)
+2026-11-15T17:45:07.384Z [DEBUG] [sessionRegistry] sweep permitted (domain darwin)
+2026-11-15T17:45:07.388Z [DEBUG] [servedCatalog] shadow compare logged (fetch=cache_fresh, rows=13, source=compiled)
+2026-11-15T17:45:07.389Z [DEBUG] Git remote URL: null
+2026-11-15T17:45:07.389Z [DEBUG] No git remote URL found
+2026-11-15T17:45:07.389Z [DEBUG] MCP server "probe_stdio": Successfully connected (transport: stdio) in 42ms
+2026-11-15T17:45:07.390Z [DEBUG] MCP server "probe_stdio": Connection established with capabilities: {"hasTools":true,"hasPrompts":false,"hasResources":false,"hasResourceSubscribe":false,"serverVersion":{"name":"fake-mcp","version":"0.0.1"},"protocolEra":"legacy","negotiatedProtocolVersion":"2025-11-25"}
+2026-11-15T17:45:07.390Z [DEBUG] [MCP] Server "probe_stdio" connected with subscribe=false
+2026-11-15T17:45:07.390Z [DEBUG] Watching for changes in skill/command directories: /Users/user/.claude/skills, /Users/user/.claude/skills/synced...
+2026-11-15T17:45:07.390Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/gopls-lsp: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.398Z [DEBUG] Watching /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated for /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated/.claude to appear
+2026-11-15T17:45:07.398Z [DEBUG] Watching for changes in setting files /Users/user/.claude/settings.json...
+2026-11-15T17:45:07.398Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/typescript-lsp: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.399Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/claude-md-management: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.399Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/coderabbit: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.401Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/firecrawl: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.401Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/greptile: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.402Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/code-review: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.402Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/playwright: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.402Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/frontend-design: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.403Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official/code-simplifier: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.403Z [DEBUG] Keeping /Users/user/.claude/plugins/cache/claude-plugins-official: it still holds a directory, a symlink, a versioned archive or an entry of unknown type
+2026-11-15T17:45:07.408Z [DEBUG] [auto-mode] verifyAutoModeGateAccess: enabledState=enabled disabledBySettings=false model=claude-haiku-4-5-20251001 modelSupported=false disableFastModeBreakerFires=false carouselAvailable=false canEnterAuto=false
+2026-11-15T17:45:07.408Z [WARN] auto mode disabled: model claude-haiku-4-5-20251001 does not support auto mode
+2026-11-15T17:45:07.408Z [DEBUG] [auto-mode] kickOutOfAutoIfNeeded applying: ctx.mode=default ctx.prePlanMode=undefined reason=model
+2026-11-15T17:45:07.408Z [DEBUG] [auto-mode] verifyAutoModeGateAccess setAvailable: true -> false
+2026-11-15T17:45:07.409Z [DEBUG] Ripgrep first use test: PASSED (mode=embedded, path=/opt/homebrew/lib/node_modules/@anthropic-ai/claude-code/bin/claude.exe)
+2026-11-15T17:45:07.411Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:45:07.411Z [DEBUG] Writing to temp file: /Users/user/.claude.json.tmp.9952.01a5c13c66d0
+2026-11-15T17:45:07.411Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:45:07.411Z [DEBUG] Temp file written successfully, size: 206034 bytes
+2026-11-15T17:45:07.411Z [DEBUG] Renaming /Users/user/.claude.json.tmp.9952.01a5c13c66d0 to /Users/user/.claude.json
+2026-11-15T17:45:07.411Z [DEBUG] File /Users/user/.claude.json written atomically
+2026-11-15T17:45:07.491Z [DEBUG] Org fast mode: disabled (extra_usage_disabled)
+2026-11-15T17:45:07.513Z [DEBUG] [ScheduledTasks] scheduler start() — enabled=false, hasTasks=false
+2026-11-15T17:45:07.514Z [DEBUG] session.start: raised (surface none, not interactive)
+2026-11-15T17:45:07.515Z [DEBUG] hooks module agents-md@builtin session.start settled in 0.9ms (native link, next() included)
+2026-11-15T17:45:07.515Z [DEBUG] [Bootstrap] Fetch ok
+2026-11-15T17:45:07.516Z [DEBUG] [Bootstrap] Cache updated, persisting to disk
+2026-11-15T17:45:07.516Z [DEBUG] [claudeai-mcp] Fetching from https://api.anthropic.com/v1/mcp_servers?limit=1000&include_additional_installs=true
+2026-11-15T17:45:07.517Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/output-styles: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/output-styles'
+2026-11-15T17:45:07.517Z [DEBUG] Total plugin output styles loaded: 0
+2026-11-15T17:45:07.518Z [DEBUG] Fast mode unavailable: Fast mode requires usage credits · /usage-credits to turn them on
+2026-11-15T17:45:07.522Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:45:07.522Z [DEBUG] Writing to temp file: /Users/user/.claude.json.tmp.9952.d21843e80dc3
+2026-11-15T17:45:07.523Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:45:07.523Z [DEBUG] Temp file written successfully, size: 206393 bytes
+2026-11-15T17:45:07.523Z [DEBUG] Renaming /Users/user/.claude.json.tmp.9952.d21843e80dc3 to /Users/user/.claude.json
+2026-11-15T17:45:07.523Z [DEBUG] File /Users/user/.claude.json written atomically
+2026-11-15T17:45:07.701Z [DEBUG] [fs.watch probe] verdict: delivers
+2026-11-15T17:45:07.705Z [DEBUG] [claudeai-mcp] Fetched 6 servers
+2026-11-15T17:45:07.706Z [DEBUG] installPluginsForHeadless: starting
+2026-11-15T17:45:07.706Z [DEBUG] installPluginsForHeadless: no marketplaces declared
+2026-11-15T17:45:10.025Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:45:10.035Z [DEBUG] act_dont_rederive_arm_active source=growthbook
+2026-11-15T17:45:10.036Z [DEBUG] intro_frame_arm_active source=growthbook
+2026-11-15T17:45:10.045Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=3449f929-e640-477a-bbde-5147b54c8b88 source=count_tokens
+2026-11-15T17:45:10.045Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=f0d33472-a6a3-4c56-a09c-d74087ec3fa0 source=count_tokens
+2026-11-15T17:45:10.045Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=6aa12846-569a-4383-a6f1-efd9065ea0d0 source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=65d13749-b5e6-44b6-ad67-fd64f4f97b08 source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=72a6cdac-57dc-4731-b0f3-7cadd74e656c source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=0659e365-0a66-4fd4-9fef-04e3717977a2 source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=38b585e2-02ef-482c-867b-3f2e658d7f9d source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=eff0fa91-d1fd-4616-be78-cb25fadc12e5 source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=3da7d485-e12a-47a3-a937-59926b9d2e32 source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=c1bb1ca2-a971-479b-a66e-c385f758bb35 source=count_tokens
+2026-11-15T17:45:10.046Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=4d73b7b5-7fd3-46e1-b00a-cbf9114ebd43 source=count_tokens
+2026-11-15T17:45:10.047Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=df882859-7c09-429a-b511-ea54295e97cb source=count_tokens
+2026-11-15T17:45:10.047Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=9974fcc3-4a1a-49db-a7ff-29725ee3736c source=count_tokens
+2026-11-15T17:45:10.047Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=0f8f1bac-1e17-4781-9c57-9d2fae5652b4 source=count_tokens
+2026-11-15T17:45:10.047Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=1113dd90-3cec-4734-9ccd-01e37b458b56 source=count_tokens
+2026-11-15T17:45:10.047Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=449aedc5-4435-4012-9734-4e0ace32ad01 source=count_tokens
+2026-11-15T17:45:10.047Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=2bf4f150-1d39-4efb-a2ad-3863a3f853cc source=count_tokens
+2026-11-15T17:45:10.048Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=94bc32fe-68df-4123-9a43-5c608dd4728a source=count_tokens
+2026-11-15T17:45:10.180Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=3b33e518-33af-427d-967b-7339fa76d8c2 source=count_tokens
+2026-11-15T17:45:10.180Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=aeecb1c2-f76e-46a8-91c9-93b33232ac8e source=count_tokens
+2026-11-15T17:45:10.180Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=26262e26-687e-44e1-9f83-193ae91c1099 source=count_tokens
+2026-11-15T17:45:10.180Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=a69f8406-5179-4a25-90f3-6c7cf8010588 source=count_tokens
+2026-11-15T17:45:10.181Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=fb217358-7a16-4c3b-ad72-3d99e17498de source=count_tokens
+2026-11-15T17:45:10.181Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=7b6ced97-ad0e-473a-95d3-23b00cae29fe source=count_tokens
+2026-11-15T17:45:10.181Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=a4a3dee0-9621-4360-9a4d-c66e8ed04056 source=count_tokens
+2026-11-15T17:45:10.181Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=16e29f04-8a67-4d26-a0a9-03e4537b35e0 source=count_tokens
+2026-11-15T17:45:10.181Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=c6485e7d-433d-44d4-ac30-b079e0058aa6 source=count_tokens
+2026-11-15T17:45:10.181Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=34e4dd2b-248c-4e02-aac2-bc08eaab49e4 source=count_tokens
+2026-11-15T17:45:10.182Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=6e305168-028a-4492-a180-ae364f0ce4f5 source=count_tokens
+2026-11-15T17:45:10.182Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=dae881be-fda2-40b2-acd3-1e03c59732a6 source=count_tokens
+2026-11-15T17:45:10.182Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=9e77ae6f-45ac-4bd0-a713-830ee8076d49 source=count_tokens
+2026-11-15T17:45:10.182Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=555bed1c-c842-4ba0-858b-b32918a7b85f source=count_tokens
+2026-11-15T17:45:10.182Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=31712a59-bfd0-4e52-85df-832a8cbc9f98 source=count_tokens
+2026-11-15T17:45:10.182Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=ae410f1e-4c41-4ebe-b495-2041175a3a30 source=count_tokens
+2026-11-15T17:45:10.182Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=38f30274-3260-43c6-8708-3472c77512ce source=count_tokens
+2026-11-15T17:45:10.183Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=3ce0694d-8cd0-4f3f-b5e2-326877d15c1a source=count_tokens
+2026-11-15T17:45:10.183Z [DEBUG] [API REQUEST] /v1/messages/count_tokens x-client-request-id=e72559e1-ee94-4032-a1ea-94e9a00221f6 source=count_tokens
+2026-11-15T17:45:10.288Z [INFO] [prepareContextForPlanMode] plain plan entry, prePlanMode=default
+2026-11-15T17:45:10.298Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated/.claude/settings.json
+2026-11-15T17:45:10.298Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-isolated/.claude/settings.local.json
+2026-11-15T17:45:10.298Z [DEBUG] Fast mode unavailable: Fast mode requires usage credits · /usage-credits to turn them on
+2026-11-15T17:45:10.301Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:45:10.304Z [DEBUG] fetchUtilization: GET /api/oauth/usage (attempt 1)
+2026-11-15T17:45:10.426Z [DEBUG] fetchUtilization: 200 after 1 attempt(s)
+2026-11-15T17:45:10.435Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:45:10.435Z [DEBUG] Writing to temp file: /Users/user/.claude.json.tmp.9952.505a344d6c24
+2026-11-15T17:45:10.436Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:45:10.436Z [DEBUG] Temp file written successfully, size: 206453 bytes
+2026-11-15T17:45:10.436Z [DEBUG] Renaming /Users/user/.claude.json.tmp.9952.505a344d6c24 to /Users/user/.claude.json
+2026-11-15T17:45:10.436Z [DEBUG] File /Users/user/.claude.json written atomically
+2026-11-15T17:45:11.959Z [DEBUG] MCP server "probe_stdio": Sending SIGINT to MCP server process
+2026-11-15T17:45:11.962Z [DEBUG] MCP server "probe_stdio": STDIO connection closed after 4s (cleanly)
+2026-11-15T17:45:11.963Z [DEBUG] MCP server "probe_stdio": Cleared connection cache for reconnection
+2026-11-15T17:45:12.010Z [DEBUG] MCP server "probe_stdio": MCP server process exited cleanly
+2026-11-15T17:45:12.011Z [DEBUG] [uds-messaging] Shutting down
+2026-11-15T17:45:12.013Z [DEBUG] LSP server manager shut down successfully

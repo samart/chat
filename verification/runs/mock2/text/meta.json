@@ -1,0 +1,10 @@
+{
+  "scenario": "text",
+  "target": "mock",
+  "sessionId": "43f98005-6ed4-4df4-afb1-970cd29c7c7e",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,238 @@
+[
+ {
+  "kind": "ClassDeclaration",
+  "sig": "class AbortError extends Error { }",
+  "doc": "",
+  "tags": []
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const BUILTIN_TOOL_NAMES: readonly ['Agent', 'Artifact', 'AskUserQuestion', 'Bash', 'ClaudeDesign', 'CronCreate', 'CronDelete', 'CronList', 'Edit', 'EndConversation', 'EnterPlanMode', 'EnterWorktree', 'ExitPlanMode', 'ExitWorktree', 'Glob', 'Grep', 'ListAgents', 'ListMcpResourcesTool', 'LSP', 'Monitor', 'NotebookEdit', 'OfferChromeSetup', 'PowerShell', 'Projects', 'propose_skills', 'ProposeGoal', ",
+  "doc": "Names of built-in tools, as permission rules, hook matchers, `tools` and `disallowedTools` spell them. A name is listed even where a platform or setting turns its tool off. The list is not complete: the CLI has tools that are not on it, so it cannot stand for \"every tool\". What a session has is the `tools` field of its `system/init` message.",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function createSdkMcpServer(_options: CreateSdkMcpServerOptions): McpSdkServerConfigWithInstance;",
+  "doc": "Creates an MCP server instance that can be used with the SDK transport. This allows SDK users to define custom tools that run in the same process. Tool calls are bounded by the MCP tool-call timeout — `options.timeout` (ms) for this server, else the MCP_TOOL_TIMEOUT env var, effectively unbounded by default. A tool in `options.tools` whose input schema cannot be converted to JSON Schema is left out of the server's tool list, with one warning naming it (a process warning with code CLAUDE_SDK_MCP_TOOL_SCHEMA_UNCONVERTIBLE, or console.warn where there is no process.emitWarning); its other tools load.",
+  "tags": []
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function deleteSession(_sessionId: string, _options?: SessionMutationOptions): Promise<void>;",
+  "doc": "Delete a session. With `sessionStore`: calls `sessionStore.delete()` if implemented; no-op otherwise (per the SessionStore contract — appropriate for WORM/append-only backends). Without `sessionStore`: removes `{sessionId}.jsonl` and the `{sessionId}/` subagent-transcript subdirectory from the local projects dir. Throws if the session is not found.",
+  "tags": [
+   "param",
+   "param"
+  ]
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const EXIT_REASONS: readonly ['clear', 'resume', 'logout', 'prompt_input_exit', 'other'];",
+  "doc": "",
+  "tags": []
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function filterEscalatingDefaultMode(_resolved: ResolvedSettings): Settings;",
+  "doc": "Apply the same trust-tier filter the CLI applies before honoring escalating permission modes from settings: if `permissions.defaultMode` is escalating (`bypassPermissions`/`auto`/`acceptEdits`) AND was set by a repo-committed tier (`project`), drop it from the returned `effective`.",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function foldSessionSummary(prev: SessionSummaryEntry | undefined, key: SessionKey, entries: SessionStoreEntry[], options?: { mtime?: number; }): SessionSummaryEntry;",
+  "doc": "Fold a batch of appended entries into the running summary for `key`. Stores call this from inside `append()` to keep a sidecar up to date without re-reading the transcript. `prev` is the previous summary for the same key (or `undefined` for the first append). The returned `data` blob is opaque to the store — persist it verbatim. Set-once fields (`isSidechain`, `createdAt`, `cwd`, `firstPrompt`) freeze on first sight; last-wins fields (`customTitle`, `aiTitle`, `lastPrompt`, `summaryHint`, `gitBranch`, `tag`) overwrite on every appearance. `mtime` is NOT derived from entry timestamps — the adapter MUST stamp it at persist time using the same clock it uses for `listSessions().mtime`. Pass it via `options.mtime`; when omitted, the previous summary's `mtime` is preserved (use this only when re-folding the same sidecar without a new persist). See for the contract.",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function forkSession(_sessionId: string, _options?: ForkSessionOptions): Promise<ForkSessionResult>;",
+  "doc": "Fork a session into a new branch with fresh UUIDs. Copies transcript messages from the source session into a new session file, remapping every message UUID and preserving the parentUuid chain. Supports `upToMessageId` for branching from a specific point in the conversation. Forked sessions start without undo history (file-history snapshots are not copied).",
+  "tags": [
+   "param",
+   "param",
+   "returns"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function getSessionInfo(_sessionId: string, _options?: GetSessionInfoOptions): Promise<SDKSessionInfo | undefined>;",
+  "doc": "Reads metadata for a single session by ID. Unlike `listSessions`, this only reads the single session file rather than every session in the project. Returns undefined if the session file is not found, is a sidechain session, or has no extractable summary.",
+  "tags": [
+   "param",
+   "param"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function getSessionMessages(_sessionId: string, _options?: GetSessionMessagesOptions): Promise<SessionMessage[]>;",
+  "doc": "Reads a session's conversation messages from its JSONL transcript file. Parses the transcript, builds the conversation chain via parentUuid links, and returns user/assistant messages in chronological order. Set `includeSystemMessages: true` in options to also include system messages.",
+  "tags": [
+   "param",
+   "param",
+   "returns"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function getSubagentMessages(_sessionId: string, _agentId: string, _options?: GetSubagentMessagesOptions): Promise<SessionMessage[]>;",
+  "doc": "Reads a subagent's conversation messages from its JSONL transcript file. Parses the subagent transcript, builds the conversation chain via parentUuid links, and returns user/assistant messages in chronological order.",
+  "tags": [
+   "param",
+   "param",
+   "param",
+   "returns"
+  ]
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const HOOK_EVENTS: readonly ['PreToolUse', 'PostToolUse', 'PostToolUseFailure', 'PostToolBatch', 'Notification', 'UserPromptSubmit', 'UserPromptExpansion', 'SessionStart', 'SessionEnd', 'Stop', 'StopFailure', 'SubagentStart', 'SubagentStop', 'PreCompact', 'PostCompact', 'PreModelSwitch', 'PostModelSwitch', 'PermissionRequest', 'PermissionDenied', 'Setup', 'TeammateIdle', 'TaskCreated', 'TaskComple",
+  "doc": "",
+  "tags": []
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function importSessionToStore(_sessionId: string, _store: SessionStore, _options?: ImportSessionToStoreOptions): Promise<void>;",
+  "doc": "Copy a local JSONL session into a SessionStore. Reads the session file (and optionally subagent transcripts) from disk and calls `store.append()` for each. Entries are appended in batches of `batchSize` to avoid backend payload limits; the store's `append()` is called multiple times per session. Useful for migrating existing local sessions to a remote backend.",
+  "tags": [
+   "alpha",
+   "param",
+   "param",
+   "param"
+  ]
+ },
+ {
+  "kind": "ClassDeclaration",
+  "sig": "class InMemorySessionStore implements SessionStore { private store; private mtimes; private summaries; private lastMtime; private keyToString; append(key: SessionKey, entries: SessionStoreEntry[]): Promise<void>; load(key: SessionKey): Promise<SessionStoreEntry[] | null>; listSessions(projectKey: string): Promise<Array<{ sessionId: string; mtime: number; }>>; listSessionSummaries(projectKey: strin",
+  "doc": "In-memory SessionStore implementation for testing and development. Stores entries in a Map keyed by a composite string. Not suitable for production -- data is lost when the process exits.",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const LEGACY_TOOL_NAME_ALIASES: Readonly<Record<string, string>>;",
+  "doc": "Former names that permission rules, hook matchers, `tools` and `disallowedTools` still accept, each mapped to the tool's current name. An entry is dropped when its tool is removed.",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function listSessions(_options?: ListSessionsOptions): Promise<SDKSessionInfo[]>;",
+  "doc": "List sessions with metadata. When `dir` is provided, returns sessions for that project directory and its git worktrees. When omitted, returns sessions across all projects. Use `limit` and `offset` for pagination.",
+  "tags": [
+   "example"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function listSubagents(_sessionId: string, _options?: ListSubagentsOptions): Promise<string[]>;",
+  "doc": "Lists subagent IDs for a given session by scanning the subagents directory. Subagent transcripts are stored at `~/.claude/projects/<dir>/<sessionId>/subagents/agent-<agentId>.jsonl`.",
+  "tags": [
+   "param",
+   "param",
+   "returns"
+  ]
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const ORG_POLICY_LIMIT_PREFIXES: readonly ['This service is disabled for your org'];",
+  "doc": "Emitted on the same severity:'error' path as the usage-limit bucket, but the condition is an org policy, not an exhausted limit — consumers route these to org-disabled presentation, never the usage-limit card.",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function prewarm(_params?: { options?: Options; initializeTimeoutMs?: number; }): Promise<SpareProcess>;",
+  "doc": "Start a Claude Code process as a parked **spare** before the session it will serve is known, and bind it later with . What runs now, at `prewarm()`: process start, module load, config, auth, tools, user-level skills/plugins/commands, the host-level MCP servers in `options.mcpServers` (including in-process SDK servers and their handshakes), hooks and `canUseTool` registration, the initialize handshake — everything `startup()` does, in a private parking directory under the user's config home (or `options.cwd` if given, which is never the session's folder). A host whose `spawnClaudeCodeProcess` runs Claude Code on another machine or in a container must pass `options.cwd`: a directory that exists there (the default one is created on this machine). What waits for the claim: the working directory, SessionStart hooks, session registration, CLAUDE.md and git context, the transcript location. While parked the process holds roughly 230–260 MB and is otherwise idle. What a claim can set (): `cwd`, `additionalDirectories`, `model`, `permissionMode`, `maxThinkingTokens`, a flag-settings overlay (`settings`, e.g. effort or permission rules — but not hook settings, which would land after the claimed folder's SessionStart hooks have started; those go in `Options.settings` here), `appendSystemPrompt`, `title`, `agents`, and three environment variables (`CLAUDE_CODE_OAUTH_TOKEN`, `CLAUDE_CODE_SESSION_ACCESS_TOKEN`, `CLAUDE_CODE_HOST_SESSION_ID`). Everything else — the executable, `settingSources`, `env` the process reads at start-up, `systemPrompt` presets, `mcpServers`, `hooks`, `canUseTool`, `skills`, `allowedTools`/`disallowedTools`, a main-thread `agent`, plugins — is fixed at `prewarm()`: keep one spare per distinct set of those, and when they change (sign-out, settings that alter them, an updated executable) `close()` the spare and prewarm again. Not every claim can be honoured: the process refuses a folder whose project settings set `env`, `agent`, `model` (or `permissions.defaultMode` when no `permissionMode` was given at prewarm), a `permissionMode` it cannot take (it travels inside the claim so this fails closed), a `settings` overlay it cannot apply (the prompt is held until the overlay is accepted, so this fails closed too), an environment key outside the three above, a network path, or a missing folder; a parked process can also die. In all of those rejects, the process goes away on its own (`close()` only releases its in-process MCP servers and callbacks sooner), and this version leaves the fallback to the host: start that session with `query()` as before. One rejection is different: `option_not_applied` means only `model` or `maxThinkingTokens` was refused — the prompt was sent and the session is running, so do not start it again. A CLI too old to know `--await-claim` makes `prewarm()` itself reject. Compared with `startup()`: `startup()` needs the session's folder and options up front and saves only the spawn; `prewarm()` needs neither and also keeps tools, plugins and MCP handshakes off the first message. After a claim the Query's `initializationResult()`, `supportedAgents()`, `supportedCommands()` and `accountInfo()` describe the claimed session, not the parking directory ( names the one limit: the snapshot predates `model`/`settings`).",
+  "tags": [
+   "example",
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function query(_params: { prompt: string | AsyncIterable<SDKUserMessage>; options?: Options; }): Query;",
+  "doc": "",
+  "tags": []
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function renameSession(_sessionId: string, _title: string, _options?: SessionMutationOptions): Promise<void>;",
+  "doc": "Rename a session. Appends a custom-title entry to the session's JSONL file.",
+  "tags": [
+   "param",
+   "param",
+   "param"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function resolveSettings(_opts?: ResolveSettingsOptions): Promise<ResolvedSettings>;",
+  "doc": "Resolve the effective Claude Code settings for the given options using the same merge engine as the CLI, without spawning the Claude CLI. Useful for inspecting what configuration a `query()` call would see.",
+  "tags": [
+   "remarks",
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function startup(_params?: { options?: Options; initializeTimeoutMs?: number; }): Promise<WarmQuery>;",
+  "doc": "Pre-warms the CLI subprocess so the first `query()` resolves immediately. Returns a handle.",
+  "tags": []
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const SYSTEM_PROMPT_DYNAMIC_BOUNDARY = \"__SYSTEM_PROMPT_DYNAMIC_BOUNDARY__\";",
+  "doc": "Marker string that splits a custom `systemPrompt` into a static prefix (eligible for cross-session prompt caching) and a dynamic suffix (session-specific, not globally cached). Include it as a standalone element of a `string[]` `systemPrompt`, or as a line of its own in a `--system-prompt` string, to opt in; content before it gets global cache scope, content after does not. See `splitSysPromptPrefix` in `src/services/api/requestAttribution.ts`.",
+  "tags": []
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function tagSession(_sessionId: string, _tag: string | null, _options?: SessionMutationOptions): Promise<void>;",
+  "doc": "Tag a session. Pass null to clear the tag.",
+  "tags": [
+   "param",
+   "param",
+   "param"
+  ]
+ },
+ {
+  "kind": "FunctionDeclaration",
+  "sig": "function tool<Schema extends AnyZodRawShape>(_name: string, _description: string, _inputSchema: Schema, _handler: (args: InferShape<Schema>, extra: unknown) => Promise<CallToolResult>, _extras?: { annotations?: ToolAnnotations; searchHint?: string; alwaysLoad?: boolean; }): SdkMcpToolDefinition<Schema>;",
+  "doc": "",
+  "tags": []
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const USAGE_LIMIT_ERROR_PREFIXES: readonly [\"You've hit your\", \"You've reached your\", \"You're out of usage credits\", 'Your org is out of usage · add funds to continue', 'Your org is out of usage · contact your admin', \"Your seat type doesn't include usage credits\", \"Your seat type doesn't include usage\", 'Your usage allocation has been disabled by your admin', \"Your group's usage limit is set to $",
+  "doc": "Messages meaning \"a usage limit was genuinely reached\" — the error-path outputs of getLimitReachedText (rateLimitMessages.ts) and getUsageCreditsOnlyModelRejectionContent (api/errors.ts).",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const USAGE_TRANSITION_PREFIXES: readonly [\"You're now using usage credits\", \"You're now using your usage allocation\", 'Now using your usage allocation', 'Now using usage credits', \"You're now using extra usage\", 'Now using extra usage'];",
+  "doc": "Overage-transition notifications (\"now drawing from credits\"). Toast only; these never arrive as API errors.",
+  "tags": [
+   "alpha"
+  ]
+ },
+ {
+  "kind": "FirstStatement",
+  "sig": "const USAGE_WARNING_PREFIXES: readonly [\"You've used\", \"You're close to\"];",
+  "doc": "Approaching-limit warnings (severity:'warning'). Footer/toast only; these never arrive as API errors. (\"Approaching …\" early warnings are deliberately unregistered — they render in the footer without <RateLimitMessage> styling; see the generator-coverage tests.)",
+  "tags": [
+   "alpha"
+  ]
+ }
+]

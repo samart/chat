@@ -1,0 +1,10 @@
+{
+  "scenario": "subagent_parallel",
+  "target": "mock",
+  "sessionId": "69936821-d7fc-49e8-ba7d-b426f6fdb599",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,273 @@
+[
+ {
+  "name": "interrupt",
+  "optional": false,
+  "type": "interrupt(): Promise<SDKControlInterruptResponse | undefined>;",
+  "doc": "Interrupt the current query execution. The query will stop processing and return control to the caller. On CLIs advertising the `interrupt_receipt_v1` capability (system/init `capabilities`) the resolved value is the interrupt receipt — `still_queued` uuids of async user messages that WILL still run unless cancelled first. Older CLIs resolve to `undefined`.",
+  "tags": {}
+ },
+ {
+  "name": "setPermissionMode",
+  "optional": false,
+  "type": "setPermissionMode(mode: PermissionMode): Promise<void>;",
+  "doc": "Change the permission mode for the current session. Only available in streaming input mode.",
+  "tags": {
+   "param": "- The new permission mode to set"
+  }
+ },
+ {
+  "name": "setMcpPermissionModeOverride",
+  "optional": false,
+  "type": "setMcpPermissionModeOverride(serverName: string, mode: 'default' | 'auto' | null): Promise<{ warning?: string; }>;",
+  "doc": "Pin (or clear, with mode:null) a per-MCP-server permission-mode override. Tighten-only: only 'default' | 'auto' | null are accepted; the override applies only when the session mode would already auto-allow (bypassPermissions/auto), so it can never widen privilege. Only available in streaming input mode.",
+  "tags": {
+   "param": "- 'default' to force per-action prompts, 'auto' to route\r\nthrough the auto-mode classifier, or null to clear the override",
+   "returns": "An object with an optional `warning` — set when `serverName`\r\ndoes not match any currently known MCP server. For a set, the\r\noverride is stored regardless and applies once a server with that\r\nexact name connects; the warning is informational (typo detection)."
+  }
+ },
+ {
+  "name": "setModel",
+  "optional": false,
+  "type": "setModel(model?: string): Promise<void>;",
+  "doc": "Change the model used for subsequent responses. Only available in streaming input mode.",
+  "tags": {
+   "param": "- The model identifier to use, or undefined to use the default"
+  }
+ },
+ {
+  "name": "setMaxThinkingTokens",
+  "optional": false,
+  "type": "setMaxThinkingTokens(maxThinkingTokens: number | null, thinkingDisplay?: 'summarized' | 'omitted' | 'highlights' | null): Promise<void>;",
+  "doc": "Set the maximum number of thinking tokens the model is allowed to use when generating its response. This can be used to limit the amount of tokens the model uses for its response, which can help control cost and latency. Use `null` to clear any previously set limit and allow the model to use the default maximum thinking tokens.",
+  "tags": {
+   "deprecated": "Use the `thinking` option in `query()` instead. On Opus 4.6,\r\nthis is treated as on/off (0 = disabled, any other value = adaptive).\r\nFor explicit control, use `thinking: { type: 'adaptive' }` or\r\n`thinking: { type: 'enabled', budgetTokens: N }`.",
+   "param": "- Optional thinking display mode for the rest of\r\nthe session: a value replaces the session display mode, `null` clears\r\nthat override so Claude Code's default display handling applies again,\r\nand when omitted the display mode from session start (`thinking.display`\r\n/ `--thinking-display`) is kept — a session started with thinking\r\ndisabled has none, so re-enabling without this param gets that default.\r\n`'highlights'` (the API's one-line thinking titles) is honored by the API\r\nonly for Anthropic-hosted remote sessions; when the session cannot send it\r\nto the API the promise rejects and the display stays as it was, while\r\n`maxThinkingTokens` still applies."
+  }
+ },
+ {
+  "name": "applyFlagSettings",
+  "optional": false,
+  "type": "applyFlagSettings(settings: { [K in keyof Settings]?: K extends 'effortLevel' ? EffortLevel | null : Settings[K] | null; }): Promise<void>;",
+  "doc": "Merge settings into the flag settings layer. This is the inline `settings` option of `query()`, applied mid-session. Flag settings sit above user/project/local and below managed policy settings in precedence order. Successive calls shallow-merge top-level keys — a second call with `{permissions: {...}}` replaces the entire `permissions` object from a prior call. Pass `null` for a key to clear it from the flag layer and fall back to lower-precedence sources (`undefined` is dropped by JSON serialization and has no effect). Four keys instead reset session state and restore neither a `query()` option nor a settings-file value. `effortLevel` goes to the model's default effort, `model` to Claude Code's default model (not `ANTHROPIC_MODEL` or `settings.model`), `agent` to no main-thread agent, and `ultracode` to off with the current effort kept. Only available in streaming input mode. `ultracode: true` or `false` turns ultracode on or off and leaves the effort level alone. An `effortLevel` that moves the session to a different level, sent without an `ultracode` key, also turns ultracode off; send both keys to change the level and keep it on.",
+  "tags": {
+   "param": "- A partial settings object to merge into the flag\r\nsettings. `effortLevel` also accepts `'max'` (never written to settings\r\nfiles, so the persisted  excludes it): it is\r\nsession-only, runs as `'high'` on a model without `'max'` support, and\r\nruns no higher than the organization's effort limit for the model."
+  }
+ },
+ {
+  "name": "updateSettings",
+  "optional": false,
+  "type": "updateSettings(source: 'localSettings' | 'userSettings', settings: Record<string, unknown>): Promise<void>;",
+  "doc": "Merge settings into a settings FILE through the CLI's own writer — the same path /config uses (canonical store root, gitignore upkeep, hardened write) — and live-apply them. Unlike applyFlagSettings, which only touches the session-scoped flag layer. The handler accepts only an explicit key allowlist per file (localSettings: outputStyle; userSettings: effortLevel, saved for the session's current model as /effort saves it, without setting the running session's level) with string values — deletion is not supported — and refuses remote transports and sessions whose --setting-sources exclude the target source. Rejects with the gate's or writer's error otherwise.",
+  "tags": {}
+ },
+ {
+  "name": "initializationResult",
+  "optional": false,
+  "type": "initializationResult(): Promise<SDKControlInitializeResponse>;",
+  "doc": "Get the full initialization result, including supported commands, models, account info, and output style configuration: the first-connect answer, or, on a Query returned by a pre-warmed spare's `claim()`, the claimed session's.",
+  "tags": {
+   "returns": "The complete initialization response"
+  }
+ },
+ {
+  "name": "reinitialize",
+  "optional": false,
+  "type": "reinitialize(): Promise<SDKControlInitializeResponse>;",
+  "doc": "Re-send the `initialize` control request to an already-running CLI. Use this after a transport gap (e.g. reattaching to a daemon whose ring buffer evicted frames during a disconnect): the CLI's response carries any `can_use_tool` / `request_user_dialog` control requests the loop is still blocked on, and the SDK redelivers them to `canUseTool` / `onUserDialog`. In-flight request_ids are deduped SDK-side, but callbacks should be idempotent per request_id since a request whose response was lost in the gap will be dispatched again. Over stdio the CLI also re-registers this query's hooks from the re-sent request (the response reports `hooks_applied: true`; CLIs that predate that field ignore hooks here) and resolves any hook callback it was still waiting on itself — cancelling it at this host, denying a pending PreToolUse with a retry notice and blocking a pending prompt — since it cannot tell whether the re-sent callback ids still name the same hooks. Expect one denied-then-retried tool call or one prompt to re-send if the call races an unanswered hook. Unlike , this always sends a fresh request rather than returning the cached result.",
+  "tags": {
+   "returns": "A fresh initialization response"
+  }
+ },
+ {
+  "name": "supportedCommands",
+  "optional": false,
+  "type": "supportedCommands(): Promise<SlashCommand[]>;",
+  "doc": "Get the list of available skills for the current session.",
+  "tags": {
+   "returns": "Array of available skills with their names and descriptions"
+  }
+ },
+ {
+  "name": "supportedModels",
+  "optional": false,
+  "type": "supportedModels(): Promise<ModelInfo[]>;",
+  "doc": "Get the list of available models.",
+  "tags": {
+   "returns": "Array of model information including display names and descriptions"
+  }
+ },
+ {
+  "name": "supportedAgents",
+  "optional": false,
+  "type": "supportedAgents(): Promise<AgentInfo[]>;",
+  "doc": "Get the list of available subagents for the current session.",
+  "tags": {
+   "returns": "Array of available agents with their names, descriptions, and configuration"
+  }
+ },
+ {
+  "name": "mcpServerStatus",
+  "optional": false,
+  "type": "mcpServerStatus(): Promise<McpServerStatus[]>;",
+  "doc": "Get the current status of all configured MCP servers.",
+  "tags": {
+   "returns": "Array of MCP server statuses (connected, failed, needs-auth, pending)"
+  }
+ },
+ {
+  "name": "getContextUsage",
+  "optional": false,
+  "type": "getContextUsage(opts?: { detail?: 'summary' | 'full'; }): Promise<SDKControlGetContextUsageResponse>;",
+  "doc": "Get a breakdown of current context window usage by category (system prompt, tools, messages, MCP tools, memory files, etc.). `detail: 'full'` counts each category with the token-count API; `'summary'` answers from the last response's usage and local estimates without the per-category token-count calls. Defaults to `'full'`.",
+  "tags": {
+   "returns": "Context usage breakdown including token counts per category and total usage"
+  }
+ },
+ {
+  "name": "usage_EXPERIMENTAL_MAY_CHANGE_DO_NOT_RELY_ON_THIS_API_YET",
+  "optional": false,
+  "type": "usage_EXPERIMENTAL_MAY_CHANGE_DO_NOT_RELY_ON_THIS_API_YET(opts?: { skipBehaviors?: boolean; }): Promise<SDKControlGetUsageResponse>;",
+  "doc": "Get the structured data behind the `/usage` command: session cost and token usage totals plus claude.ai plan rate-limit utilization windows (5-hour, 7-day, per-model) when available. `rate_limits_available` is false (and `rate_limits` null) for API key, Bedrock, Vertex, and other sessions where plan limits do not apply. `skipBehaviors: true` skips the scan of local transcripts that fills the response's `behaviors` section (it is null in the answer), for callers that need only the plan rate limits. Defaults to scanning. EXPERIMENTAL: this API is unstable and may change or be removed in any release without notice — do not rely on it yet. The method name will change when the API is stabilized.",
+  "tags": {
+   "returns": "Structured session cost/usage data and plan rate-limit utilization"
+  }
+ },
+ {
+  "name": "readFile",
+  "optional": false,
+  "type": "readFile(path: string, options?: { maxBytes?: number; encoding?: 'utf-8' | 'base64'; }): Promise<SDKControlReadFileResponse | null>;",
+  "doc": "Read a file from the session's filesystem for the remote sidebar viewer. Path is resolved against cwd and gated by the same read-permission rules as the Read tool. Returns null on permission denial, missing file, or transport error.",
+  "tags": {
+   "param": "- Optional maxBytes cap (default 1MB) and encoding\r\n(default utf-8; pass 'base64' for binary files like images)"
+  }
+ },
+ {
+  "name": "reloadPlugins",
+  "optional": false,
+  "type": "reloadPlugins(options?: { holdOnCacheImpact?: boolean; addPlugins?: SdkPluginConfig[]; }): Promise<SDKControlReloadPluginsResponse>;",
+  "doc": "Reload plugins from disk and return the refreshed commands, agents, plugins, and MCP server status. With `holdOnCacheImpact`, the CLI first runs the check the interactive /reload-plugins makes: when applying would change the session's tool list while the conversation's prompt cache depends on it, nothing is applied and the response carries `held: true` with `cache_impact` describing what applying would change; call again without the option to apply anyway. With `addPlugins`, the reload also loads those plugins, as if each had been in the `plugins` option at launch; plugins already loaded stay. Each path must be absolute.",
+  "tags": {
+   "returns": "The refreshed session components after plugin reload, or the\r\nunchanged ones with `held: true` when the reload was held"
+  }
+ },
+ {
+  "name": "reloadSkills",
+  "optional": false,
+  "type": "reloadSkills(): Promise<SDKControlReloadSkillsResponse>;",
+  "doc": "Reload skills from disk and return the refreshed skill list.",
+  "tags": {
+   "returns": "The refreshed skill commands after reload"
+  }
+ },
+ {
+  "name": "reloadOutputStyles",
+  "optional": false,
+  "type": "reloadOutputStyles(): Promise<SDKControlReloadOutputStylesResponse>;",
+  "doc": "Re-read the output-style directories from disk and return the refreshed style names. A style file written while the session runs is otherwise invisible to it until the next session. Also drops the shared markdown-file scan cache, so agents, skills and routines re-read their directories on their next use.",
+  "tags": {
+   "returns": "The refreshed output style names (built-in and custom)"
+  }
+ },
+ {
+  "name": "accountInfo",
+  "optional": false,
+  "type": "accountInfo(): Promise<AccountInfo>;",
+  "doc": "Get information about the authenticated account.",
+  "tags": {
+   "returns": "Account information including email, organization, and subscription type"
+  }
+ },
+ {
+  "name": "rewindFiles",
+  "optional": false,
+  "type": "rewindFiles(userMessageId: string, options?: { dryRun?: boolean; }): Promise<RewindFilesResult>;",
+  "doc": "Rewind tracked files to their state at a specific user message. Requires file checkpointing to be enabled via the `enableFileCheckpointing` option.",
+  "tags": {
+   "param": "- Options object with optional `dryRun` boolean to preview changes without modifying files",
+   "returns": "Object with canRewind boolean, optional error message, and file change statistics"
+  }
+ },
+ {
+  "name": "seedReadState",
+  "optional": false,
+  "type": "seedReadState(path: string, mtime: number): Promise<void>;",
+  "doc": "Seed the CLI's readFileState cache with a path+mtime entry. Use when the client observed a Read that has since been removed from context (e.g. by snip), so a subsequent Edit won't fail \"file not read yet\". If the file changed on disk since the given mtime, the seed is skipped and Edit will correctly require a fresh Read.",
+  "tags": {
+   "param": "- File mtime (floored ms) at the time of the observed Read"
+  }
+ },
+ {
+  "name": "reconnectMcpServer",
+  "optional": false,
+  "type": "reconnectMcpServer(serverName: string): Promise<void>;",
+  "doc": "Reconnect an MCP server by name. Throws on failure.",
+  "tags": {
+   "param": "- The name of the MCP server to reconnect"
+  }
+ },
+ {
+  "name": "toggleMcpServer",
+  "optional": false,
+  "type": "toggleMcpServer(serverName: string, enabled: boolean): Promise<void>;",
+  "doc": "Enable or disable an MCP server by name. Throws on failure.",
+  "tags": {
+   "param": "- Whether the server should be enabled"
+  }
+ },
+ {
+  "name": "readMcpResource",
+  "optional": false,
+  "type": "readMcpResource(serverName: string, uri: string): Promise<SDKControlMcpReadResourceResponse>;",
+  "doc": "Read one MCP Apps (SEP-1865) UI resource from a connected MCP server the CLI itself dialed, so the host can render a tool's widget. `uri` must use the `ui://` scheme, typically the `_meta.ui.resourceUri` a tool declares. The contents are untrusted third-party HTML: render them sandboxed. Requires a CLI that advertises `mcp_read_resource_v1` in `system/init.capabilities`. Throws on failure.",
+  "tags": {
+   "param": "- A `ui://` resource URI",
+   "alpha": true
+  }
+ },
+ {
+  "name": "setMcpServers",
+  "optional": false,
+  "type": "setMcpServers(servers: Record<string, McpServerConfig>): Promise<McpSetServersResult>;",
+  "doc": "Dynamically set the MCP servers for this session. This replaces the current set of dynamically-added MCP servers with the provided set. Servers that are removed will be disconnected, and new servers will be connected. Supports both process-based servers (stdio, sse, http) and SDK servers (in-process). SDK servers are handled locally in the SDK process, while process-based servers are managed by the CLI subprocess. Note: This only affects servers added dynamically via this method or the SDK. Servers configured via settings files are not affected. Servers introduced by plugins are also exempt: they are managed by the plugin system, so omitting them from the payload does NOT remove them — they keep running (unless enterprise policy denies the server) and are simply absent from the result's `removed` list. In particular, `setMcpServers({})` no longer guarantees a session has zero dynamic MCP surface when plugins are loaded. Naming a plugin server explicitly in the payload still replaces it (ownership is preserved CLI-side).",
+  "tags": {
+   "param": "- Record of server name to configuration. Pass an empty object to remove all dynamic servers (except plugin-owned ones, which are retained).",
+   "returns": "Information about which servers were added, removed, and any connection errors"
+  }
+ },
+ {
+  "name": "streamInput",
+  "optional": false,
+  "type": "streamInput(stream: AsyncIterable<SDKUserMessage>): Promise<void>;",
+  "doc": "Stream input messages to the query. Used internally for multi-turn conversations.",
+  "tags": {
+   "param": "- Async iterable of user messages to send"
+  }
+ },
+ {
+  "name": "stopTask",
+  "optional": false,
+  "type": "stopTask(taskId: string): Promise<void>;",
+  "doc": "Stop a running task. A task_notification with status 'stopped' will be emitted.",
+  "tags": {
+   "param": "- The task ID from task_notification events"
+  }
+ },
+ {
+  "name": "backgroundTasks",
+  "optional": false,
+  "type": "backgroundTasks(toolUseId?: string): Promise<boolean>;",
+  "doc": "Background in-flight foreground tasks (Bash commands and subagents). With `toolUseId`, targets the single task started by that tool_use block; without it, backgrounds all foreground tasks — equivalent to pressing Ctrl+B in the terminal. Each blocking tool call returns immediately with a \"running in the background\" tool_result and the turn continues; the task keeps running and emits a task_notification when it settles.",
+  "tags": {
+   "param": "- Optional tool_use block id to target a single task",
+   "returns": "true when at least one task was backgrounded; false only\r\nwhen `toolUseId` was given and it matched no foreground task",
+   "throws": "when background tasks are disabled for the session\r\n(`CLAUDE_CODE_DISABLE_BACKGROUND_TASKS`) — nothing is backgrounded"
+  }
+ },
+ {
+  "name": "close",
+  "optional": false,
+  "type": "close(): void;",
+  "doc": "Close the query and terminate the underlying process. This forcefully ends the query, cleaning up all resources including pending requests, MCP transports, and the CLI subprocess. Use this when you need to abort a query that is still running. After calling close(), no further messages will be received.",
+  "tags": {}
+ }
+]

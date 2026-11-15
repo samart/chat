@@ -1,0 +1,10 @@
+{
+  "scenario": "subagent_interrupt",
+  "target": "mock",
+  "sessionId": "2e20b141-a64b-45fe-a950-c781e83f4873",
+  "r1": {
+    "code": 1,
+    "signal": null,
+    "stderr": ""
+  }
+}

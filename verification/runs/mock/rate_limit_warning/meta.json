@@ -1,0 +1,10 @@
+{
+  "scenario": "rate_limit_warning",
+  "target": "mock",
+  "sessionId": "19625540-26ae-41c6-a7b9-f87c93337016",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "scenario": "queued_cancel",
+  "target": "mock",
+  "sessionId": "fe3a1801-920b-4338-90c1-f7c53ea8ecd7",
+  "r1": {
+    "code": 1,
+    "signal": null,
+    "stderr": ""
+  }
+}

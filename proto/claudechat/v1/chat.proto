@@ -1,0 +1,530 @@
+// claudechat.v1: the contract between a chat client (UI) and the Go server
+// that hosts `claude` CLI processes.
+//
+// Design rules
+//
+//  1. Pass-through. Every frame the CLI writes for the consumer (system,
+//     assistant, user, stream_event, result and anything newer) is forwarded
+//     as its exact JSON bytes inside a small typed envelope (Frame). The
+//     server never re-encodes a frame, so fields a newer CLI adds reach the
+//     client unchanged. Clients must ignore frame types they do not know.
+//  2. Typed where an answer is required. Anything the CLI asks the host
+//     (tool approval, MCP elicitation, user dialog) is a typed server event
+//     with a typed client reply, correlated by request_id.
+//  3. The process outlives the stream. A conversation is one CLI process. If
+//     the gRPC stream drops, the process keeps running; the client attaches
+//     again with the conversation id and the last sequence number it saw and
+//     receives everything after it, including approvals still waiting.
+//  4. The server owns policy the client must not control: the CLI binary,
+//     the environment, hooks, in-process MCP servers and workspace trust.
+//
+// Target: Claude Code CLI 2.1.311 (Agent SDK 0.3.311 wire behaviour).
+syntax = "proto3";
+
+package claudechat.v1;
+
+option go_package = "example.com/claudecli/gen/claudechat/v1;claudechatv1";
+
+// ChatService is the whole surface a chat client needs.
+service ChatService {
+  // GetServerInfo reports the CLI the server runs and what this server
+  // supports. Call it once at startup.
+  rpc GetServerInfo(GetServerInfoRequest) returns (ServerInfo);
+
+  // Connect is one live conversation. The first client event must be Open
+  // (start, resume, fork or attach). The server answers with Opened, then
+  // streams events until the conversation ends or the client leaves.
+  //
+  // Closing the stream does NOT stop the CLI process; send Terminate for
+  // that. A conversation with no attached client is stopped by the server
+  // after ServerInfo.detached_timeout_seconds.
+  rpc Connect(stream ClientEvent) returns (stream ServerEvent);
+
+  // ListConversations lists live conversations (CLI processes) on the
+  // server, attached or not.
+  rpc ListConversations(ListConversationsRequest) returns (ListConversationsResponse);
+
+  // ListSessions lists persisted sessions for a workspace folder, newest
+  // first, read from the CLI's transcript files.
+  rpc ListSessions(ListSessionsRequest) returns (ListSessionsResponse);
+
+  // GetTranscript streams a persisted session's history so the client can
+  // render it before (or without) starting a process. Entries are the
+  // transcript's JSON lines, unchanged.
+  rpc GetTranscript(GetTranscriptRequest) returns (stream TranscriptEntry);
+
+  // GetSubagentTranscript streams one subagent's own transcript
+  // (<session>/subagents/agent-<id>.jsonl) for the Agent map detail view.
+  rpc GetSubagentTranscript(GetSubagentTranscriptRequest) returns (stream TranscriptEntry);
+
+  // ArchiveSession hides or restores a session in the list. It never deletes
+  // the transcript.
+  rpc ArchiveSession(ArchiveSessionRequest) returns (ArchiveSessionResponse);
+
+  // SearchFiles serves the composer's @-mention picker: fuzzy file and
+  // folder search inside a workspace folder.
+  rpc SearchFiles(SearchFilesRequest) returns (SearchFilesResponse);
+}
+
+// ---------------------------------------------------------------------------
+// Server info
+// ---------------------------------------------------------------------------
+
+message GetServerInfoRequest {}
+
+message ServerInfo {
+  string server_version = 1;
+  // CLI version from `claude --version`, e.g. "2.1.311".
+  string cli_version = 2;
+  // The CLI version this server was built and tested against.
+  string target_cli_version = 3;
+  // True when cli_version is older than the minimum the server supports.
+  // Connect then fails with FAILED_PRECONDITION.
+  bool cli_too_old = 4;
+  // Seconds a conversation may stay without an attached client before the
+  // server terminates it. 0 = never.
+  uint32 detached_timeout_seconds = 5;
+  // Workspace folders the server is allowed to open sessions in.
+  repeated string workspace_folders = 6;
+}
+
+// ---------------------------------------------------------------------------
+// Client -> server
+// ---------------------------------------------------------------------------
+
+message ClientEvent {
+  oneof event {
+    Open open = 1;
+    UserMessage user_message = 2;
+    PermissionDecision permission_decision = 3;
+    Interrupt interrupt = 4;
+    SetPermissionMode set_permission_mode = 5;
+    SetModel set_model = 6;
+    SetThinking set_thinking = 7;
+    ControlCall control_call = 8;
+    ElicitationResponse elicitation_response = 9;
+    DialogResponse dialog_response = 10;
+    Ack ack = 11;
+    Terminate terminate = 12;
+  }
+}
+
+// Open must be the first event on the stream.
+message Open {
+  oneof target {
+    // Start a new CLI process (new session, resume, continue or fork).
+    StartOptions start = 1;
+    // Attach to a live conversation, e.g. after a dropped stream.
+    Attach attach = 2;
+  }
+}
+
+message StartOptions {
+  // Working directory. Must be inside ServerInfo.workspace_folders.
+  string cwd = 1;
+
+  // Session selection. At most one of resume_session_id / continue_last.
+  string resume_session_id = 2;   // CLI --resume=<id>
+  bool continue_last = 3;         // CLI --continue
+  bool fork_session = 4;          // with resume: branch into a new session id
+  // With resume: keep history up to AND INCLUDING this transcript entry
+  // uuid (CLI --resume-session-at). To rewind to just before a user message,
+  // pass the uuid of the entry that precedes it.
+  string resume_session_at = 5;
+
+  string model = 6;               // alias or id from Opened.initialize models[]
+  string permission_mode = 7;     // one of Opened.permission_modes
+  string effort = 8;              // one of the model's supportedEffortLevels
+  Thinking thinking = 9;
+  repeated string additional_directories = 10;
+
+  // Text appended to Claude Code's system prompt (preset + append).
+  string append_system_prompt = 11;
+
+  // Opaque client label stored with the conversation (window id, tab id).
+  string client_tag = 12;
+}
+
+message Thinking {
+  enum Mode {
+    MODE_UNSPECIFIED = 0;  // CLI default
+    ADAPTIVE = 1;
+    DISABLED = 2;
+    BUDGET = 3;            // use budget_tokens
+  }
+  Mode mode = 1;
+  uint32 budget_tokens = 2;
+}
+
+message Attach {
+  string conversation_id = 1;
+  // Last ServerEvent.seq the client processed. The server replays every
+  // retained event with a greater seq. 0 replays everything retained.
+  uint64 after_seq = 2;
+}
+
+// UserMessage is one user turn. Sending it while a turn is running queues it
+// in the CLI; it runs at the next safe point.
+message UserMessage {
+  // Client-chosen UUID. It becomes the CLI message uuid, so the client can
+  // refer to this message later (rewind, cancel while queued) and recognise
+  // its echo. Required.
+  string uuid = 1;
+  repeated ContentBlock content = 2;
+}
+
+message ContentBlock {
+  oneof block {
+    string text = 1;
+    Image image = 2;
+    // Any other Messages API content block as JSON (documents, …).
+    bytes raw_json = 3;
+  }
+}
+
+message Image {
+  string media_type = 1;  // image/png, image/jpeg, image/gif, image/webp
+  bytes data = 2;         // raw bytes; the server base64-encodes them
+}
+
+// PermissionDecision answers a PermissionRequest.
+message PermissionDecision {
+  string request_id = 1;
+  oneof decision {
+    Allow allow = 2;
+    Deny deny = 3;
+  }
+
+  message Allow {
+    // The input to run, as JSON. Empty = the original input unchanged. Set it
+    // only when the user edited the input (and for AskUserQuestion, where it
+    // is the original input plus "answers").
+    bytes updated_input_json = 1;
+    // Indexes into PermissionRequest.suggestions the user accepted ("always
+    // allow …"). The server sends exactly those suggestions back to the CLI;
+    // a client can never invent a permission rule.
+    repeated uint32 accepted_suggestions = 2;
+  }
+  message Deny {
+    // Fed back to Claude as the tool error, so it steers the next step.
+    string message = 1;
+    // Also stop the turn.
+    bool interrupt = 2;
+  }
+}
+
+// Interrupt stops the current turn (Stop button, Esc).
+message Interrupt {
+  // Also drop user messages queued behind the running turn.
+  bool cancel_queued = 1;
+}
+
+message SetPermissionMode { string mode = 1; }
+
+// SetModel switches the model for later turns. Empty = the CLI default.
+message SetModel { string model = 1; }
+
+message SetThinking { Thinking thinking = 1; }
+
+// ControlCall is any other host->CLI control request, passed through. Use it
+// for requests this contract has no dedicated message for, e.g. mcp_status,
+// mcp_toggle, rewind_files, get_context_usage, stop_task, get_task_output,
+// rename_session, list_permission_rules. The server rejects subtypes that are
+// not on its allow-list (it never forwards initialize or set_cwd).
+message ControlCall {
+  // Client-chosen id, echoed in ControlResult.
+  string call_id = 1;
+  // CLI control subtype, e.g. "mcp_status".
+  string subtype = 2;
+  // The request's fields as a JSON object, without "subtype". Empty = {}.
+  bytes fields_json = 3;
+  // Give up after this many milliseconds. 0 = the server default (60 s).
+  // The CLI itself has no timeout for control requests.
+  uint32 timeout_ms = 4;
+}
+
+message ElicitationResponse {
+  string request_id = 1;
+  // {"action":"accept"|"decline"|"cancel","content":{…}}
+  bytes response_json = 2;
+}
+
+message DialogResponse {
+  string request_id = 1;
+  bytes response_json = 2;
+}
+
+// Ack tells the server the client has processed events up to seq, so the
+// server may drop them from its replay buffer.
+message Ack { uint64 seq = 1; }
+
+// Terminate stops the CLI process (stdin EOF, then SIGTERM after 2 s, then
+// SIGKILL after 5 s more). The session stays on disk and can be resumed.
+message Terminate {}
+
+// ---------------------------------------------------------------------------
+// Server -> client
+// ---------------------------------------------------------------------------
+
+message ServerEvent {
+  // Strictly increasing per conversation, starting at 1. Events replayed
+  // after Attach keep their original seq.
+  uint64 seq = 1;
+
+  oneof event {
+    Opened opened = 2;
+    Frame frame = 3;
+    PermissionRequest permission_request = 4;
+    RequestCancelled request_cancelled = 5;
+    ElicitationRequest elicitation_request = 6;
+    DialogRequest dialog_request = 7;
+    ControlResult control_result = 8;
+    StateChanged state_changed = 9;
+    ProcessExited process_exited = 10;
+    Notice notice = 11;
+  }
+}
+
+// Opened is the first event after Open.
+message Opened {
+  string conversation_id = 1;
+  // True for Attach; false for a newly started process.
+  bool attached = 2;
+  uint32 pid = 3;
+  string cwd = 4;
+  // The CLI's initialize response, as JSON: commands (slash commands),
+  // models, agents, account, output styles and capability flags. Build the
+  // slash menu and the model picker from it; never hard-code those lists.
+  bytes initialize_json = 5;
+  // Valid permission modes for this CLI, e.g. default, acceptEdits, plan,
+  // auto, dontAsk, bypassPermissions (the last only if the server allows it).
+  repeated string permission_modes = 6;
+  ConversationState state = 7;
+  // Session id, once known. Empty until the first system/init frame of a
+  // new session; set immediately for resume and attach.
+  string session_id = 8;
+  // For Attach: requests still waiting for an answer are replayed as their
+  // original events after Opened.
+  uint32 pending_requests = 9;
+}
+
+// Frame is one CLI output frame, unchanged.
+message Frame {
+  // Envelope fields copied out of the JSON for routing without parsing.
+  string type = 1;               // system, assistant, user, stream_event, result, …
+  string subtype = 2;            // e.g. init, status, task_started, success
+  string session_id = 3;
+  string uuid = 4;
+  // Non-empty: the frame belongs to the subagent started by that tool call.
+  string parent_tool_use_id = 5;
+  // The complete frame as the CLI wrote it.
+  bytes raw_json = 6;
+}
+
+// PermissionRequest is a tool call waiting for the user (CLI can_use_tool).
+// The tool does not run until a PermissionDecision arrives.
+message PermissionRequest {
+  string request_id = 1;
+  string tool_name = 2;
+  bytes input_json = 3;
+  string tool_use_id = 4;        // attach the approval card to this tool card
+  string agent_id = 5;           // set when a subagent is asking
+  string display_name = 6;
+  string title = 7;
+  string description = 8;
+  string decision_reason = 9;
+  string blocked_path = 10;
+  // "Always allow …" options offered by the CLI, each a PermissionUpdate JSON
+  // object. Refer to them by index in PermissionDecision.Allow.
+  repeated bytes suggestions = 11;
+  // The complete can_use_tool request, for fields this message lacks.
+  bytes raw_json = 12;
+  // What kind of card to show.
+  Kind kind = 13;
+
+  enum Kind {
+    KIND_UNSPECIFIED = 0;  // approve / deny a tool call
+    ASK_USER_QUESTION = 1; // tool AskUserQuestion: render the questions
+    EXIT_PLAN_MODE = 2;    // tool ExitPlanMode: render the plan
+  }
+}
+
+// RequestCancelled withdraws a pending PermissionRequest, ElicitationRequest
+// or DialogRequest: close its card. No reply is expected.
+message RequestCancelled {
+  string request_id = 1;
+  Reason reason = 2;
+
+  enum Reason {
+    REASON_UNSPECIFIED = 0;
+    CLI_CANCELLED = 1;     // the CLI sent control_cancel_request
+    PROCESS_EXITED = 2;
+    ANSWERED_ELSEWHERE = 3;
+  }
+}
+
+// ElicitationRequest: an MCP server asks the user a question, or to open a URL.
+message ElicitationRequest {
+  string request_id = 1;
+  string server_name = 2;
+  string message = 3;
+  string url = 4;
+  bytes requested_schema_json = 5;
+  bytes raw_json = 6;
+}
+
+message DialogRequest {
+  string request_id = 1;
+  string dialog_kind = 2;
+  bytes payload_json = 3;
+  string tool_use_id = 4;
+}
+
+// ControlResult answers a ControlCall.
+message ControlResult {
+  string call_id = 1;
+  oneof result {
+    bytes response_json = 2;   // the CLI's response object ({} if none)
+    ControlError error = 3;
+  }
+}
+
+message ControlError {
+  string message = 1;
+  string error_code = 2;
+  // The CLI does not know this subtype: hide the feature for this session.
+  bool unsupported = 3;
+  bool timed_out = 4;
+}
+
+enum ConversationState {
+  CONVERSATION_STATE_UNSPECIFIED = 0;
+  STARTING = 1;            // process spawned, waiting for initialize
+  READY = 2;               // idle, composer enabled
+  RUNNING = 3;             // a turn is running
+  AWAITING_APPROVAL = 4;   // a turn is blocked on the user
+  INTERRUPTING = 5;        // interrupt sent, waiting for the result
+  EXITED = 6;              // process gone; resume to continue
+}
+
+message StateChanged {
+  ConversationState state = 1;
+  // Request ids currently waiting for the user.
+  repeated string pending_request_ids = 2;
+  // User message uuids queued behind the running turn.
+  repeated string queued_message_uuids = 3;
+}
+
+// ProcessExited is the last event of a conversation.
+message ProcessExited {
+  // 0 for a clean exit. -1 when killed by a signal.
+  int32 exit_code = 1;
+  // Human-readable reason, e.g. "Claude Code process exited with code 1" or
+  // "Claude Code returned an error result: …". Empty for a clean exit.
+  string error = 2;
+  // Redacted tail of the CLI's stderr (at most 2048 bytes).
+  string stderr_tail = 3;
+  // True when the process ended because of Terminate or the detach timeout.
+  bool requested = 4;
+  // Resume this session id to continue the conversation.
+  string session_id = 5;
+}
+
+// Notice is server-originated information that is not a CLI frame.
+message Notice {
+  enum Level {
+    LEVEL_UNSPECIFIED = 0;
+    INFO = 1;
+    WARNING = 2;
+    ERROR = 3;
+  }
+  Level level = 1;
+  // Stable identifier, e.g. "unparsed_stdout_line", "replay_gap",
+  // "untested_cli_version".
+  string code = 2;
+  string message = 3;
+}
+
+// ---------------------------------------------------------------------------
+// Conversations and sessions
+// ---------------------------------------------------------------------------
+
+message ListConversationsRequest {}
+
+message ListConversationsResponse {
+  repeated ConversationInfo conversations = 1;
+}
+
+message ConversationInfo {
+  string conversation_id = 1;
+  string session_id = 2;
+  string cwd = 3;
+  ConversationState state = 4;
+  bool attached = 5;
+  string client_tag = 6;
+  int64 started_at_unix_ms = 7;
+  uint32 pending_requests = 8;
+}
+
+message ListSessionsRequest {
+  string cwd = 1;
+  bool include_archived = 2;
+  uint32 limit = 3;        // 0 = server default
+  string page_token = 4;
+}
+
+message ListSessionsResponse {
+  repeated SessionInfo sessions = 1;
+  string next_page_token = 2;
+}
+
+message SessionInfo {
+  string session_id = 1;
+  string title = 2;            // custom title, else generated, else empty
+  string first_prompt = 3;
+  int64 last_activity_unix_ms = 4;
+  string git_branch = 5;
+  bool archived = 6;
+  // Set when a live conversation is running this session.
+  string conversation_id = 7;
+}
+
+message GetTranscriptRequest {
+  string cwd = 1;
+  string session_id = 2;
+}
+
+message GetSubagentTranscriptRequest {
+  string cwd = 1;
+  string session_id = 2;
+  string agent_id = 3;
+}
+
+message TranscriptEntry {
+  // One transcript line, unchanged.
+  bytes raw_json = 1;
+}
+
+message ArchiveSessionRequest {
+  string cwd = 1;
+  string session_id = 2;
+  bool archived = 3;
+}
+
+message ArchiveSessionResponse {}
+
+message SearchFilesRequest {
+  string cwd = 1;
+  string query = 2;
+  uint32 limit = 3;
+  bool respect_gitignore = 4;
+}
+
+message SearchFilesResponse {
+  repeated FileMatch matches = 1;
+}
+
+message FileMatch {
+  string path = 1;       // relative to cwd
+  bool is_directory = 2;
+}

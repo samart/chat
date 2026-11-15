@@ -1,0 +1,146 @@
+[
+ {
+  "kind": "field",
+  "owner": "HookCallbackMatcher",
+  "name": "onFailure",
+  "version": "0.3.317"
+ },
+ {
+  "kind": "field",
+  "owner": "McpCallRequest",
+  "name": "check_permissions",
+  "version": "0.3.312-0.3.325"
+ },
+ {
+  "kind": "field",
+  "owner": "ReloadPluginsRequest",
+  "name": "refuse_if_busy",
+  "version": "0.3.325"
+ },
+ {
+  "kind": "type",
+  "owner": "",
+  "name": "SDKControlSetHasSubscribersRequest",
+  "version": "0.3.312-0.3.325"
+ },
+ {
+  "kind": "union variant",
+  "owner": "ControlRequestInner",
+  "name": "SDKControlSetHasSubscribersRequest",
+  "version": "0.3.312-0.3.325"
+ },
+ {
+  "kind": "field",
+  "owner": "ControlErrorResponse",
+  "name": "pending_elicitation_requests",
+  "version": "0.3.312-0.3.325"
+ },
+ {
+  "kind": "field",
+  "owner": "ControlSuccessResponse",
+  "name": "pending_elicitation_requests",
+  "version": "0.3.312-0.3.325"
+ },
+ {
+  "kind": "type",
+  "owner": "",
+  "name": "DeniedModelsMatch",
+  "version": "0.3.323"
+ },
+ {
+  "kind": "field",
+  "owner": "ResolvedSettings",
+  "name": "machinePolicy",
+  "version": "0.3.323"
+ },
+ {
+  "kind": "field",
+  "owner": "InitializeResponse",
+  "name": "hook_on_failure_supported",
+  "version": "0.3.317"
+ },
+ {
+  "kind": "field",
+  "owner": "PermissionRulesState",
+  "name": "withheld",
+  "version": "0.3.312-0.3.325"
+ },
+ {
+  "kind": "field",
+  "owner": "ReadFileResponse",
+  "name": "lossy",
+  "version": "0.3.317"
+ },
+ {
+  "kind": "field",
+  "owner": "ResultSuccess",
+  "name": "credential_expires_at",
+  "version": "0.3.318"
+ },
+ {
+  "kind": "enum value",
+  "owner": "StartupFailureReason",
+  "name": "sandbox_required_unavailable",
+  "version": "0.3.314"
+ },
+ {
+  "kind": "enum value",
+  "owner": "StartupFailureReason",
+  "name": "initialize_not_first",
+  "version": "0.3.317"
+ },
+ {
+  "kind": "enum value",
+  "owner": "StartupFailureReason",
+  "name": "config_file_invalid",
+  "version": "0.3.318"
+ },
+ {
+  "kind": "enum value",
+  "owner": "StartupFailureReason",
+  "name": "managed_settings_not_delivered",
+  "version": "0.3.312-0.3.325"
+ },
+ {
+  "kind": "field",
+  "owner": "ResultError",
+  "name": "invalid_config_file",
+  "version": "0.3.325"
+ },
+ {
+  "kind": "field",
+  "owner": "ResultError",
+  "name": "credential_expires_at",
+  "version": "0.3.318"
+ },
+ {
+  "kind": "field",
+  "owner": "SystemInitMessagePluginError",
+  "name": "managed_lock",
+  "version": "0.3.325"
+ },
+ {
+  "kind": "type",
+  "owner": "",
+  "name": "SDKSessionWritesLostMessage",
+  "version": "0.3.317"
+ },
+ {
+  "kind": "union variant",
+  "owner": "Message",
+  "name": "SDKSessionWritesLostMessage",
+  "version": "0.3.317"
+ },
+ {
+  "kind": "field",
+  "owner": "SessionInfo",
+  "name": "archived",
+  "version": "0.3.325"
+ },
+ {
+  "kind": "union variant",
+  "owner": "StdoutMessage",
+  "name": "SDKSessionWritesLostMessage",
+  "version": "0.3.317"
+ }
+]

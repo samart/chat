@@ -1,0 +1,10 @@
+{
+  "scenario": "error_500",
+  "target": "mock",
+  "sessionId": "6469a82d-8675-4513-8a4c-b31cb261834b",
+  "r1": {
+    "code": 1,
+    "signal": null,
+    "stderr": ""
+  }
+}

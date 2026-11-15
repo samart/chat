@@ -1,0 +1,10 @@
+{
+  "scenario": "max_turns",
+  "target": "mock",
+  "sessionId": "6e8c3597-ba27-4904-a173-cfa80bc87db5",
+  "r1": {
+    "code": 1,
+    "signal": null,
+    "stderr": ""
+  }
+}

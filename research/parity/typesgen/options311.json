@@ -1,0 +1,541 @@
+[
+ {
+  "name": "abortController",
+  "optional": true,
+  "type": "AbortController",
+  "doc": "Controller for cancelling the query. When aborted, the query will stop and clean up resources.",
+  "tags": {}
+ },
+ {
+  "name": "additionalDirectories",
+  "optional": true,
+  "type": "string[]",
+  "doc": "Additional directories Claude can access beyond the current working directory. Paths should be absolute.",
+  "tags": {}
+ },
+ {
+  "name": "projectConfigRoot",
+  "optional": true,
+  "type": "string",
+  "doc": "The trusted checkout `cwd` is a worktree of. Project settings (hooks, permissions), `.mcp.json`, the `.claude` config trees (commands, agents, skills, workflows, routines, output-styles; a routine cannot be activated with it) and `CLAUDE_PROJECT_DIR` come from here instead of `cwd`, so whatever the branch checked out in `cwd` carries is not what the session runs. Absolute path.",
+  "tags": {}
+ },
+ {
+  "name": "agent",
+  "optional": true,
+  "type": "string",
+  "doc": "Agent name for the main thread. When specified, the agent's system prompt, tool restrictions, and model will be applied to the main conversation. The agent must be defined either in the `agents` option or in settings. This is equivalent to the `--agent` CLI flag.",
+  "tags": {
+   "example": "```typescript\r\nagent: 'code-reviewer',\r\nagents: {\r\n  'code-reviewer': {\r\n    description: 'Reviews code for best practices',\r\n    prompt: 'You are a code reviewer...'\r\n  }\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "agents",
+  "optional": true,
+  "type": "Record<string, AgentDefinition>",
+  "doc": "Programmatically define custom subagents that can be invoked via the Agent tool. Keys are agent names, values are agent definitions.",
+  "tags": {
+   "example": "```typescript\r\nagents: {\r\n  'test-runner': {\r\n    description: 'Runs tests and reports results',\r\n    prompt: 'You are a test runner...',\r\n    tools: ['Read', 'Grep', 'Glob', 'Bash']\r\n  }\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "allowedTools",
+  "optional": true,
+  "type": "string[]",
+  "doc": "List of tool names that are auto-allowed without prompting for permission. These tools will execute automatically without asking the user for approval. To restrict which tools are available, use the `tools` option instead. Note: passing `'Skill'` here is deprecated — use the `skills` option instead.",
+  "tags": {}
+ },
+ {
+  "name": "canUseTool",
+  "optional": true,
+  "type": "CanUseTool",
+  "doc": "Custom permission handler for controlling tool usage. Called before each tool execution to determine if it should be allowed, denied, or prompt the user.",
+  "tags": {}
+ },
+ {
+  "name": "continue",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Continue the most recent conversation in the current directory instead of starting a new one. Mutually exclusive with `resume`.",
+  "tags": {}
+ },
+ {
+  "name": "cwd",
+  "optional": true,
+  "type": "string",
+  "doc": "Current working directory for the session. Defaults to `process.cwd()`.",
+  "tags": {}
+ },
+ {
+  "name": "disallowedTools",
+  "optional": true,
+  "type": "string[]",
+  "doc": "List of tool names that are disallowed. These tools will be removed from the model's context and cannot be used, even if they would otherwise be allowed.",
+  "tags": {}
+ },
+ {
+  "name": "toolAliases",
+  "optional": true,
+  "type": "Record<string, string>",
+  "doc": "Map of tool-name aliases applied before name resolution. When the model emits a `tool_use` whose name is a key in this map, the tool execution path resolves the mapped name instead. This lets SDK consumers redirect built-in tool names to their own tools. For example, a host that runs Bash inside a remote sandbox via an MCP tool can set `{ Bash: 'mcp__workspace__bash' }` so that if the model emits `Bash` (e.g. because a skill document instructed it to), the call is routed to the MCP tool instead of failing as unknown. The redirect is single-hop: an alias that points at another aliased name resolves that target literally rather than following a chain, so cycles like `{A: 'B', B: 'A'}` cannot loop. `toolAliases` is complementary to `disallowedTools`, not a replacement for it: the alias only affects name-based lookup of model-emitted `tool_use` blocks, whereas `disallowedTools` also blocks harness-internal direct calls that hold the tool object without a name lookup.",
+  "tags": {
+   "example": "```typescript\r\ntoolAliases: { Bash: 'mcp__workspace__bash' }\r\n```"
+  }
+ },
+ {
+  "name": "tools",
+  "optional": true,
+  "type": "string[] | { type: 'preset'; preset: 'claude_code'; }",
+  "doc": "Specify the base set of available built-in tools. - `string[]` - Array of specific tool names (e.g., `['Bash', 'Read', 'Edit']`) - `[]` (empty array) - Disable all built-in tools - `{ type: 'preset'; preset: 'claude_code' }` - Use all default Claude Code tools Note: native builds may provide search via Bash `find`/`grep` instead of the dedicated Grep/Glob tools. List Grep/Glob here or in `allowedTools` to get them.",
+  "tags": {}
+ },
+ {
+  "name": "env",
+  "optional": true,
+  "type": "{ [envVar: string]: string | undefined; }",
+  "doc": "Environment variables for the Claude Code process. When set, this value REPLACES the subprocess environment entirely — it is not merged with `process.env`. Spread `process.env` yourself if the subprocess still needs inherited variables like `PATH`, `HOME`, or `ANTHROPIC_API_KEY`. When omitted, the subprocess inherits `process.env`. SDK consumers can identify their app/library to include in the User-Agent header by setting: - `CLAUDE_AGENT_SDK_CLIENT_APP` - Your app/library identifier (e.g., \"my-app/1.0.0\", \"my-library/2.1\")",
+  "tags": {
+   "example": "```typescript\r\nenv: { ...process.env, CLAUDE_AGENT_SDK_CLIENT_APP: 'my-app/1.0.0' }\r\n```"
+  }
+ },
+ {
+  "name": "executable",
+  "optional": true,
+  "type": "'bun' | 'deno' | 'node'",
+  "doc": "JavaScript runtime to use for executing Claude Code. Auto-detected if not specified.",
+  "tags": {}
+ },
+ {
+  "name": "executableArgs",
+  "optional": true,
+  "type": "string[]",
+  "doc": "Additional arguments to pass to the JavaScript runtime executable.",
+  "tags": {}
+ },
+ {
+  "name": "extraArgs",
+  "optional": true,
+  "type": "Record<string, string | null>",
+  "doc": "Additional CLI arguments to pass to Claude Code. Keys are argument names (without --), values are argument values. Use `null` for boolean flags.",
+  "tags": {}
+ },
+ {
+  "name": "fallbackModel",
+  "optional": true,
+  "type": "string",
+  "doc": "Fallback model(s) to use if the primary model is overloaded or unavailable. Accepts a comma-separated list to try each in order. The primary model is re-tried at the start of each user turn, so a temporary outage doesn't permanently demote the session.",
+  "tags": {}
+ },
+ {
+  "name": "enableFileCheckpointing",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Enable file checkpointing to track file changes during the session. When enabled, files can be rewound to their state at any user message using `Query.rewindFiles()`. File checkpointing creates backups of files before they are modified, allowing you to restore them to previous states.",
+  "tags": {}
+ },
+ {
+  "name": "toolConfig",
+  "optional": true,
+  "type": "ToolConfig",
+  "doc": "Per-tool configuration for built-in tools.",
+  "tags": {
+   "example": "```typescript\r\ntoolConfig: {\r\n  askUserQuestion: { previewFormat: 'html' }\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "forkSession",
+  "optional": true,
+  "type": "boolean",
+  "doc": "When true, resumed sessions will fork to a new session ID rather than continuing the previous session. Use with `resume`.",
+  "tags": {}
+ },
+ {
+  "name": "betas",
+  "optional": true,
+  "type": "SdkBeta[]",
+  "doc": "Enable beta features. Currently supported: - `'context-1m-2025-08-07'` - Enable 1M token context window (Sonnet 4/4.5 only)",
+  "tags": {
+   "see": "://platform.claude.com/docs/en/api/beta-headers"
+  }
+ },
+ {
+  "name": "hooks",
+  "optional": true,
+  "type": "Partial<Record<HookEvent, HookCallbackMatcher[]>>",
+  "doc": "Hook callbacks for responding to various events during execution. Hooks can modify behavior, add context, or implement custom logic.",
+  "tags": {
+   "example": "```typescript\r\nhooks: {\r\n  PreToolUse: [{\r\n    hooks: [async (input) => ({ continue: true })]\r\n  }]\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "onElicitation",
+  "optional": true,
+  "type": "OnElicitation",
+  "doc": "Callback for handling MCP elicitation requests. Called when an MCP server requests user input (form fields, URL auth, etc.) and no hook handles the request first. If not provided, elicitation requests that aren't handled by hooks will be declined automatically.",
+  "tags": {
+   "example": "```typescript\r\nonElicitation: async (request) => {\r\n  if (request.mode === 'url') {\r\n    // Handle URL-based auth\r\n    return { action: 'accept' }\r\n  }\r\n  // Provide form values\r\n  return { action: 'accept', content: { name: 'Test' } }\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "onUserDialog",
+  "optional": true,
+  "type": "OnUserDialog",
+  "doc": "Callback for handling `request_user_dialog` control requests — blocking dialogs the CLI asks the host to render. Each `dialogKind` defines its own payload and result shape. When the host answers `{behavior: 'cancelled'}` — the required answer for an unrecognized `dialogKind` — the CLI applies the dialog's default behavior. If the callback is not provided at all, the SDK sends no answer: on a multi-client session another attached client may be the declared renderer, and an auto-reply from this one would settle the dialog out from under it. An unanswered dialog is bounded by the CLI's park deadline.",
+  "tags": {}
+ },
+ {
+  "name": "supportedDialogKinds",
+  "optional": true,
+  "type": "string[]",
+  "doc": "Dialog kinds this consumer's `onUserDialog` can actually render (`request_user_dialog` `dialog_kind` values, e.g. 'refusal_fallback_prompt'). Declare only kinds your UI genuinely displays and answers. Providing `onUserDialog` alone does NOT opt the consumer into receiving dialogs — the CLI only emits a dialog kind declared here. The CLI fails closed on absence: a dialog kind not declared here is never emitted to this session — the flow behind it degrades to its no-dialog behavior instead (for 'refusal_fallback_prompt', the classic refusal error message ends the turn). Omitting the option entirely means no dialogs are emitted, even with `onUserDialog` wired. Requires `onUserDialog`; passing a non-empty list without the callback throws at option intake. On multi-client (remote) sessions the first attached client's declaration wins for the worker's lifetime, and the winning declaration is persisted to worker metadata so it survives worker restarts (restored as a default that the next epoch's first explicit declaration overrides).",
+  "tags": {}
+ },
+ {
+  "name": "perTaskStopAffordance",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Declares that this consumer renders a per-task stop control wired to the `stop_task` control request, so the user can stop an individual background task. When declared, an interrupt on an open-input (interactive stream-json) session spares running background agents/workflows — Stop only aborts the current turn, and tasks are stopped one at a time through the consumer's own affordance. Closed-input exception: on a one-shot run (the string `prompt` form and `-p`, which close stdin), hold-back tasks are still killed when the held result is released, regardless of this declaration — with stdin closed, a `stop_task` control could never be delivered, so the fail-closed kill stands. The CLI also fails closed on absence: without the declaration, an interrupt kills background tasks, because a spared runaway task would otherwise be unstoppable from this consumer short of ending the session. First-attached-client wins on multi-client sessions; later initializes do not change it.",
+  "tags": {}
+ },
+ {
+  "name": "persistSession",
+  "optional": true,
+  "type": "boolean",
+  "doc": "When false, disables session persistence to disk. Sessions will not be saved to ~/.claude/projects/ and cannot be resumed later. Useful for ephemeral or automated workflows where session history is not needed.",
+  "tags": {
+   "default": "true"
+  }
+ },
+ {
+  "name": "sessionStore",
+  "optional": true,
+  "type": "SessionStore",
+  "doc": "Mirror session transcripts to an external store. When set, the subprocess still writes to CLAUDE_CONFIG_DIR (set it to /tmp for ephemeral local copy) AND emits entries to this adapter via dual-write. Cannot be used with persistSession: false -- local writes are required for the mirror to function (the mirror hook fires after local write success). Default: undefined (no mirroring, today's behavior).",
+  "tags": {
+   "alpha": true
+  }
+ },
+ {
+  "name": "sessionStoreFlush",
+  "optional": true,
+  "type": "SessionStoreFlush",
+  "doc": "Controls how aggressively transcript entries are flushed to . Defaults to `'batched'`. Ignored when `sessionStore` is not set.",
+  "tags": {
+   "alpha": true
+  }
+ },
+ {
+  "name": "loadTimeoutMs",
+  "optional": true,
+  "type": "number",
+  "doc": "Timeout for each `sessionStore.load()` / `sessionStore.listSubkeys()` call during resume materialization. If the adapter doesn't settle within this window the query fails with a clear error instead of hanging the iterator forever (the deferred-spawn path otherwise has no upper bound).",
+  "tags": {
+   "default": "60_000",
+   "alpha": true
+  }
+ },
+ {
+  "name": "includeHookEvents",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Include hook lifecycle events in the output stream. When true, `hook_started`, `hook_progress`, and `hook_response` system messages will be emitted for all hook event types (PreToolUse, PostToolUse, Stop, etc.). SessionStart and Setup hook events are always emitted regardless of this setting.",
+  "tags": {
+   "default": "false"
+  }
+ },
+ {
+  "name": "includePartialMessages",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Include partial/streaming message events in the output. When true, `SDKPartialAssistantMessage` events will be emitted during streaming.",
+  "tags": {}
+ },
+ {
+  "name": "forwardSubagentText",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Forward subagent text and thinking blocks as assistant/user messages with `parent_tool_use_id` set. By default, only tool_use/tool_result blocks from subagents are emitted (enough for a heartbeat counter). When true, the full subagent conversation is forwarded so consumers can render a nested transcript.",
+  "tags": {}
+ },
+ {
+  "name": "verbatimPrompts",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Send every user message with `client_composed: true`, so the CLI delivers the prompt text as written: no `@path` file-mention expansion and no slash-command dispatch. Use when prompt text is assembled from content the end user did not type. Covers string prompts, streamed messages and `Query.streamInput()`. While the option is on there is no per-message opt-out; for per-turn control, leave it off and set `client_composed: true` on individual streamed messages instead. On current CLIs a turn delivered this way also skips the CLI's turn-start attachment pass as a whole: `@server:resource` MCP mentions are not expanded either, and the prompt is sent without the context the CLI normally attaches alongside it (nested `CLAUDE.md` and rules files, skill and tool listings, and the CLI's other per-turn reminders). The pass the CLI runs between tool calls is unaffected, so most of that context arrives after the turn's first tool call rather than with the prompt. Narrowing the skip to `@path` expansion and slash-command dispatch alone is CLI-side follow-up work. Requires Claude Code 2.1.248 or later; older CLIs ignore the field.",
+  "tags": {
+   "default": "false"
+  }
+ },
+ {
+  "name": "thinking",
+  "optional": true,
+  "type": "ThinkingConfig",
+  "doc": "Controls Claude's thinking/reasoning behavior. - `{ type: 'adaptive' }` — Claude decides when and how much to think (Opus 4.6+). This is the default for models that support it. - `{ type: 'enabled', budgetTokens: number }` — Fixed thinking token budget (older models) - `{ type: 'disabled' }` — No extended thinking When set, takes precedence over the deprecated `maxThinkingTokens`.",
+  "tags": {
+   "see": "://platform.claude.com/docs/en/build-with-claude/adaptive-thinking"
+  }
+ },
+ {
+  "name": "effort",
+  "optional": true,
+  "type": "EffortLevel",
+  "doc": "Controls how much effort Claude puts into its response. Works with adaptive thinking to guide thinking depth.",
+  "tags": {
+   "see": "://platform.claude.com/docs/en/build-with-claude/effort"
+  }
+ },
+ {
+  "name": "maxThinkingTokens",
+  "optional": true,
+  "type": "number",
+  "doc": "Maximum number of tokens the model can use for its thinking/reasoning process. Helps control cost and latency for complex tasks.",
+  "tags": {
+   "deprecated": "Use `thinking` instead. On Opus 4.6, this is treated as on/off\r\n(0 = disabled, any other value = adaptive). For explicit control, use\r\n`thinking: { type: 'adaptive' }` or `thinking: { type: 'enabled', budgetTokens: N }`."
+  }
+ },
+ {
+  "name": "maxTurns",
+  "optional": true,
+  "type": "number",
+  "doc": "Maximum number of conversation turns before the query stops. A turn consists of a user message and assistant response.",
+  "tags": {}
+ },
+ {
+  "name": "maxBudgetUsd",
+  "optional": true,
+  "type": "number",
+  "doc": "Maximum budget in USD for the query. The query will stop if this budget is exceeded, returning an `error_max_budget_usd` result.",
+  "tags": {}
+ },
+ {
+  "name": "taskBudget",
+  "optional": true,
+  "type": "{ total: number; }",
+  "doc": "API-side task budget in tokens. When set, the model is made aware of its remaining token budget so it can pace tool use and wrap up before the limit. Sent as `output_config.task_budget` with the `task-budgets-2026-03-13` beta header.",
+  "tags": {
+   "alpha": true
+  }
+ },
+ {
+  "name": "mcpServers",
+  "optional": true,
+  "type": "Record<string, McpServerConfig>",
+  "doc": "MCP (Model Context Protocol) server configurations. Keys are server names, values are server configurations.",
+  "tags": {
+   "example": "```typescript\r\nmcpServers: {\r\n  'my-server': {\r\n    command: 'node',\r\n    args: ['./my-mcp-server.js']\r\n  }\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "model",
+  "optional": true,
+  "type": "string",
+  "doc": "Claude model to use. Defaults to the CLI default model. Examples: 'claude-sonnet-5', 'claude-opus-4-8', 'claude-fable-5'",
+  "tags": {}
+ },
+ {
+  "name": "outputFormat",
+  "optional": true,
+  "type": "OutputFormat",
+  "doc": "Output format configuration for structured responses. When specified, the agent will return structured data matching the schema.",
+  "tags": {
+   "example": "```typescript\r\noutputFormat: {\r\n  type: 'json_schema',\r\n  schema: { type: 'object', properties: { result: { type: 'string' } } }\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "pathToClaudeCodeExecutable",
+  "optional": true,
+  "type": "string",
+  "doc": "Path to the Claude Code executable. Uses the built-in executable if not specified.",
+  "tags": {}
+ },
+ {
+  "name": "permissionMode",
+  "optional": true,
+  "type": "PermissionMode",
+  "doc": "Permission mode for the session. When omitted, Claude Code picks the starting mode as it does for `claude -p`: a `permissions.defaultMode` from the settings the session loads, else `'auto'` where that is the default (and `'default'` where auto mode is unavailable). Pass `'default'` to keep manual approvals through `canUseTool` (on a cloud create or attach, `'default'` leaves the session's own mode). - `'default'` - Standard permission behavior, prompts for dangerous operations - `'acceptEdits'` - Auto-accept file edit operations - `'bypassPermissions'` - Bypass all permission checks (requires `allowDangerouslySkipPermissions`) - `'plan'` - Planning mode, no execution of tools - `'dontAsk'` - Don't prompt for permissions, deny if not pre-approved - `'auto'` - A model classifier approves or denies each call, prompting through `canUseTool` when it cannot decide",
+  "tags": {}
+ },
+ {
+  "name": "planModeInstructions",
+  "optional": true,
+  "type": "string",
+  "doc": "Custom workflow instructions for plan mode. When `permissionMode` is `'plan'`, this string replaces the default code-implementation workflow body in the plan-mode system reminder. The CLI still wraps it with the read-only enforcement preamble and the ExitPlanMode protocol footer.",
+  "tags": {}
+ },
+ {
+  "name": "allowDangerouslySkipPermissions",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Must be set to `true` when using `permissionMode: 'bypassPermissions'`. This is a safety measure to ensure intentional bypassing of permissions.",
+  "tags": {}
+ },
+ {
+  "name": "permissionPromptToolName",
+  "optional": true,
+  "type": "string",
+  "doc": "MCP tool name to use for permission prompts. When set, permission requests will be routed through this MCP tool instead of the default handler.",
+  "tags": {}
+ },
+ {
+  "name": "permissionPrompts",
+  "optional": true,
+  "type": "'host' | 'none'",
+  "doc": "Who answers permission prompts. `'host'` (default): this process, through `canUseTool` or `permissionPromptToolName`. `'none'`: nobody — the permission mode (including auto mode's classifier), rules and hooks still decide, and anything that would otherwise prompt is denied immediately with a message telling Claude the session has no approval surface; `canUseTool` is never called.",
+  "tags": {}
+ },
+ {
+  "name": "plugins",
+  "optional": true,
+  "type": "SdkPluginConfig[]",
+  "doc": "Load plugins for this session. Plugins provide custom commands, agents, skills, and hooks that extend Claude Code's capabilities. Currently only local plugins are supported via the 'local' type.",
+  "tags": {
+   "example": "```typescript\r\nplugins: [\r\n  { type: 'local', path: './my-plugin' },\r\n  { type: 'local', path: '/absolute/path/to/plugin' }\r\n]\r\n```"
+  }
+ },
+ {
+  "name": "pluginDelivery",
+  "optional": true,
+  "type": "'argv' | 'initialize'",
+  "doc": "How `plugins` reach the Claude Code process. - `'argv'` (default) - One `--plugin-dir <path>` flag per plugin. Works with any Claude Code version, but the command line grows with the plugin count and Windows refuses to start a process whose command line exceeds 32,767 characters. - `'initialize'` - The list is sent over stdin in the initialize request and Claude Code is started with `--await-initialize`, so the command line does not depend on the plugin count. Loading is otherwise identical. Requires Claude Code 2.1.261 or newer (the binary bundled with this SDK qualifies); an older binary exits at startup with an unknown-option error. `initializationResult().plugins_applied` reports whether every listed plugin is loaded in the process.",
+  "tags": {}
+ },
+ {
+  "name": "promptSuggestions",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Enable prompt suggestions. When true, the agent emits a `prompt_suggestion` message after each turn with a predicted next user prompt. Delivery semantics: - At most one `prompt_suggestion` per turn; arrives after the `result` message. - Consumers must keep iterating the stream after `result` to receive it. - Suppressed on the first turn, after API errors, in plan mode, by the `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false` env var, and when the user has `promptSuggestionEnabled: false` in settings.json (the env var wins over the setting). - Also suppressed while the account is near or at its plan usage limit. `CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=true` keeps them on in the near-limit case; at the limit they stay off. - Suggestions piggyback on the parent's prompt cache, making them nearly free.",
+  "tags": {}
+ },
+ {
+  "name": "agentProgressSummaries",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Enable periodic AI-generated progress summaries for running subagents. When true, the subagent's conversation is forked every ~30s to produce a short present-tense description (e.g. \"Analyzing authentication module\"), emitted on `task_progress` events via the `summary` field. The fork reuses the subagent's model and prompt cache, so cost is typically minimal. Applies to both foreground and background subagents. Defaults to false.",
+  "tags": {}
+ },
+ {
+  "name": "resume",
+  "optional": true,
+  "type": "string",
+  "doc": "Session ID to resume. Loads the conversation history from the specified session.",
+  "tags": {}
+ },
+ {
+  "name": "sessionId",
+  "optional": true,
+  "type": "string",
+  "doc": "Use a specific session ID for the conversation instead of an auto-generated one. Must be a valid UUID. Cannot be used with `continue` or `resume` unless `forkSession` is also set (to specify a custom ID for the forked session).",
+  "tags": {}
+ },
+ {
+  "name": "resumeSessionAt",
+  "optional": true,
+  "type": "string",
+  "doc": "When resuming, only resume messages up to and including the message with this UUID. Use with `resume`. This allows you to resume from a specific point in the conversation. Accepts any chain-entry UUID — typically `SDKAssistantMessage.uuid`, but end-turn tool sessions and transcript-only appends need a later entry's UUID (see `resumeDropsTurn` for the fork-point guidance).",
+  "tags": {}
+ },
+ {
+  "name": "resumeDropsTurn",
+  "optional": true,
+  "type": "string",
+  "doc": "With `resumeSessionAt`: declares the prompt UUID of the turn this truncating resume intends to discard. The CLI validates at fork time that every entry past the `resumeSessionAt` point is attributable to that turn, and refuses the resume (an `error_during_execution` result whose message starts with `Resume rejected by --resume-drops-turn:`) when the discarded range contains anything else — e.g. a queued user message or task notification the session absorbed mid-turn that the caller's view of the conversation had not yet observed. Omit to keep the unvalidated truncation behavior. Consumers MUST map a refusal (match on the message prefix above) to their rewind-recovery path — clear the pending fork target and resume plainly, keeping the evidence — not retry: the refusal is deterministic, so re-sending the same fork request fails forever. End-turn tool sessions (`outputFormat: {type: 'json_schema'}`, or any MCP tool using `_meta['claude/endTurn']`): a completed turn there ends on a successful tool_result carrier — with no trailing assistant message — followed by a `structured_output` attachment holding the turn's actual output (the carrier's data is a placeholder). Fork at the LAST entry of the turn being kept — the `structured_output` attachment when present, else the carrier — not the last assistant UUID; `resumeSessionAt` accepts any chain UUID. Forking earlier leaves the carrier or attachment in the discarded range, and the validator deliberately refuses: both are the kept turn's own payload, and dropping either would discard kept-turn output (the attachment is its sole persisted copy) or leave its tool_use dangling. The same fork-past-your-appends rule applies to plain (non-synthetic) `shouldQuery: false` transcript appends (e.g. CCD bash mode): they persist as bare user entries, so a fork point that leaves one in the discarded range refuses. Fork at or after your own last append. PRINT/HEADLESS LANE ONLY: the pair is consumed exclusively by the headless boot path (print-mode CLI, Agent SDK, ProcessTransport). An interactive `claude --resume` boot and background-job worker boots ignore both options — the resume loads the full chain with no truncation, no guard, and no error — so callers must not pass the pair outside print mode and expect an armed guard (rejecting it on those lanes is tracked follow-up work). General rule subsuming all of the above: fork at the KEPT turn's last chain entry, whatever it is — `resumeSessionAt` accepts any chain UUID. This also covers interrupted turns that completed one or more tools before Esc: the completed (non-error) tool_result in the tail is kept-turn payload and deliberately refuses at an assistant-UUID fork point, while the marker / cancel-batch entries after it are skippable — so fork at the last entry and the refusal never fires.",
+  "tags": {}
+ },
+ {
+  "name": "sandbox",
+  "optional": true,
+  "type": "SandboxSettings",
+  "doc": "Sandbox settings for command execution isolation. When enabled, commands are executed in a sandboxed environment that restricts filesystem and network access. This provides an additional security layer. Access restrictions can be set here (`filesystem`, `network`, `credentials`); filesystem and network restrictions also come from `Read`, `Edit` and `WebFetch` permission rules, and Claude Code applies both. **Dependency check:** When this option sets `enabled: true`, `failIfUnavailable` defaults to `true` unless this option or an inline `settings` sandbox block sets it: if sandbox dependencies are missing (e.g. `bubblewrap` on Linux) or the platform is unsupported, `query()` emits an error result and exits rather than silently running commands unsandboxed. Set `failIfUnavailable: false` to allow graceful degradation. **With `settings`:** when `settings` is given inline (an object or JSON string, not a file path) and has its own `sandbox` block, this option is merged into it. A value this option sets replaces the value at the same path, and a value it does not set is kept, with two exceptions: a `filesystem.disabled: true` is dropped when this option sets `filesystem` or a `credentials.files` deny entry, since it would switch those off; and a `network.httpProxyPort` or `network.socksProxyPort` is dropped when this option sets `network.allowedDomains`, a `network.deniedDomains` entry or `network.strictAllowlist: true` and does not set that port itself, since traffic through your own proxy is not checked against those lists. Nested objects merge key by key, except `ripgrep` and `network.tlsTerminate`, which this option replaces whole; and the restriction lists (`filesystem.denyRead`, `filesystem.denyWrite`, `network.deniedDomains`, `credentials.files`, `credentials.envVars`) from both are combined instead, a `deny` from either side winning over a `mask` for the same credential path or variable. A `settings` file path cannot be combined with this option.",
+  "tags": {
+   "example": "Configure network options\r\n```typescript\r\nsandbox: {\r\nenabled: true,\r\nnetwork: {\r\nallowLocalBinding: true,\r\nallowUnixSockets: ['/var/run/docker.sock']\r\n}\r\n}\r\n```",
+   "see": "://code.claude.com/docs/en/settings#sandbox-settings"
+  }
+ },
+ {
+  "name": "settings",
+  "optional": true,
+  "type": "string | Settings",
+  "doc": "Additional settings to apply. Accepts either a path to a settings JSON file or a settings object. These are loaded into the \"flag settings\" layer, which has the highest priority among user-controlled settings. Equivalent to the `--settings` CLI flag.",
+  "tags": {
+   "example": "Path to settings file\r\n```typescript\r\nsettings: '/path/to/settings.json'\r\n```"
+  }
+ },
+ {
+  "name": "managedSettings",
+  "optional": true,
+  "type": "Settings",
+  "doc": "Policy-tier settings supplied by the spawning parent process. When an IT-controlled managed-settings tier (server / MDM / managed-settings.json) exists on the user's machine, these are **dropped by default** — they only layer in if that admin opts in via `parentSettingsBehavior: 'merge'` in their managed settings (a gateway-mode session that Claude Desktop's Code tab launches merges them by default; `'first-wins'` in the highest-priority managed source turns that off). Even when opted in, the value is filtered restrictive-only: permissive arrays (`permissions.allow`, `additionalDirectories`, …) that would widen an existing admin lock are silently dropped; the only-listed-allowed lists (`allowedMcpServers`, `availableModels`, `strictKnownMarketplaces`) apply only where the admin tier sets none, while denylists (`deniedMcpServers`, `blockedMarketplaces`) are kept and union with the admin's. With no admin tier present, these apply as the sole policy tier (still filtered restrictive-only — non-allowlisted keys are dropped regardless). Two hook keys are filtered by value rather than kept as written: `disableAllHooks: true` binds as `allowManagedHooksOnly: true`, so the machine administrator's own hooks keep running where the embedder's tier cannot stop them — and because an enterprise configuration often yields a boolean as text, any value but `false` and `\"false\"` binds it the same way — and `allowedHttpHookUrls` / `httpHookAllowedEnvVars` bind only as the empty list (admit nothing) — a non-empty one is dropped, because these lists union across settings sources and would widen an admin's. For the same reason an empty list binds only where no other source sets one; pair it with `allowManagedHooksOnly` to stop a project's HTTP hooks outright. Intended for embedding applications (e.g. desktop apps) that derive lockdown settings from their own enterprise configuration and need to enforce them on the spawned subprocess without writing root-owned files.",
+  "tags": {
+   "example": "```typescript\r\nmanagedSettings: {\r\n  sandbox: { network: { allowManagedDomainsOnly: true } }\r\n}\r\n```"
+  }
+ },
+ {
+  "name": "settingSources",
+  "optional": true,
+  "type": "SettingSource[]",
+  "doc": "Control which filesystem settings to load. - `'user'` - Global user settings (`~/.claude/settings.json`) - `'project'` - Project settings (`.claude/settings.json`) - `'local'` - Local settings (`.claude/settings.local.json`) When omitted, all sources are loaded (matches CLI defaults). Pass `[]` to disable filesystem settings (SDK isolation mode). Must include `'project'` to load CLAUDE.md files.",
+  "tags": {}
+ },
+ {
+  "name": "skills",
+  "optional": true,
+  "type": "string[] | 'all'",
+  "doc": "Skills to enable for the main session. This is the single place to turn skills on; you do not need to add `'Skill'` to `allowedTools` yourself when using this option. - omitted (default): no SDK auto-configuration. The CLI's own defaults still apply, so this is **not** \"skills off.\" - `'all'`: enable every discovered skill. - `string[]`: enable only the listed skills. Names match the SKILL.md `name` / directory name, or `plugin:skill` for plugin-qualified skills. This is a context filter, not a sandbox: unlisted skills are hidden from the model's listing and rejected by the Skill tool, but their files remain on disk and are reachable via Read/Bash. Do not store secrets in skill files.",
+  "tags": {
+   "example": "```typescript\r\nskills: 'all'\r\nskills: ['pdf', 'docx']\r\n```"
+  }
+ },
+ {
+  "name": "debug",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Enable debug mode for the Claude Code process. When true, enables verbose debug logging (equivalent to `--debug` CLI flag). Debug logs are written to a file (see `debugFile` option) or to stderr. You can also capture debug output via the `stderr` callback.",
+  "tags": {}
+ },
+ {
+  "name": "debugFile",
+  "optional": true,
+  "type": "string",
+  "doc": "Write debug logs to a specific file path. Implicitly enables debug mode. Equivalent to `--debug-file <path>` CLI flag.",
+  "tags": {}
+ },
+ {
+  "name": "stderr",
+  "optional": true,
+  "type": "(data: string) => void",
+  "doc": "Callback for stderr output from the Claude Code process. Useful for debugging and logging.",
+  "tags": {}
+ },
+ {
+  "name": "strictMcpConfig",
+  "optional": true,
+  "type": "boolean",
+  "doc": "Only use MCP servers passed via the `mcpServers` option (and servers declared by explicitly-passed agent definitions in `agents`), ignoring all other MCP configurations: project `.mcp.json`, user settings, plugins, and on-disk agent frontmatter — including subagent frontmatter MCP. Maps to the CLI `--strict-mcp-config` flag.",
+  "tags": {}
+ },
+ {
+  "name": "systemPrompt",
+  "optional": true,
+  "type": "string | string[] | { type: 'custom'; prompt: string | string[]; snapshot?: boolean; } | { type: 'preset'; preset: 'claude_code'; append?: string; excludeDynamicSections?: boolean; snapshot?: boolean; }",
+  "doc": "System prompt configuration. - `string` - Use a custom system prompt - `string[]` - Use a custom system prompt as an array of blocks; include `SYSTEM_PROMPT_DYNAMIC_BOUNDARY` as a standalone element to mark the split between the static (globally-cacheable) prefix and the dynamic (session-specific) suffix. Blocks before the marker are eligible for cross-session prompt caching; blocks after it are not. - `{ type: 'preset', preset: 'claude_code' }` - Use Claude Code's default system prompt - `{ type: 'preset', preset: 'claude_code', append: '...' }` - Use default prompt with appended instructions - `{ type: 'preset', preset: 'claude_code', excludeDynamicSections: true }` - Strip per-user dynamic sections (working directory, auto-memory, git status) from the system prompt so it stays static and cacheable across users. The stripped content is re-injected as the first user message so the model still has access to it. Use this when many users in your fleet share the same system prompt and you want the prompt-caching prefix to hit cross-user. Tradeoffs: - The working-directory, memory-path, and git-status context is marginally less authoritative for steering the model (it appears in a user message instead of the system prompt). - The first user message becomes slightly larger. - Has no effect when `systemPrompt` is a string (custom prompt).",
+  "tags": {
+   "example": "Custom prompt, recorded for the conversation\r\n```typescript\r\nsystemPrompt: { type: 'custom', prompt: 'You are a release bot.', snapshot: true }\r\n```"
+  }
+ },
+ {
+  "name": "title",
+  "optional": true,
+  "type": "string",
+  "doc": "Custom title for a new session. When provided, the session uses this title instead of auto-generating one from the first user message. When resuming via `resume` or `continue`, the resumed session's persisted title takes precedence — use `renameSession()` to retitle an existing session.",
+  "tags": {}
+ },
+ {
+  "name": "spawnClaudeCodeProcess",
+  "optional": true,
+  "type": "(options: SpawnOptions) => SpawnedProcess",
+  "doc": "Custom function to spawn the Claude Code process. Use this to run Claude Code in VMs, containers, or remote environments. When provided, this function is called instead of the default local spawn. The default behavior checks if the executable exists before spawning.",
+  "tags": {
+   "example": "```typescript\r\nspawnClaudeCodeProcess: (options) => {\r\n  // Custom spawn logic for VM execution\r\n  // options contains: command, args, cwd, env, signal\r\n  // `signal` is forwarded — it aborts only AFTER the SDK's\r\n  // stdin-EOF + ~2 s grace window, so passing it to spawn()/your\r\n  // VM API is safe (force-kill fires after the graceful chance).\r\n  return myVMProcess; // Must satisfy SpawnedProcess interface\r\n}\r\n```"
+  }
+ }
+]

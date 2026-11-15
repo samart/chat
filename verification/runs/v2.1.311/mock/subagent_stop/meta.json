@@ -1,0 +1,10 @@
+{
+  "scenario": "subagent_stop",
+  "target": "mock",
+  "sessionId": "a5ecd713-57fe-401d-aa8c-987c902ec16d",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

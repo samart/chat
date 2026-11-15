@@ -1,0 +1,1058 @@
+[
+  {
+    "section": "sdkMessages",
+    "key": "result:error_during_execution",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "result:error_max_budget_usd",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "result:error_max_structured_output_retries",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "result:error_max_turns",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "result:success",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:init",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "plugin_errors",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": true,
+            "type": "{ plugin: string; type: string; message: string; path?: string; }[]"
+          },
+          "to": {
+            "optional": true,
+            "type": "{ plugin: string; type: string; message: string; path?: string; managed_lock?: { plugin_enabled: boolean; name: string; marketplace?: string; }; }[]"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:session_writes_lost",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": "SDKSessionWritesLostMessage",
+      "fields": [
+        "error_code",
+        "lost",
+        "session_id",
+        "subtype",
+        "transcript_session_ids",
+        "type",
+        "uuid"
+      ]
+    }
+  },
+  {
+    "section": "stdoutWire",
+    "key": "result:error_during_execution",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "result:error_max_budget_usd",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "result:error_max_structured_output_retries",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "result:error_max_turns",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "invalid_config_file",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ path: string; is_global: boolean; backup_searched: boolean; backup_path?: string; }"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "result:success",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "credential_expires_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:init",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "plugin_errors",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": true,
+            "type": "{ plugin: string; type: string; message: string; path?: string; }[]"
+          },
+          "to": {
+            "optional": true,
+            "type": "{ plugin: string; type: string; message: string; path?: string; managed_lock?: { plugin_enabled: boolean; name: string; marketplace?: string; }; }[]"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:session_writes_lost",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": "SDKSessionWritesLostMessage",
+      "fields": [
+        "error_code",
+        "lost",
+        "session_id",
+        "subtype",
+        "transcript_session_ids",
+        "type",
+        "uuid"
+      ]
+    }
+  },
+  {
+    "section": "controlRequests",
+    "key": "mcp_call",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "check_permissions",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlRequests",
+    "key": "reload_plugins",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "refuse_if_busy",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlRequests",
+    "key": "set_has_subscribers",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": "SDKControlSetHasSubscribersRequest",
+      "fields": [
+        "has_subscribers",
+        "subtype"
+      ]
+    }
+  },
+  {
+    "section": "controlResponses",
+    "key": "SDKControlInitializeResponse",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "hook_on_failure_supported",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlResponses",
+    "key": "SDKControlReadFileResponse",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "lossy",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "ArtifactInput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "page_token",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "ArtifactOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable"
+  },
+  {
+    "section": "tools",
+    "key": "AskUserQuestionOutput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "annotations",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": true,
+            "type": "{ [k: string]: { preview?: string; notes?: string; }; }"
+          },
+          "to": {
+            "optional": true,
+            "type": "{ [k: string]: { preview?: string; notes?: string; unanswered?: \"skipped\" | \"replied_in_chat\" | \"dismissed\"; }; }"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "BashOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "backgroundWakesOwner",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "true"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "CronDeleteOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "endedLoopWakeup",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "true"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "FileReadOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable"
+  },
+  {
+    "section": "tools",
+    "key": "GlobOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "timedOut",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "GrepOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "timedOut",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "ProjectsOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable"
+  },
+  {
+    "section": "tools",
+    "key": "ProposeSkillsInput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "proposals",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "[ { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; skillMd: string; } ] | [ { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; skillMd: string; }, { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; skillMd: string; } ] | [ { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; skillMd: string; }, { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; skillMd: string; }, { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; skillMd: string; } ]"
+          },
+          "to": {
+            "optional": false,
+            "type": "[ { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; edits?: [ { old_string: string; new_string: string; }, ...{ old_string: string; new_string: string; }[] ]; skillMd?: string; } ] | [ { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; edits?: [ { old_string: string; new_string: string; }, ...{ old_string: string; new_string: string; }[] ]; skillMd?: string; }, { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; edits?: [ { old_string: string; new_string: string; }, ...{ old_string: string; new_string: string; }[] ]; skillMd?: string; } ] | [ { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; edits?: [ { old_string: string; new_string: string; }, ...{ old_string: string; new_string: string; }[] ]; skillMd?: string; }, { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; edits?: [ { old_string: string; new_string: string; }, ...{ old_string: string; new_string: string; }[] ]; skillMd?: string; }, { name: string; kind: \"new\" | \"improvement\"; target?: string; description: string; evidence?: string[]; edits?: [ { old_string: string; new_string: string; }, ...{ old_string: string; new_string: string; }[] ]; skillMd?: string; } ]"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "PushNotificationInput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "status",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "\"proactive\""
+          },
+          "to": {
+            "optional": true,
+            "type": "\"proactive\""
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "TaskCreateOutput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "task",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "{ id: string; subject: string; }"
+          },
+          "to": {
+            "optional": false,
+            "type": "{ id: string; subject: string; description?: string; }"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "queryMethods",
+    "key": "reloadPlugins",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": false,
+        "type": "(options?: { holdOnCacheImpact?: boolean; addPlugins?: SdkPluginConfig[]; }): Promise<SDKControlReloadPluginsResponse>;"
+      },
+      "to": {
+        "optional": false,
+        "type": "(options?: { holdOnCacheImpact?: boolean; addPlugins?: SdkPluginConfig[]; refuseIfBusy?: boolean; }): Promise<SDKControlReloadPluginsResponse>;"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "additionalMarketplaces",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "{ [k: string]: { source: { source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; }; installLocation?: string; autoUpdate?: boolean; pluginDigests?: { [k: string]: string[]; }; }; }"
+      },
+      "to": {
+        "optional": true,
+        "type": "{ [k: string]: { source: { source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; engines?: { [k: string]: unknown; }; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; }; installLocation?: string; autoUpdate?: boolean; pluginDigests?: { [k: string]: string[]; }; }; }"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "allowedMarketplaces",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "({ source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; })[]"
+      },
+      "to": {
+        "optional": true,
+        "type": "({ source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; engines?: { [k: string]: unknown; }; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; })[]"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "autoMode",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "{ allow?: string[]; soft_deny?: string[]; hard_deny?: string[]; environment?: string[]; classifyAllShell?: boolean; }"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "blockedMarketplaces",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "({ source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; })[]"
+      },
+      "to": {
+        "optional": true,
+        "type": "({ source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; engines?: { [k: string]: unknown; }; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; })[]"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "disableReplyCheck",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "disableWindowsBashCommandSplit",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "extraKnownMarketplaces",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "{ [k: string]: { source: { source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; }; installLocation?: string; autoUpdate?: boolean; pluginDigests?: { [k: string]: string[]; }; }; }"
+      },
+      "to": {
+        "optional": true,
+        "type": "{ [k: string]: { source: { source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; engines?: { [k: string]: unknown; }; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; }; installLocation?: string; autoUpdate?: boolean; pluginDigests?: { [k: string]: string[]; }; }; }"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "permissions",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "{ allow?: string[]; deny?: string[]; ask?: string[]; defaultMode?: 'acceptEdits' | 'auto' | 'bypassPermissions' | 'default' | 'dontAsk' | 'plan'; disableBypassPermissionsMode?: 'disable'; blockReadsOutsideWorkingDirectories?: boolean; additionalDirectories?: string[]; [k: string]: unknown; }"
+      },
+      "to": {
+        "optional": true,
+        "type": "{ allow?: string[]; deny?: string[]; ask?: string[]; defaultMode?: 'acceptEdits' | 'auto' | 'bypassPermissions' | 'default' | 'dontAsk' | 'plan'; disableBypassPermissionsMode?: 'disable'; blockReadsOutsideWorkingDirectories?: boolean; blockWritesOutsideWorkingDirectories?: boolean; blockReadsExemptPaths?: string[]; workingDirectoriesAsGiven?: string[]; disableAutoMode?: 'disable'; denyInsteadOfPrompting?: boolean; additionalDirectories?: string[]; [k: string]: unknown; }"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "skipAutoPermissionPrompt",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "strictKnownMarketplaces",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "({ source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; })[]"
+      },
+      "to": {
+        "optional": true,
+        "type": "({ source: 'url'; url: string; headers?: { [k: string]: string; }; headersHelper?: string; } | { source: 'github'; repo: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'git'; url: string; ref?: string; path?: string; sparsePaths?: string[]; skipLfs?: boolean; } | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'file'; path: string; } | { source: 'directory'; path: string; } | { source: 'skills-dir'; } | { source: 'hostPattern'; hostPattern: string; } | { source: 'pathPattern'; pathPattern: string; } | { source: 'settings'; name: string; plugins: { name: string; source: string | { source: 'npm'; package: string; version?: string; registry?: string; } | { source: 'url'; url: string; ref?: string; sha?: string; } | { source: 'github'; repo: string; ref?: string; sha?: string; } | { source: 'git-subdir'; url: string; path: string; ref?: string; sha?: string; } | { source: 'archive'; url: string; sha256?: string; } | { source: 'command'; command: string; timeout?: number; mode?: 'copy' | 'link'; } | { source: 'unsupported'; error?: string; }; description?: string; version?: string; strict?: boolean; engines?: { [k: string]: unknown; }; headers?: { [k: string]: string; }; headersHelper?: string; }[]; owner?: { name: string; email?: string; url?: string; }; })[]"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "useAutoModeDuringPlan",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "exports",
+    "key": "DeniedModelsMatch",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "TypeAlias",
+      "shapeHash": "abfb4b986b10",
+      "tags": [
+        "alpha"
+      ]
+    }
+  },
+  {
+    "section": "exports",
+    "key": "HookCallbackMatcher",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "Query",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "ResolvedSettings",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": [
+        "alpha"
+      ],
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKControlInitializeResponse",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKControlPermissionRulesState",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKControlReadFileResponse",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKResultError",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKResultSuccess",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKSessionInfo",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKSessionWritesLostMessage",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "TypeAlias",
+      "shapeHash": "0ac36011a84e"
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKStartupFailureReason",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKSystemMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "Settings",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "USAGE_TRANSITION_PREFIXES",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": [
+        "alpha"
+      ],
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "archiveSession",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "Function",
+      "shapeHash": "f7e401d5b5aa",
+      "signature": "function archiveSession(_sessionId: string, _options?: SessionMutationOptions): Promise<void>;"
+    }
+  },
+  {
+    "section": "exports",
+    "key": "matchDeniedModels",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "Function",
+      "shapeHash": "91e83921fe79",
+      "tags": [
+        "alpha"
+      ],
+      "signature": "function matchDeniedModels(_models: readonly string[], _deniedModels: readonly string[] | undefined): Promise<DeniedModelsMatch>;"
+    }
+  },
+  {
+    "section": "exports",
+    "key": "unarchiveSession",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "Function",
+      "shapeHash": "7f7bee20bacd",
+      "signature": "function unarchiveSession(_sessionId: string, _options?: SessionMutationOptions): Promise<void>;"
+    }
+  },
+  {
+    "section": "stringEnums",
+    "key": "SDKStartupFailureReason",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "added": [
+        "config_file_invalid",
+        "initialize_not_first",
+        "managed_settings_not_delivered",
+        "sandbox_required_unavailable"
+      ],
+      "removed": []
+    }
+  },
+  {
+    "section": "stringEnums",
+    "key": "USAGE_TRANSITION_PREFIXES",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "added": [
+        "Now using credits"
+      ],
+      "removed": []
+    }
+  }
+]

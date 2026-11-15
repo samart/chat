@@ -1,0 +1,10 @@
+{
+  "scenario": "thinking",
+  "target": "mock",
+  "sessionId": "9286f7c7-799f-4ce4-8bea-5c819004f1e2",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

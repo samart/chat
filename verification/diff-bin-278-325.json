@@ -1,0 +1,1389 @@
+[
+  {
+    "section": "cliFlags",
+    "key": "--agents",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "3e7caf1df5",
+        "optional": true,
+        "type": "<json>"
+      },
+      "to": {
+        "descHash": "a13a279999",
+        "optional": true,
+        "type": "<json-or-file>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--claudeai",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "e1550b17a1",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "768f174c10",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--config",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "411f73336c",
+        "optional": true,
+        "type": "<key=value>"
+      },
+      "to": {
+        "descHash": "3ed8c90daf",
+        "optional": true,
+        "type": "<path>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--data-size",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "e6441b4805",
+      "optional": true,
+      "type": "[plugin]"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--debug",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "0654670ee7",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "4f93bf9742",
+        "optional": true,
+        "type": "[filter]"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--desktop",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "f840b13b5a",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--disable-slash-commands",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "edc67c7449",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "4a311c3349",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--disallow-tools",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "8ff6fc5ebf",
+      "optional": true,
+      "type": "<tools...>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--discard",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "30a99f4843",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--dry-run",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "fbe315c51f",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "a94ee55e27",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--effort",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "8db0313cb6",
+        "optional": true,
+        "type": "<level>"
+      },
+      "to": {
+        "descHash": "ee2d6e33e5",
+        "optional": true,
+        "type": "<level>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--event",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "choices": [
+        "create",
+        "remove"
+      ],
+      "descHash": "bfda98a052",
+      "optional": true,
+      "type": "<event>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--force",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "59d60778e8",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "15dd235821",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--header",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "89698b2a41",
+        "optional": true,
+        "type": "<header...>"
+      },
+      "to": {
+        "descHash": "47adc0a5a1",
+        "optional": true,
+        "type": "<header...>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--interactive",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "f697b43009",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "9aaa474c58",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--json-schema",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "974976be2b",
+        "optional": true,
+        "type": "<schema>"
+      },
+      "to": {
+        "descHash": "ea7d739da1",
+        "optional": true,
+        "type": "<schema>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--marketplace",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "68b6fcfcea",
+      "optional": true,
+      "type": "<source>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--model",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "41e49b3784",
+        "optional": true,
+        "type": "<model>"
+      },
+      "to": {
+        "descHash": "ede5567e6b",
+        "optional": true,
+        "type": "<model>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--path",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "e97ef7c58e",
+      "optional": true,
+      "type": "<absolute>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--port",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "0417c187df",
+      "optional": true,
+      "type": "<port>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--profile",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "choices": [
+        "directory"
+      ],
+      "descHash": "50d9819d36",
+      "optional": true,
+      "type": "<name>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--registry",
+    "change": "removed",
+    "impact": "breaking",
+    "stability": "stable",
+    "detail": {
+      "descHash": "8fc86e9ff2",
+      "optional": true,
+      "type": "<url>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--replace",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "a6d82b4885",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--restricted",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "b038fdf3b4",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "8d624f8c7a",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--result-format",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "choices": [
+        "raw",
+        "rendered"
+      ],
+      "descHash": "f919eacff2",
+      "optional": true,
+      "type": "<format>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--resume",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "8f42ce8c53",
+        "optional": true,
+        "type": "[value]"
+      },
+      "to": {
+        "descHash": "0197671c5b",
+        "optional": true,
+        "type": "[value]"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--safe-mode",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "ff24c99438",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "8fc5e58485",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--scope",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "b47b61d69d",
+        "optional": true,
+        "type": "<scope>"
+      },
+      "to": {
+        "descHash": "7738374b6d",
+        "optional": true,
+        "type": "<scope>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--session-tunnel",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "d444d2867b",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--system-prompt-snapshot",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "choices": [
+          "off",
+          "on"
+        ],
+        "descHash": "75c4907710",
+        "optional": true,
+        "type": "<on|off>"
+      },
+      "to": {
+        "choices": [
+          "off",
+          "on"
+        ],
+        "descHash": "82b7f05de5",
+        "optional": true,
+        "type": "<on|off>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--tools",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "19ed7264ee",
+        "optional": true,
+        "type": "<tools...>"
+      },
+      "to": {
+        "descHash": "a3ce401af8",
+        "optional": true,
+        "type": "<tools...>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--trust-workspace",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "ad537afd60",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--trusted-folder",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "8f420935b7",
+      "optional": true,
+      "type": "<absolute>"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--values-stdin",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "26a4a55c0d",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--with",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "f62ca38041",
+        "optional": true,
+        "type": "<components...>"
+      },
+      "to": {
+        "descHash": "9ef2ba2577",
+        "optional": true,
+        "type": "<components...>"
+      }
+    }
+  },
+  {
+    "section": "cliFlags",
+    "key": "--yes",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "445f8a3903",
+        "optional": true,
+        "type": "boolean"
+      },
+      "to": {
+        "descHash": "5cb270e2b3",
+        "optional": true,
+        "type": "boolean"
+      }
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--allow-other-models",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "ecd1ecd48f",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--await-claim",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "55092f66c0",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--client-data-url",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "4189e3e505",
+      "optional": true,
+      "type": "<url>"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--from-link",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "d4d460360f",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--gateway-json",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "96ec7063a1",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--host-auth-is-org-sign-in",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "88c707c27c",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--include-unsupported-models",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "05f7df4b16",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--lead-verify-key",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "9597ebb721",
+      "optional": true,
+      "type": "<time.key>"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--managed-settings-in-initialize",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "68526bb1ca",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--resolve-only",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "8e8e307c8e",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--session-began-as-copy",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "bb24a502f1",
+      "optional": true,
+      "type": "<value>"
+    }
+  },
+  {
+    "section": "cliHiddenFlags",
+    "key": "--web",
+    "change": "added",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "descHash": "f4d648ee2f",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/fast",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "048c2950be",
+        "optional": true,
+        "type": "local-jsx"
+      },
+      "to": {
+        "descHash": "1ca7b17415",
+        "optional": true,
+        "type": "local-jsx"
+      }
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/pause-memory",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "aliases": [
+          "memory-pause",
+          "toggle-memory"
+        ],
+        "descHash": "bd2e47dbfd",
+        "optional": true,
+        "type": "local"
+      },
+      "to": {
+        "aliases": [
+          "memory-pause",
+          "toggle-memory"
+        ],
+        "descHash": "e3b0c44298",
+        "optional": true,
+        "type": "local"
+      }
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/plugin-types",
+    "change": "removed",
+    "impact": "breaking",
+    "stability": "stable",
+    "detail": {
+      "descHash": "892350ea97",
+      "optional": true,
+      "type": "local"
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/project",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "42de68e8bf",
+      "optional": true,
+      "type": "local"
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/rate-limit-options",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "75109b8094",
+        "optional": true,
+        "type": "local-jsx"
+      },
+      "to": {
+        "descHash": "a5cafb2a0e",
+        "optional": true,
+        "type": "local-jsx"
+      }
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/restart",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "aliases": [
+        "update"
+      ],
+      "descHash": "e3b0c44298",
+      "optional": true,
+      "type": "local"
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/stickers",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "b244d0bd27",
+        "optional": true,
+        "type": "local"
+      },
+      "to": {
+        "descHash": "df66012689",
+        "optional": true,
+        "type": "local"
+      }
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/ultraplan",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "a5dc267ec4",
+        "optional": true,
+        "type": "local-jsx"
+      },
+      "to": {
+        "descHash": "bfcef96736",
+        "optional": true,
+        "type": "local-jsx"
+      }
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/update",
+    "change": "removed",
+    "impact": "breaking",
+    "stability": "stable",
+    "detail": {
+      "aliases": [
+        "restart"
+      ],
+      "descHash": "8969b4589b",
+      "optional": true,
+      "type": "local"
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/upgrade",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "descHash": "7d8adc4a11",
+        "optional": true,
+        "type": "local-jsx"
+      },
+      "to": {
+        "descHash": "a43e1dc25d",
+        "optional": true,
+        "type": "local-jsx"
+      }
+    }
+  },
+  {
+    "section": "slashCommands",
+    "key": "/use-case",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "descHash": "da11fbb18c",
+      "optional": true,
+      "type": "local-jsx"
+    }
+  },
+  {
+    "section": "observedWire",
+    "key": "controlRequestsSent",
+    "change": "changed-shape",
+    "impact": "breaking",
+    "stability": "observed",
+    "detail": {
+      "added": [
+        "claim_session",
+        "export_conversation",
+        "get_chrome_browsers",
+        "get_chrome_dialog",
+        "get_sandbox_dialog",
+        "get_skills_dialog",
+        "get_status",
+        "get_task_output",
+        "mcp_read_resource",
+        "select_chrome_browser",
+        "set_prompt_suggestions_paused",
+        "submit_survey_feedback"
+      ],
+      "removed": [
+        "oauth_token_refresh"
+      ]
+    }
+  },
+  {
+    "section": "observedWire",
+    "key": "subtypeLiterals",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "added": [
+        "account_memory_saved",
+        "checkpoint_done",
+        "claim_session",
+        "export_conversation",
+        "file_attachments_missing",
+        "get_chrome_browsers",
+        "get_chrome_dialog",
+        "get_cloud_session",
+        "get_cloud_session_transcript",
+        "get_sandbox_dialog",
+        "get_skills_dialog",
+        "get_status",
+        "get_task_output",
+        "inherited_asks_settled",
+        "instruction_size_warning",
+        "list_cloud_sessions",
+        "list_directory",
+        "mcp_read_resource",
+        "mcp_tasks_changed",
+        "per_turn_effort_changed",
+        "permission_check_status",
+        "placed",
+        "remote_tools_reannounce",
+        "rewind_stand_in",
+        "select_chrome_browser",
+        "send_task_message",
+        "session_metadata",
+        "session_title_changed",
+        "session_writes_lost",
+        "set_has_subscribers",
+        "set_proactivity_level",
+        "set_prompt_suggestions_paused",
+        "start_folder",
+        "start_shell_task",
+        "submit_survey_feedback",
+        "turn_began_before_init",
+        "ui_attach",
+        "ui_client_fault",
+        "ui_client_module",
+        "ui_client_press",
+        "ui_close",
+        "ui_copy",
+        "ui_detach",
+        "ui_focus",
+        "ui_input",
+        "ui_invalidate",
+        "ui_log",
+        "ui_message",
+        "ui_notify",
+        "ui_notify_cancel",
+        "ui_pane_focus",
+        "ui_pane_show",
+        "ui_panes",
+        "ui_placed",
+        "ui_press",
+        "ui_prompt_autocomplete",
+        "ui_prompt_edit",
+        "ui_prompt_fill",
+        "ui_prompt_paint",
+        "ui_prompt_read",
+        "ui_prompt_suggest",
+        "ui_read_selection",
+        "ui_render",
+        "ui_scroll",
+        "ui_select",
+        "ui_status",
+        "ui_toast",
+        "voice_call_talk"
+      ],
+      "removed": []
+    }
+  },
+  {
+    "section": "observedWire",
+    "key": "typeLiterals",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "observed",
+    "detail": {
+      "added": [
+        "control_closed"
+      ],
+      "removed": []
+    }
+  },
+  {
+    "section": "binaryStrings",
+    "key": "envVars",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "internal",
+    "detail": {
+      "added": [
+        "ANTHROPIC_DEFAULT_FABLE_MODEL_SUPPORTED_CAPABILITIES4",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL_SUPPORTED_CAPABILITIES3",
+        "ANTHROPIC_FOUNDRY_",
+        "ANTHROPIC_WORK_SECRET",
+        "CLAUDE_AGENT_SDK_DISABLE_MCP_MANIFESTS",
+        "CLAUDE_CODE_3P_PROBE_WROTE_HAIKU_DEFAULT",
+        "CLAUDE_CODE_3P_SEEDED_OPUS_DEFAULT",
+        "CLAUDE_CODE_3P_SEEDED_SONNET_DEFAULT",
+        "CLAUDE_CODE_AGENTS_MD_ROWS_EVERY_PROCESS",
+        "CLAUDE_CODE_AGENT_PROGRESS_SUMMARIES",
+        "CLAUDE_CODE_AGENT_PROXY_GIT_HOSTS",
+        "CLAUDE_CODE_ALLOW_OTHER_MODELS",
+        "CLAUDE_CODE_APPEND_PROMPT_HEAD",
+        "CLAUDE_CODE_ARTIFACT_ASK_FIRST",
+        "CLAUDE_CODE_ARTIFACT_INHERITED_TYPE_GRANT",
+        "CLAUDE_CODE_ARTIFACT_PREVIEW_EMULATOR",
+        "CLAUDE_CODE_ARTIFACT_PUBLISH_EDITS",
+        "CLAUDE_CODE_ARTIFACT_SHARE",
+        "CLAUDE_CODE_ARTIFACT_SHARE_PROBE_REUSE_MS",
+        "CLAUDE_CODE_ARTIFACT_VERSIONS",
+        "CLAUDE_CODE_ATTACHMENTS_BY_PATH",
+        "CLAUDE_CODE_ATTACHMENTS_IN_USER_DATA",
+        "CLAUDE_CODE_ATTRIBUTION_PROJECT",
+        "CLAUDE_CODE_AUTOMOUNT_ROOTS",
+        "CLAUDE_CODE_AUTOUPDATER_DISABLED_BY_HOST",
+        "CLAUDE_CODE_AUTO_MODE_CLASSIFIER_OVERLAP",
+        "CLAUDE_CODE_AUTO_MODE_COMPACT_THREAD_RULE",
+        "CLAUDE_CODE_AUTO_MODE_EMAIL_SENDER_REPLY_TURN",
+        "CLAUDE_CODE_AUTO_MODE_EMAIL_SENDER_TURN",
+        "CLAUDE_CODE_AUTO_MODE_FULL_CONTEXT",
+        "CLAUDE_CODE_AUTO_MODE_HEARTH_MEMBER_RELAY_ROWS",
+        "CLAUDE_CODE_AUTO_MODE_REMOTE_BROWSER",
+        "CLAUDE_CODE_AUTO_MODE_THREAD_ASK_HELD",
+        "CLAUDE_CODE_AUTO_MODE_THREAD_ASK_OWN_WORK",
+        "CLAUDE_CODE_AUTO_MODE_TIER",
+        "CLAUDE_CODE_BRIDGE_CHILD_CLI_ENTRYPOINT",
+        "CLAUDE_CODE_BRIDGE_CHILD_PROJECTS_ENTRYPOINT",
+        "CLAUDE_CODE_BRIDGE_CHILD_START_DIR",
+        "CLAUDE_CODE_BRIDGE_SETTINGS_BINDING",
+        "CLAUDE_CODE_BRIDGE_SOURCE_DIR",
+        "CLAUDE_CODE_CALM_MOCHI",
+        "CLAUDE_CODE_CCR_EARLY_PLUGINS_SYNC",
+        "CLAUDE_CODE_CCR_EARLY_REMOTE_CONNECT",
+        "CLAUDE_CODE_CCR_EARLY_SKILLS_SYNC",
+        "CLAUDE_CODE_CCR_EARLY_SYNC_AFTER_SETTINGS_REFUSAL",
+        "CLAUDE_CODE_CCR_EVENT_FLUSH_POLICY",
+        "CLAUDE_CODE_CCR_FOLD_FIRST_TURN_RESCAN",
+        "CLAUDE_CODE_CCR_LONG_POLL",
+        "CLAUDE_CODE_CCR_ONE_PLUGIN_LOAD_PER_RELOAD",
+        "CLAUDE_CODE_CCR_OWN_CONNECTION_POOL",
+        "CLAUDE_CODE_CCR_REQUESTS_BY_FETCH",
+        "CLAUDE_CODE_CCR_SKIP_FRESH_MIGRATIONS",
+        "CLAUDE_CODE_CCR_SKIP_HYDRATE_ON_CURRENT_TIP",
+        "CLAUDE_CODE_CCR_SKIP_NEEDLESS_STARTUP_READS",
+        "CLAUDE_CODE_CCR_SLOW_SKILLS_WATCH",
+        "CLAUDE_CODE_CCR_WORKER_SOCKET",
+        "CLAUDE_CODE_CHROME_LATE_MCP_SERVER",
+        "CLAUDE_CODE_CLIENT_",
+        "CLAUDE_CODE_CLIENT_DATA_URL",
+        "CLAUDE_CODE_CONFIG_LOCK_WAIT_MS",
+        "CLAUDE_CODE_CONFIG_PROBE",
+        "CLAUDE_CODE_CONFIG_WATCH_EVENTS",
+        "CLAUDE_CODE_CONSENT_POINTERLESS",
+        "CLAUDE_CODE_COORDINATOR_SKILL_GUIDANCE",
+        "CLAUDE_CODE_COUNT_GARBAGE_COLLECTIONS",
+        "CLAUDE_CODE_COWORK_PLUGIN_SKILL",
+        "CLAUDE_CODE_CRYPTIC_HORIZON",
+        "CLAUDE_CODE_CURRIED_TRINKET",
+        "CLAUDE_CODE_DAPPER_CUPCAKE",
+        "CLAUDE_CODE_DEEP_TWILIGHT",
+        "CLAUDE_CODE_DESKTOP_CONNECTOR_NAMES",
+        "CLAUDE_CODE_DESKTOP_MESSAGE_CARD",
+        "CLAUDE_CODE_DESKTOP_MODE_FROM_RECORD",
+        "CLAUDE_CODE_DESKTOP_PLUGIN_INSTALL_FRAMES",
+        "CLAUDE_CODE_DESKTOP_SKILLS_PLUGIN_DIR",
+        "CLAUDE_CODE_DESKTOP_SKILL_SWITCHES",
+        "CLAUDE_CODE_DESKTOP_WORKFLOW_LIMIT_WAIT",
+        "CLAUDE_CODE_DIFF_COPY_ROOT",
+        "CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES",
+        "CLAUDE_CODE_DISABLE_ATTRIBUTION_BASELINE_REUSE",
+        "CLAUDE_CODE_DISABLE_AUTH_REFRESH_LOCK",
+        "CLAUDE_CODE_DISABLE_BACKGROUND_TASKS0",
+        "CLAUDE_CODE_DISABLE_BG_STABLE_PATH",
+        "CLAUDE_CODE_DISABLE_DANGEROUS_RM_TIMEOUT",
+        "CLAUDE_CODE_DISABLE_DIR_",
+        "CLAUDE_CODE_DISABLE_EMPTY_CLASSIC_DISPATCH_SKIP",
+        "CLAUDE_CODE_DISABLE_EXPORTED_VARIABLE_PROMPT",
+        "CLAUDE_CODE_DISABLE_FEATURE_FLAGS",
+        "CLAUDE_CODE_DISABLE_FILE_MENTIONS",
+        "CLAUDE_CODE_DISABLE_HELD_MESSAGE_RECOGNITION",
+        "CLAUDE_CODE_DISABLE_HTTPS_AGENT_KEEPING",
+        "CLAUDE_CODE_DISABLE_INLINE_SHELL_RM_PROMPT",
+        "CLAUDE_CODE_DISABLE_LAUNCHER_SIGN_IN",
+        "CLAUDE_CODE_DISABLE_LONE_SEC_DEFAULT_SHORTCUT",
+        "CLAUDE_CODE_DISABLE_LOOPED_CROSS_CERT_DROP",
+        "CLAUDE_CODE_DISABLE_MCP_TASKS",
+        "CLAUDE_CODE_DISABLE_MODEL_ACCESS_FALLBACK",
+        "CLAUDE_CODE_DISABLE_MOUNTED_DRIVE_RM_PROMPT",
+        "CLAUDE_CODE_DISABLE_NESTED_SESSION_ID",
+        "CLAUDE_CODE_DISABLE_OTEL_EVENT_SKIP",
+        "CLAUDE_CODE_DISABLE_POOLED_CONNECTION_IDLE_LIMIT",
+        "CLAUDE_CODE_DISABLE_POWERSHELL_CMD_RM_DENY",
+        "CLAUDE_CODE_DISABLE_PROACTIVITY",
+        "CLAUDE_CODE_DISABLE_QUIET_BACKGROUND_WAIT",
+        "CLAUDE_CODE_DISABLE_REFUSAL_RETRY",
+        "CLAUDE_CODE_DISABLE_RESPONSE_COMPARISON",
+        "CLAUDE_CODE_DISABLE_RESUME_LOAD_GOODBYE_SKIP",
+        "CLAUDE_CODE_DISABLE_SELF_NAMED_CERT_DROP",
+        "CLAUDE_CODE_DISABLE_STARTUP_WORK_GATE",
+        "CLAUDE_CODE_DISABLE_STOP_OF_HELD_MESSAGES",
+        "CLAUDE_CODE_DISABLE_STRUCTURED_OUTPUTS",
+        "CLAUDE_CODE_DISABLE_SUBAGENT_HANDBACK",
+        "CLAUDE_CODE_DISABLE_SUBSTITUTION_RM_PROMPT",
+        "CLAUDE_CODE_DISABLE_TRANSCRIPT_READ_AHEAD",
+        "CLAUDE_CODE_DISABLE_ULTRAREVIEW_TRUST_CHECK",
+        "CLAUDE_CODE_DISABLE_ULTRATHINK",
+        "CLAUDE_CODE_DISABLE_WEB_FETCH",
+        "CLAUDE_CODE_DISABLE_WORKING_SYNC_WATCH",
+        "CLAUDE_CODE_DISPATCH_V2SD",
+        "CLAUDE_CODE_DROP_UNAVAILABLE_DEFERRED_TOOL",
+        "CLAUDE_CODE_ELEGANT_MEADOW",
+        "CLAUDE_CODE_EMIT_USER_PROMPT_SUBMIT_HOOK_EVENTS",
+        "CLAUDE_CODE_ENABLE_SHARE_BUNDLE",
+        "CLAUDE_CODE_ENABLE_WRAP_UP",
+        "CLAUDE_CODE_END_",
+        "CLAUDE_CODE_ENTRYPOINT_ON_REQUESTS",
+        "CLAUDE_CODE_EVEN_MORE_DANGEROUSLY_SKIP_PERMISSIONS",
+        "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE",
+        "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE_RESTART",
+        "CLAUDE_CODE_EXPERIMENTAL_CODE_MODE_RESTARTED_FROM",
+        "CLAUDE_CODE_FEATURE_FLAGS_KICK_FROM_INIT",
+        "CLAUDE_CODE_FEATURE_FLAGS_KICK_ON_WARM_CACHE",
+        "CLAUDE_CODE_FEATURE_FLAGS_REFRESH_INTERVAL_MS",
+        "CLAUDE_CODE_FILE_READ_MAX_PDF_PAGES_PER_MESSAGE",
+        "CLAUDE_CODE_FILE_READ_MAX_PDF_PAGES_PER_TURN",
+        "CLAUDE_CODE_FIZZY_GROVE",
+        "CLAUDE_CODE_FOUND_REPOSITORY_GIT",
+        "CLAUDE_CODE_FOUND_REPOSITORY_GITD",
+        "CLAUDE_CODE_GIT_CHECK_ONLY_IN_REPOSITORY",
+        "CLAUDE_CODE_GROWTHBOOK_KICK_FROM_INIT",
+        "CLAUDE_CODE_GROWTHBOOK_KICK_ON_WARM_CACHE",
+        "CLAUDE_CODE_GZIP_DATADOG_LOGS",
+        "CLAUDE_CODE_GZIP_REQUEST_BODY_BLOCKS",
+        "CLAUDE_CODE_GZIP_REQUEST_BODY_LEVEL",
+        "CLAUDE_CODE_HARMONIC_RIDDLE",
+        "CLAUDE_CODE_HIDE_REPLY_SERVER_NAME",
+        "CLAUDE_CODE_HOOK_HEARTBEAT_INTERVAL_MS",
+        "CLAUDE_CODE_HOSTED_DESKTOP",
+        "CLAUDE_CODE_HOST_ARTIFACT_TYPE_COMMANDS",
+        "CLAUDE_CODE_HOST_GATEWAY_LINEAGE",
+        "CLAUDE_CODE_HOST_GUARDS_ARTIFACTS_MCP",
+        "CLAUDE_CODE_HOST_OWNED_CONFIG_DIR",
+        "CLAUDE_CODE_HOST_PROMPT_SUPERSEDES_RECORD",
+        "CLAUDE_CODE_HOST_SCHEDULED_RUN",
+        "CLAUDE_CODE_HOST_SHORT_TEMP_DIRS",
+        "CLAUDE_CODE_HOST_SKILL_CATALOG",
+        "CLAUDE_CODE_HOST_WORKTREE",
+        "CLAUDE_CODE_HOST_WORKTREE_FENCE",
+        "CLAUDE_CODE_IDLE_COMPACT_MIN_TOKENS",
+        "CLAUDE_CODE_IGNORE_PERSISTED_TRUST",
+        "CLAUDE_CODE_INCREMENTAL_REQUEST_BODY",
+        "CLAUDE_CODE_INLINE_TOOLS",
+        "CLAUDE_CODE_I_ACCEPT_CROSS_ORG_DATA_RISK",
+        "CLAUDE_CODE_JIT_POLICY_AFTER_STARTUP",
+        "CLAUDE_CODE_MAIN_REPLY_HOLD_MS",
+        "CLAUDE_CODE_MANAGED_CONFIG_PREFETCH",
+        "CLAUDE_CODE_MAX_EFFORT_REMINDER",
+        "CLAUDE_CODE_MAX_MCP_DESCRIPTION_LENGTH",
+        "CLAUDE_CODE_MCP_ALWAYS_LOAD_JOIN_BEFORE_INPUT",
+        "CLAUDE_CODE_MCP_APPS_HOST",
+        "CLAUDE_CODE_MCP_APPS_NO_TOOL_ROUTE",
+        "CLAUDE_CODE_MCP_NO_REDIAL_AFTER_POLICY_REFUSAL",
+        "CLAUDE_CODE_MCP_PREWAIT_SERVERS",
+        "CLAUDE_CODE_MCP_PREWAIT_SERVERS_MS",
+        "CLAUDE_CODE_MCP_REGISTRY_FETCH_AT_STARTUP",
+        "CLAUDE_CODE_MCP_SERVE_ENABLED_PLUGINS",
+        "CLAUDE_CODE_MCP_SERVE_GARBAGE_COLLECTIONS",
+        "CLAUDE_CODE_MCP_SERVE_INTERFACE_MIN_VERSION",
+        "CLAUDE_CODE_MCP_SERVE_MEMORY_WALKS_DEADLINE_MS",
+        "CLAUDE_CODE_MCP_SERVE_SETTINGS",
+        "CLAUDE_CODE_MCP_SERVE_TOOL_OUTPUT",
+        "CLAUDE_CODE_MCP_SERVE_TUNNEL_BINARY_FRAMES",
+        "CLAUDE_CODE_MCP_SERVE_WORKSPACE_ROOT",
+        "CLAUDE_CODE_MCP_SKIP_UNCHANGED_RELIST",
+        "CLAUDE_CODE_MEMORY_API_TOKEN4",
+        "CLAUDE_CODE_MEMORY_CONTEXT_NO_WAIT",
+        "CLAUDE_CODE_MEMORY_SUBAGENT_APPEND",
+        "CLAUDE_CODE_MESSAGES_PROMPT_CACHE_TTL",
+        "CLAUDE_CODE_NATIVE_APP_BUNDLE",
+        "CLAUDE_CODE_NONSTREAMING_TIMEOUT_RETRIES",
+        "CLAUDE_CODE_NORMALIZE_PREFIX_CACHE",
+        "CLAUDE_CODE_NORMALIZE_PREFIX_CACHE_VERIFY",
+        "CLAUDE_CODE_NOTIFICATIONS_HOST",
+        "CLAUDE_CODE_OVERLOADED_RETRY_BASE_DELAY_MS",
+        "CLAUDE_CODE_OVERLOADED_RETRY_MAX_DELAY_MS",
+        "CLAUDE_CODE_OVERLOADED_RETRY_MAX_WAIT_MS",
+        "CLAUDE_CODE_PARKED_RUN_BEFORE_CLEAR",
+        "CLAUDE_CODE_PERSONAL_CONFIG_FIX",
+        "CLAUDE_CODE_PERSONAL_HOOKS_OFF",
+        "CLAUDE_CODE_PLAIN_DELTA_DIRECT_WRITE",
+        "CLAUDE_CODE_PLAIN_DELTA_FAST_PATH",
+        "CLAUDE_CODE_PLAIN_DELTA_TAKE_AT_SOURCE",
+        "CLAUDE_CODE_PLUGIN_DIRS",
+        "CLAUDE_CODE_PLUGIN_MCPB_DIR",
+        "CLAUDE_CODE_PLUGIN_REMOTE_MCP_REACHABLE_HOSTS_HINT",
+        "CLAUDE_CODE_POLL_EVENT_DECLARATIONS",
+        "CLAUDE_CODE_PROGRAM_USE_CASE_ID",
+        "CLAUDE_CODE_PROGRAM_USE_CASE_STAMPED",
+        "CLAUDE_CODE_PROJECTS_SESSION",
+        "CLAUDE_CODE_PROJECT_DOC_LOOK_TIMEOUT_MS",
+        "CLAUDE_CODE_RELAUNCH_HOME_TRUST",
+        "CLAUDE_CODE_RELAUNCH_PROACTIVITY_",
+        "CLAUDE_CODE_RELAUNCH_PROACTIVITY_BASELINE",
+        "CLAUDE_CODE_RELAUNCH_PROACTIVITY_DECIDED",
+        "CLAUDE_CODE_RELAUNCH_PROACTIVITY_EVER_ON",
+        "CLAUDE_CODE_RELAUNCH_PROACTIVITY_LEVEL",
+        "CLAUDE_CODE_RELAUNCH_RESUME_HINT_FLAGS",
+        "CLAUDE_CODE_REMOTE_MCP_CONFIG",
+        "CLAUDE_CODE_REMOTE_SDK_URL",
+        "CLAUDE_CODE_REMOTE_STALL_CHECK_INTERVAL_MS",
+        "CLAUDE_CODE_REMOTE_TOOLS_ASK_SEATS",
+        "CLAUDE_CODE_REMOTE_TOOLS_CALLER_SESSIONS_MAX",
+        "CLAUDE_CODE_REMOTE_TOOLS_FORWARD",
+        "CLAUDE_CODE_REMOTE_TOOLS_HOST_ALLOWS_UNATTENDED",
+        "CLAUDE_CODE_REMOTE_TOOLS_HOST_IDLE_RELEASE_MINUTES",
+        "CLAUDE_CODE_REMOTE_TOOLS_JUMP_QUEUE",
+        "CLAUDE_CODE_REMOTE_TOOLS_PIN_STORED_LOGIN",
+        "CLAUDE_CODE_REMOTE_TOOLS_SPECULATIVE_CLASSIFIER",
+        "CLAUDE_CODE_REMOVE_PROMPT_STRINGS",
+        "CLAUDE_CODE_REPLY_GATE_POLICY",
+        "CLAUDE_CODE_RESTRICTEDY",
+        "CLAUDE_CODE_RESTRICT_PERSONAL_CONFIG",
+        "CLAUDE_CODE_RESULT_NONCE",
+        "CLAUDE_CODE_RESUME_CACHE_WARM",
+        "CLAUDE_CODE_RESUME_HINT_COMMAND",
+        "CLAUDE_CODE_RESUME_SESSIONSTART_HOOKS_WAIT_MS",
+        "CLAUDE_CODE_RESUME_SHOWS_CUT_OFF_CALLS",
+        "CLAUDE_CODE_RESUME_TOLERATES_CONTEXT_SEEDS",
+        "CLAUDE_CODE_RETRY_WATCHDOG_MAX_USAGE_LIMIT_WAIT_MS",
+        "CLAUDE_CODE_RETRY_WATCHDOG_MAX_WAIT_MS",
+        "CLAUDE_CODE_RETRY_WATCHDOG_SCOPE",
+        "CLAUDE_CODE_RETRY_WATCHDOG_SCOPE1",
+        "CLAUDE_CODE_RETRY_WATCHDOG_USAGE_LIMIT_RECHECK_MS",
+        "CLAUDE_CODE_RIPPLING_TULIP",
+        "CLAUDE_CODE_RUSTLING_PIXEL",
+        "CLAUDE_CODE_SANDBOX_LEAVE_DENIES_TO_SRT_WIN",
+        "CLAUDE_CODE_SANDBOX_LEAVE_PARENT_FOLDERS_ALONE",
+        "CLAUDE_CODE_SDK_HAS_SESSIONS_OAUTH_REFRESH",
+        "CLAUDE_CODE_SDK_MCP_TOOL_IDLE_TIMEOUT",
+        "CLAUDE_CODE_SDK_READS_SESSION_STATE",
+        "CLAUDE_CODE_SDK_READS_STARTUP_MARKS",
+        "CLAUDE_CODE_SESSIONS_OAUTH_TOKEN",
+        "CLAUDE_CODE_SESSION_BEGAN_AS_COPY",
+        "CLAUDE_CODE_SESSION_CREATED_AT_MS",
+        "CLAUDE_CODE_SHOWN_PLUGINS_DIR",
+        "CLAUDE_CODE_SILENT_TURN_REMINDER_SECONDS",
+        "CLAUDE_CODE_SKIP_MCP_DEBUG_LOG_FILES",
+        "CLAUDE_CODE_SKIP_MODEL_ACCESS_MEMORY",
+        "CLAUDE_CODE_SKIP_PLUGIN_LOCAL_MCP_SERVERS",
+        "CLAUDE_CODE_SKIP_PLUGIN_MCP_BUNDLES",
+        "CLAUDE_CODE_SLEEP_COMPACT",
+        "CLAUDE_CODE_SLEEP_COMPACT_AFTER_MS",
+        "CLAUDE_CODE_SNAPPY_PELICAN",
+        "CLAUDE_CODE_SORTED_OTTER",
+        "CLAUDE_CODE_SPARE_KEEPS_BOOT_SESSION_ID",
+        "CLAUDE_CODE_STREAMED_BUMBLEBEE",
+        "CLAUDE_CODE_STREAMED_BUMBLEBEE_TEXT",
+        "CLAUDE_CODE_STREAM_EVENT_HOLD_MS",
+        "CLAUDE_CODE_STREAM_EVENT_MAX_LINE_BYTES",
+        "CLAUDE_CODE_STREAM_EVENT_NO_SUBSCRIBER_HOLD_MS",
+        "CLAUDE_CODE_STREAM_TIMER_SLACK_MS",
+        "CLAUDE_CODE_STRICT_INLINE_SHELL_RM_PROMPT",
+        "CLAUDE_CODE_SUBAGENT_CONFIG_WARNING",
+        "CLAUDE_CODE_SUBAGENT_EFFORT",
+        "CLAUDE_CODE_SUBAGENT_HISTORY",
+        "CLAUDE_CODE_SUBAGENT_PROMPT_SNAPSHOT",
+        "CLAUDE_CODE_SYNC_PLUGINS_DOWNLOAD_CONCURRENCY",
+        "CLAUDE_CODE_SYSTEM_PROMPT_FEATURE_FLAG",
+        "CLAUDE_CODE_TELEPORT_MOVE",
+        "CLAUDE_CODE_THREAD_CPU_ONE_IN",
+        "CLAUDE_CODE_TOOL_PICTURE_SERVERS",
+        "CLAUDE_CODE_TRANSCRIPT_SLIM_TOOL_RESULTS",
+        "CLAUDE_CODE_TRANSCRIPT_TAIL_LOAD",
+        "CLAUDE_CODE_ULTRAREVIEW_LAUNCH_RECORD",
+        "CLAUDE_CODE_ULTRAREVIEW_PR_AS_MERGED",
+        "CLAUDE_CODE_ULTRAREVIEW_REVIEW_MD_FILE",
+        "CLAUDE_CODE_UNWATCHED_REPLY_HOLD_MS",
+        "CLAUDE_CODE_UPFRONT_TOOLS",
+        "CLAUDE_CODE_USER_DELEGATED_SESSION",
+        "CLAUDE_CODE_USER_DELEGATED_SESSION_ALLOWED_CHECK_MODELS",
+        "CLAUDE_CODE_USER_DELEGATED_SESSION_ALLOWED_PROVIDERS",
+        "CLAUDE_CODE_USER_DELEGATED_SESSION_ANY_CHECK_MODEL",
+        "CLAUDE_CODE_USER_DELEGATED_SESSION_DIRECT_API",
+        "CLAUDE_CODE_WARN_DISK_FREE_GIB",
+        "CLAUDE_CODE_WARN_MEMORY_FREE_GIB",
+        "CLAUDE_CODE_WEBSEARCH_CITATIONS",
+        "CLAUDE_CODE_WEB_SEARCH_FAST_ARG",
+        "CLAUDE_CODE_WEB_SEARCH_REFILLS_PER_HOUR",
+        "CLAUDE_CODE_WHIMSICAL_ELEPHANT",
+        "CLAUDE_CODE_WITTY_DEWDROP",
+        "CLAUDE_CODE_WORKER_CHECKIN_SCHEDULE",
+        "CLAUDE_CODE_WORKFLOW_SUBAGENT_MODEL",
+        "CLAUDE_CODE_YOU_SHOULD_KNOW_AUTO_SEND",
+        "CLAUDE_CODE_YOU_SHOULD_KNOW_DEBUG"
+      ],
+      "removed": [
+        "ANTHROPIC_DEFAULT_FABLE_MODEL_SUPPORTED_CAPABILITIES3",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL_SUPPORTED_CAPABILITIES4",
+        "CLAUDE_CODE_ADOPT_UNDERIVABLE_PARKED_PERMISSION",
+        "CLAUDE_CODE_ARTIFACT_FIVE_CLASS_ASKS",
+        "CLAUDE_CODE_ARTIFACT_MCP6",
+        "CLAUDE_CODE_ARTIFACT_PREVIEW0",
+        "CLAUDE_CODE_AUTO_BACKGROUND_WORKER_CHECKIN_SECONDS",
+        "CLAUDE_CODE_COORDINATOR_WORKER_CHECKIN_SECONDS",
+        "CLAUDE_CODE_DIR_SYNC_DISABLE_ANCHORING",
+        "CLAUDE_CODE_DIR_SYNC_ENGINE",
+        "CLAUDE_CODE_DIR_SYNC_FFWD",
+        "CLAUDE_CODE_DIR_SYNC_GIT",
+        "CLAUDE_CODE_DIR_SYNC_STREAM",
+        "CLAUDE_CODE_DISABLE_DIR_SYNC",
+        "CLAUDE_CODE_DISABLE_MOUSE_CLICKSC",
+        "CLAUDE_CODE_ENABLE_NARRATION",
+        "CLAUDE_CODE_ENABLE_NARRATIOND",
+        "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMSV",
+        "CLAUDE_CODE_FORCE_SANDBOX",
+        "CLAUDE_CODE_GB_REFRESH_INTERVAL_MS",
+        "CLAUDE_CODE_HIDE_CWDE",
+        "CLAUDE_CODE_INTRO_FRAME",
+        "CLAUDE_CODE_LUMINOUS_WHISTLE",
+        "CLAUDE_CODE_MAX_CONCURRENT_SUBAGENTSE",
+        "CLAUDE_CODE_OCHRE_KITE",
+        "CLAUDE_CODE_PARCHMENT_FERN",
+        "CLAUDE_CODE_POLISHED_DEWDROPA",
+        "CLAUDE_CODE_REPL5"
+      ]
+    }
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "scenario": "mcp_tool",
+  "target": "mock",
+  "sessionId": "fdeebe10-73e9-41af-b583-0e242a73f7de",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

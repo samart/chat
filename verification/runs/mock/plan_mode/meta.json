@@ -1,0 +1,10 @@
+{
+  "scenario": "plan_mode",
+  "target": "mock",
+  "sessionId": "1451d5d0-8674-443e-936e-3fc779584214",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

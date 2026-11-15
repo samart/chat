@@ -1,0 +1,29 @@
+{
+  "bin": "claude",
+  "args": [
+    "-p",
+    "--input-format",
+    "stream-json",
+    "--output-format",
+    "stream-json",
+    "--verbose",
+    "--permission-prompt-tool",
+    "stdio",
+    "--include-partial-messages",
+    "--model",
+    "haiku",
+    "--max-turns",
+    "1",
+    "--max-budget-usd",
+    "0.01",
+    "--no-session-persistence",
+    "--mcp-config",
+    "{\"mcpServers\":{\"probe_sdk\":{\"type\":\"sdk\",\"name\":\"probe_sdk\"},\"probe_stdio\":{\"type\":\"stdio\",\"command\":\"/opt/homebrew/Cellar/node/24.10.0/bin/node\",\"args\":[\"/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/fake-mcp.mjs\"]},\"probe_broken\":{\"type\":\"stdio\",\"command\":\"/nonexistent/mcp-server-binary\",\"args\":[]}}}",
+    "--strict-mcp-config",
+    "--debug-file",
+    "/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/2.1.278/oauth-baseurl/debug.log",
+    "--setting-sources="
+  ],
+  "cwd": "/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/probe-cwd/2.1.278-oauth-baseurl",
+  "mode": "isolated"
+}

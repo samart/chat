@@ -1,0 +1,1932 @@
+{
+  "cliCommands": {
+    "agents": {
+      "aliases": [],
+      "optional": true,
+      "type": "agents [options]"
+    },
+    "attach": {
+      "aliases": [],
+      "optional": true,
+      "type": "attach <id>"
+    },
+    "auth": {
+      "aliases": [],
+      "optional": true,
+      "type": "auth"
+    },
+    "auth login": {
+      "aliases": [],
+      "optional": true,
+      "type": "login [options]"
+    },
+    "auth logout": {
+      "aliases": [],
+      "optional": true,
+      "type": "logout"
+    },
+    "auth status": {
+      "aliases": [],
+      "optional": true,
+      "type": "status [options]"
+    },
+    "auto-mode": {
+      "aliases": [],
+      "optional": true,
+      "type": "auto-mode"
+    },
+    "auto-mode config": {
+      "aliases": [],
+      "optional": true,
+      "type": "config"
+    },
+    "auto-mode critique": {
+      "aliases": [],
+      "optional": true,
+      "type": "critique [options]"
+    },
+    "auto-mode defaults": {
+      "aliases": [],
+      "optional": true,
+      "type": "defaults [options]"
+    },
+    "auto-mode reset": {
+      "aliases": [],
+      "optional": true,
+      "type": "reset [options]"
+    },
+    "doctor": {
+      "aliases": [],
+      "optional": true,
+      "type": "doctor"
+    },
+    "gateway": {
+      "aliases": [],
+      "optional": true,
+      "type": "gateway [options]"
+    },
+    "import": {
+      "aliases": [],
+      "optional": true,
+      "type": "import [options] [source]"
+    },
+    "install": {
+      "aliases": [],
+      "optional": true,
+      "type": "install [options] [target]"
+    },
+    "logs": {
+      "aliases": [],
+      "optional": true,
+      "type": "logs <id>"
+    },
+    "mcp": {
+      "aliases": [],
+      "optional": true,
+      "type": "mcp"
+    },
+    "mcp add": {
+      "aliases": [],
+      "optional": true,
+      "type": "add [options] <name> <commandOrUrl> [args...]"
+    },
+    "mcp add-from-claude-desktop": {
+      "aliases": [],
+      "optional": true,
+      "type": "add-from-claude-desktop [options]"
+    },
+    "mcp add-json": {
+      "aliases": [],
+      "optional": true,
+      "type": "add-json [options] <name> <json>"
+    },
+    "mcp get": {
+      "aliases": [],
+      "optional": true,
+      "type": "get <name>"
+    },
+    "mcp list": {
+      "aliases": [],
+      "optional": true,
+      "type": "list"
+    },
+    "mcp login": {
+      "aliases": [],
+      "optional": true,
+      "type": "login [options] <name>"
+    },
+    "mcp logout": {
+      "aliases": [],
+      "optional": true,
+      "type": "logout <name>"
+    },
+    "mcp remove": {
+      "aliases": [],
+      "optional": true,
+      "type": "remove [options] <name>"
+    },
+    "mcp reset-project-choices": {
+      "aliases": [],
+      "optional": true,
+      "type": "reset-project-choices"
+    },
+    "mcp serve": {
+      "aliases": [],
+      "optional": true,
+      "type": "serve [options]"
+    },
+    "plugin": {
+      "aliases": [
+        "plugins"
+      ],
+      "optional": true,
+      "type": "plugin|plugins"
+    },
+    "plugin details": {
+      "aliases": [],
+      "optional": true,
+      "type": "details [options] <name>"
+    },
+    "plugin disable": {
+      "aliases": [],
+      "optional": true,
+      "type": "disable [options] [plugin]"
+    },
+    "plugin enable": {
+      "aliases": [],
+      "optional": true,
+      "type": "enable [options] <plugin>"
+    },
+    "plugin eval": {
+      "aliases": [],
+      "optional": true,
+      "type": "eval [options] [target]"
+    },
+    "plugin eval init": {
+      "aliases": [],
+      "optional": true,
+      "type": "init [options] [name]"
+    },
+    "plugin init": {
+      "aliases": [
+        "new"
+      ],
+      "optional": true,
+      "type": "init|new [options] <name>"
+    },
+    "plugin install": {
+      "aliases": [
+        "i"
+      ],
+      "optional": true,
+      "type": "install|i [options] <plugin>"
+    },
+    "plugin list": {
+      "aliases": [],
+      "optional": true,
+      "type": "list [options]"
+    },
+    "plugin marketplace": {
+      "aliases": [],
+      "optional": true,
+      "type": "marketplace"
+    },
+    "plugin marketplace add": {
+      "aliases": [],
+      "optional": true,
+      "type": "add [options] <source>"
+    },
+    "plugin marketplace list": {
+      "aliases": [],
+      "optional": true,
+      "type": "list [options]"
+    },
+    "plugin marketplace remove": {
+      "aliases": [
+        "rm"
+      ],
+      "optional": true,
+      "type": "remove|rm [options] <name>"
+    },
+    "plugin marketplace update": {
+      "aliases": [],
+      "optional": true,
+      "type": "update [options] [name]"
+    },
+    "plugin prune": {
+      "aliases": [
+        "autoremove"
+      ],
+      "optional": true,
+      "type": "prune|autoremove [options]"
+    },
+    "plugin tag": {
+      "aliases": [],
+      "optional": true,
+      "type": "tag [options] [path]"
+    },
+    "plugin uninstall": {
+      "aliases": [
+        "remove"
+      ],
+      "optional": true,
+      "type": "uninstall|remove [options] <plugin>"
+    },
+    "plugin update": {
+      "aliases": [],
+      "optional": true,
+      "type": "update [options] <plugin>"
+    },
+    "plugin validate": {
+      "aliases": [],
+      "optional": true,
+      "type": "validate [options] <path>"
+    },
+    "project": {
+      "aliases": [],
+      "optional": true,
+      "type": "project"
+    },
+    "project purge": {
+      "aliases": [],
+      "optional": true,
+      "type": "purge [options] [path]"
+    },
+    "respawn": {
+      "aliases": [],
+      "optional": true,
+      "type": "respawn [options] [id]"
+    },
+    "rm": {
+      "aliases": [],
+      "optional": true,
+      "type": "rm <id>"
+    },
+    "setup-token": {
+      "aliases": [],
+      "optional": true,
+      "type": "setup-token"
+    },
+    "stop": {
+      "aliases": [
+        "kill"
+      ],
+      "optional": true,
+      "type": "stop|kill <id>"
+    },
+    "ultrareview": {
+      "aliases": [],
+      "optional": true,
+      "type": "ultrareview [options] [target]"
+    },
+    "update": {
+      "aliases": [
+        "upgrade"
+      ],
+      "optional": true,
+      "type": "update|upgrade"
+    }
+  },
+  "cliFlags": {
+    "agents --add-dir": {
+      "aliases": [],
+      "arg": "<directory>",
+      "descHash": "78f315b112",
+      "optional": true,
+      "type": "<directory>"
+    },
+    "agents --agent": {
+      "aliases": [],
+      "arg": "<agent>",
+      "descHash": "7b15e6a23b",
+      "optional": true,
+      "type": "<agent>"
+    },
+    "agents --all": {
+      "aliases": [],
+      "descHash": "1896bc621b",
+      "optional": true,
+      "type": "boolean"
+    },
+    "agents --allow-dangerously-skip-permissions": {
+      "aliases": [],
+      "descHash": "590d4f723a",
+      "optional": true,
+      "type": "boolean"
+    },
+    "agents --cwd": {
+      "aliases": [],
+      "arg": "<path>",
+      "descHash": "25a9320efc",
+      "optional": true,
+      "type": "<path>"
+    },
+    "agents --dangerously-skip-permissions": {
+      "aliases": [],
+      "descHash": "d174e5f9c5",
+      "optional": true,
+      "type": "boolean"
+    },
+    "agents --effort": {
+      "aliases": [],
+      "arg": "<level>",
+      "descHash": "fb2751d3bf",
+      "optional": true,
+      "type": "<level>"
+    },
+    "agents --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "agents --json": {
+      "aliases": [],
+      "descHash": "9f478c40cb",
+      "optional": true,
+      "type": "boolean"
+    },
+    "agents --mcp-config": {
+      "aliases": [],
+      "arg": "<config>",
+      "descHash": "ca19860f5a",
+      "optional": true,
+      "type": "<config>"
+    },
+    "agents --model": {
+      "aliases": [],
+      "arg": "<model>",
+      "descHash": "770daf2878",
+      "optional": true,
+      "type": "<model>"
+    },
+    "agents --permission-mode": {
+      "aliases": [],
+      "arg": "<mode>",
+      "descHash": "a18ad96bcf",
+      "optional": true,
+      "type": "<mode>"
+    },
+    "agents --plugin-dir": {
+      "aliases": [],
+      "arg": "<path>",
+      "descHash": "9915326476",
+      "optional": true,
+      "type": "<path>"
+    },
+    "agents --restricted": {
+      "aliases": [],
+      "descHash": "32e61046d9",
+      "optional": true,
+      "type": "boolean"
+    },
+    "agents --setting-sources": {
+      "aliases": [],
+      "arg": "<sources>",
+      "descHash": "34f34f5ac7",
+      "optional": true,
+      "type": "<sources>"
+    },
+    "agents --settings": {
+      "aliases": [],
+      "arg": "<file-or-json>",
+      "descHash": "f7bda14e87",
+      "optional": true,
+      "type": "<file-or-json>"
+    },
+    "agents --strict-mcp-config": {
+      "aliases": [],
+      "descHash": "09b728203b",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth login --claudeai": {
+      "aliases": [],
+      "descHash": "768f174c10",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth login --console": {
+      "aliases": [],
+      "descHash": "57adee8feb",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth login --email": {
+      "aliases": [],
+      "arg": "<email>",
+      "descHash": "2c35132263",
+      "optional": true,
+      "type": "<email>"
+    },
+    "auth login --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth login --sso": {
+      "aliases": [],
+      "descHash": "630384b986",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth logout --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth status --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth status --json": {
+      "aliases": [],
+      "descHash": "ba4fdd61ac",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auth status --text": {
+      "aliases": [],
+      "descHash": "4c3c06e846",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auto-mode --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auto-mode config --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auto-mode critique --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auto-mode critique --model": {
+      "aliases": [],
+      "arg": "<model>",
+      "descHash": "765a889f47",
+      "optional": true,
+      "type": "<model>"
+    },
+    "auto-mode defaults --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auto-mode defaults --label": {
+      "aliases": [],
+      "arg": "<prefix>",
+      "descHash": "b69c33b138",
+      "optional": true,
+      "type": "<prefix>"
+    },
+    "auto-mode reset --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "auto-mode reset --yes": {
+      "aliases": [
+        "-y"
+      ],
+      "descHash": "51cedf1747",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --add-dir": {
+      "aliases": [],
+      "arg": "<directories...>",
+      "descHash": "7eafefb67f",
+      "optional": true,
+      "type": "<directories...>"
+    },
+    "claude --agent": {
+      "aliases": [],
+      "arg": "<agent>",
+      "descHash": "f5b0cc9ee3",
+      "optional": true,
+      "type": "<agent>"
+    },
+    "claude --agents": {
+      "aliases": [],
+      "arg": "<json>",
+      "descHash": "3e7caf1df5",
+      "optional": true,
+      "type": "<json>"
+    },
+    "claude --allow-dangerously-skip-permissions": {
+      "aliases": [],
+      "descHash": "55d3d550fc",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --allowedTools": {
+      "aliases": [
+        "--allowed-tools"
+      ],
+      "arg": "<tools...>",
+      "descHash": "9559a9f5b8",
+      "optional": true,
+      "type": "<tools...>"
+    },
+    "claude --append-system-prompt": {
+      "aliases": [],
+      "arg": "<prompt>",
+      "descHash": "53091b8a98",
+      "optional": true,
+      "type": "<prompt>"
+    },
+    "claude --autocompact": {
+      "aliases": [],
+      "arg": "<auto|tokens>",
+      "descHash": "de355e7905",
+      "optional": true,
+      "type": "<auto|tokens>"
+    },
+    "claude --ax-screen-reader": {
+      "aliases": [],
+      "descHash": "ac651a6073",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --bare": {
+      "aliases": [],
+      "descHash": "6359d8aa23",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --betas": {
+      "aliases": [],
+      "arg": "<betas...>",
+      "descHash": "f01f707c46",
+      "optional": true,
+      "type": "<betas...>"
+    },
+    "claude --bg": {
+      "aliases": [
+        "--background"
+      ],
+      "descHash": "e67412c27e",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --brief": {
+      "aliases": [],
+      "descHash": "0226dd0aa8",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --chrome": {
+      "aliases": [],
+      "descHash": "026303a382",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --cloud": {
+      "aliases": [],
+      "arg": "[description|session_id|url]",
+      "descHash": "3fd1b0a4de",
+      "optional": true,
+      "type": "[description|session_id|url]"
+    },
+    "claude --continue": {
+      "aliases": [
+        "-c"
+      ],
+      "descHash": "d8ca6a2224",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --dangerously-skip-permissions": {
+      "aliases": [],
+      "descHash": "b53c118710",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --debug": {
+      "aliases": [
+        "-d"
+      ],
+      "arg": "[filter]",
+      "descHash": "36feff796b",
+      "optional": true,
+      "type": "[filter]"
+    },
+    "claude --debug-file": {
+      "aliases": [],
+      "arg": "<path>",
+      "descHash": "b6e1925b95",
+      "optional": true,
+      "type": "<path>"
+    },
+    "claude --disable-slash-commands": {
+      "aliases": [],
+      "descHash": "edc67c7449",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --disallowedTools": {
+      "aliases": [
+        "--disallowed-tools"
+      ],
+      "arg": "<tools...>",
+      "descHash": "4cb8af6c88",
+      "optional": true,
+      "type": "<tools...>"
+    },
+    "claude --effort": {
+      "aliases": [],
+      "arg": "<level>",
+      "descHash": "f19b9b679c",
+      "optional": true,
+      "type": "<level>"
+    },
+    "claude --environment": {
+      "aliases": [],
+      "arg": "<environment_id>",
+      "descHash": "8fd5ee36e5",
+      "optional": true,
+      "type": "<environment_id>"
+    },
+    "claude --exclude-dynamic-system-prompt-sections": {
+      "aliases": [],
+      "default": "false",
+      "descHash": "d1a4c42085",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --fallback-model": {
+      "aliases": [],
+      "arg": "<model>",
+      "descHash": "47b1dd7d41",
+      "optional": true,
+      "type": "<model>"
+    },
+    "claude --file": {
+      "aliases": [],
+      "arg": "<specs...>",
+      "descHash": "26f4f61397",
+      "optional": true,
+      "type": "<specs...>"
+    },
+    "claude --fork-session": {
+      "aliases": [],
+      "descHash": "9433a52a77",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --forward-subagent-text": {
+      "aliases": [],
+      "descHash": "5e43296660",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --from-pr": {
+      "aliases": [],
+      "arg": "[value]",
+      "descHash": "a917f3c634",
+      "optional": true,
+      "type": "[value]"
+    },
+    "claude --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --ide": {
+      "aliases": [],
+      "descHash": "c66bd4f021",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --include-hook-events": {
+      "aliases": [],
+      "descHash": "bbaf9adea9",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --include-partial-messages": {
+      "aliases": [],
+      "descHash": "58ad1bea5d",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --input-format": {
+      "aliases": [],
+      "arg": "<format>",
+      "choices": [
+        "stream-json",
+        "text"
+      ],
+      "descHash": "37d637950b",
+      "optional": true,
+      "type": "<format>"
+    },
+    "claude --json-schema": {
+      "aliases": [],
+      "arg": "<schema>",
+      "descHash": "974976be2b",
+      "optional": true,
+      "type": "<schema>"
+    },
+    "claude --max-budget-usd": {
+      "aliases": [],
+      "arg": "<amount>",
+      "descHash": "bef2bc80db",
+      "optional": true,
+      "type": "<amount>"
+    },
+    "claude --mcp-config": {
+      "aliases": [],
+      "arg": "<configs...>",
+      "descHash": "e8fcfebe14",
+      "optional": true,
+      "type": "<configs...>"
+    },
+    "claude --model": {
+      "aliases": [],
+      "arg": "<model>",
+      "descHash": "8dd064348f",
+      "optional": true,
+      "type": "<model>"
+    },
+    "claude --name": {
+      "aliases": [
+        "-n"
+      ],
+      "arg": "<name>",
+      "descHash": "cf06e3d510",
+      "optional": true,
+      "type": "<name>"
+    },
+    "claude --no-chrome": {
+      "aliases": [],
+      "descHash": "c3ba67a0cc",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --no-session-persistence": {
+      "aliases": [],
+      "descHash": "8408abe4dd",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --output-format": {
+      "aliases": [],
+      "arg": "<format>",
+      "choices": [
+        "json",
+        "stream-json",
+        "text"
+      ],
+      "descHash": "14b99a94d2",
+      "optional": true,
+      "type": "<format>"
+    },
+    "claude --permission-mode": {
+      "aliases": [],
+      "arg": "<mode>",
+      "choices": [
+        "acceptEdits",
+        "auto",
+        "bypassPermissions",
+        "dontAsk",
+        "manual",
+        "plan"
+      ],
+      "descHash": "5324ae2cd8",
+      "optional": true,
+      "type": "<mode>"
+    },
+    "claude --permission-prompts": {
+      "aliases": [],
+      "arg": "<target>",
+      "choices": [
+        "host",
+        "host",
+        "none"
+      ],
+      "descHash": "961328500e",
+      "optional": true,
+      "type": "<target>"
+    },
+    "claude --plugin-dir": {
+      "aliases": [],
+      "arg": "<path>",
+      "default": "[]",
+      "descHash": "07b412640f",
+      "optional": true,
+      "type": "<path>"
+    },
+    "claude --plugin-url": {
+      "aliases": [],
+      "arg": "<url>",
+      "default": "[]",
+      "descHash": "48e9d1d8a7",
+      "optional": true,
+      "type": "<url>"
+    },
+    "claude --print": {
+      "aliases": [
+        "-p"
+      ],
+      "descHash": "3ebd58034e",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --prompt-suggestions": {
+      "aliases": [],
+      "arg": "[value]",
+      "choices": [
+        "0",
+        "1",
+        "false",
+        "no",
+        "off",
+        "on",
+        "true",
+        "true",
+        "yes"
+      ],
+      "descHash": "7cefc3e2a5",
+      "optional": true,
+      "type": "[value]"
+    },
+    "claude --remote-control": {
+      "aliases": [],
+      "arg": "[name]",
+      "descHash": "17627f3777",
+      "optional": true,
+      "type": "[name]"
+    },
+    "claude --remote-control-session-name-prefix": {
+      "aliases": [],
+      "arg": "<prefix>",
+      "default": "hostname",
+      "descHash": "fd843fbd53",
+      "optional": true,
+      "type": "<prefix>"
+    },
+    "claude --replay-user-messages": {
+      "aliases": [],
+      "descHash": "aa37665426",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --restricted": {
+      "aliases": [],
+      "descHash": "b038fdf3b4",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --resume": {
+      "aliases": [
+        "-r"
+      ],
+      "arg": "[value]",
+      "descHash": "8f42ce8c53",
+      "optional": true,
+      "type": "[value]"
+    },
+    "claude --safe-mode": {
+      "aliases": [],
+      "descHash": "f83fd18788",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --session-id": {
+      "aliases": [],
+      "arg": "<uuid>",
+      "descHash": "0b1c66b88f",
+      "optional": true,
+      "type": "<uuid>"
+    },
+    "claude --setting-sources": {
+      "aliases": [],
+      "arg": "<sources>",
+      "descHash": "34f34f5ac7",
+      "optional": true,
+      "type": "<sources>"
+    },
+    "claude --settings": {
+      "aliases": [],
+      "arg": "<file-or-json>",
+      "descHash": "d97cde6cb0",
+      "optional": true,
+      "type": "<file-or-json>"
+    },
+    "claude --strict-mcp-config": {
+      "aliases": [],
+      "descHash": "b3db52a3f0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --system-prompt": {
+      "aliases": [],
+      "arg": "<prompt>",
+      "descHash": "513d084914",
+      "optional": true,
+      "type": "<prompt>"
+    },
+    "claude --system-prompt-snapshot": {
+      "aliases": [],
+      "arg": "<on|off>",
+      "choices": [
+        "off",
+        "on"
+      ],
+      "descHash": "6695051cf7",
+      "optional": true,
+      "type": "<on|off>"
+    },
+    "claude --teleport": {
+      "aliases": [],
+      "arg": "[session]",
+      "descHash": "ed217e87e0",
+      "optional": true,
+      "type": "[session]"
+    },
+    "claude --tmux": {
+      "aliases": [],
+      "descHash": "a9475d1821",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --tools": {
+      "aliases": [],
+      "arg": "<tools...>",
+      "descHash": "19ed7264ee",
+      "optional": true,
+      "type": "<tools...>"
+    },
+    "claude --verbose": {
+      "aliases": [],
+      "descHash": "b4e77cd9ef",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --version": {
+      "aliases": [
+        "-v"
+      ],
+      "descHash": "0603a0312f",
+      "optional": true,
+      "type": "boolean"
+    },
+    "claude --worktree": {
+      "aliases": [
+        "-w"
+      ],
+      "arg": "[name]",
+      "descHash": "d0d4c90980",
+      "optional": true,
+      "type": "[name]"
+    },
+    "doctor --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "gateway --config": {
+      "aliases": [],
+      "arg": "<path>",
+      "descHash": "3ed8c90daf",
+      "optional": true,
+      "type": "<path>"
+    },
+    "gateway --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "import --dry-run": {
+      "aliases": [],
+      "descHash": "4027494fe2",
+      "optional": true,
+      "type": "boolean"
+    },
+    "import --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "import --yes": {
+      "aliases": [],
+      "descHash": "b201606ce6",
+      "optional": true,
+      "type": "boolean"
+    },
+    "install --force": {
+      "aliases": [],
+      "descHash": "15dd235821",
+      "optional": true,
+      "type": "boolean"
+    },
+    "install --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp add --callback-port": {
+      "aliases": [],
+      "arg": "<port>",
+      "descHash": "65e9d830ee",
+      "optional": true,
+      "type": "<port>"
+    },
+    "mcp add --client-id": {
+      "aliases": [],
+      "arg": "<clientId>",
+      "descHash": "f25d8dd4f5",
+      "optional": true,
+      "type": "<clientId>"
+    },
+    "mcp add --client-secret": {
+      "aliases": [],
+      "descHash": "690890706e",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp add --env": {
+      "aliases": [
+        "-e"
+      ],
+      "arg": "<env...>",
+      "descHash": "d5a0577e2b",
+      "optional": true,
+      "type": "<env...>"
+    },
+    "mcp add --header": {
+      "aliases": [
+        "-H"
+      ],
+      "arg": "<header...>",
+      "descHash": "89698b2a41",
+      "optional": true,
+      "type": "<header...>"
+    },
+    "mcp add --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp add --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "\"local\"",
+      "descHash": "afa0e7bc9b",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "mcp add --transport": {
+      "aliases": [
+        "-t"
+      ],
+      "arg": "<transport>",
+      "descHash": "a310544e79",
+      "optional": true,
+      "type": "<transport>"
+    },
+    "mcp add-from-claude-desktop --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp add-from-claude-desktop --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "\"local\"",
+      "descHash": "afa0e7bc9b",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "mcp add-json --client-secret": {
+      "aliases": [],
+      "descHash": "690890706e",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp add-json --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp add-json --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "\"local\"",
+      "descHash": "afa0e7bc9b",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "mcp get --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp list --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp login --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp login --no-browser": {
+      "aliases": [],
+      "descHash": "bd9b240f4b",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp logout --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp remove --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp remove --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "descHash": "1ce7207760",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "mcp reset-project-choices --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp serve --debug": {
+      "aliases": [
+        "-d"
+      ],
+      "descHash": "0654670ee7",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp serve --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "mcp serve --verbose": {
+      "aliases": [],
+      "descHash": "b4e77cd9ef",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin details --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin disable --all": {
+      "aliases": [
+        "-a"
+      ],
+      "descHash": "91d9b79a59",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin disable --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin disable --json": {
+      "aliases": [],
+      "descHash": "80bf415b77",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin disable --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "auto-detect",
+      "descHash": "23f7ebb0e5",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "plugin enable --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin enable --json": {
+      "aliases": [],
+      "descHash": "80bf415b77",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin enable --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "auto-detect",
+      "descHash": "23f7ebb0e5",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "plugin eval --ablation": {
+      "aliases": [],
+      "arg": "<mode>",
+      "descHash": "470311bb4e",
+      "optional": true,
+      "type": "<mode>"
+    },
+    "plugin eval --allow-real-servers": {
+      "aliases": [],
+      "descHash": "f09be3bc23",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --allow-tools": {
+      "aliases": [],
+      "arg": "<tools...>",
+      "descHash": "6040e13a9b",
+      "optional": true,
+      "type": "<tools...>"
+    },
+    "plugin eval --case": {
+      "aliases": [],
+      "arg": "<glob>",
+      "descHash": "5d93248529",
+      "optional": true,
+      "type": "<glob>"
+    },
+    "plugin eval --concurrency": {
+      "aliases": [
+        "-j"
+      ],
+      "arg": "<n>",
+      "descHash": "a0537b1461",
+      "optional": true,
+      "type": "<n>"
+    },
+    "plugin eval --eval-dir": {
+      "aliases": [],
+      "arg": "<dir>",
+      "descHash": "ef868fe032",
+      "optional": true,
+      "type": "<dir>"
+    },
+    "plugin eval --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --json": {
+      "aliases": [],
+      "arg": "[path]",
+      "descHash": "f54d626dcf",
+      "optional": true,
+      "type": "[path]"
+    },
+    "plugin eval --judge-model": {
+      "aliases": [],
+      "arg": "<model>",
+      "default": "haiku",
+      "descHash": "5b9d6e0cbe",
+      "optional": true,
+      "type": "<model>"
+    },
+    "plugin eval --keep-temp": {
+      "aliases": [],
+      "descHash": "9fb2de3757",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --max-cost-usd": {
+      "aliases": [],
+      "arg": "<usd>",
+      "descHash": "f16af57a03",
+      "optional": true,
+      "type": "<usd>"
+    },
+    "plugin eval --mocks": {
+      "aliases": [],
+      "arg": "<mode>",
+      "descHash": "061e2c7d76",
+      "optional": true,
+      "type": "<mode>"
+    },
+    "plugin eval --model": {
+      "aliases": [],
+      "arg": "<model>",
+      "descHash": "41e49b3784",
+      "optional": true,
+      "type": "<model>"
+    },
+    "plugin eval --no-publish": {
+      "aliases": [],
+      "descHash": "76704203ba",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --no-scaffold": {
+      "aliases": [],
+      "descHash": "53f91e875f",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --output-dir": {
+      "aliases": [],
+      "arg": "<dir>",
+      "default": "./<eval dir>/results/<timestamp>/",
+      "descHash": "f8f6f6311b",
+      "optional": true,
+      "type": "<dir>"
+    },
+    "plugin eval --publish-report": {
+      "aliases": [],
+      "descHash": "e092facb97",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --report": {
+      "aliases": [],
+      "arg": "<path>",
+      "descHash": "9b08ef2c61",
+      "optional": true,
+      "type": "<path>"
+    },
+    "plugin eval --runs": {
+      "aliases": [],
+      "arg": "<n>",
+      "default": "case.runs ?? 3",
+      "descHash": "f68ac0cab8",
+      "optional": true,
+      "type": "<n>"
+    },
+    "plugin eval --scaffold": {
+      "aliases": [],
+      "descHash": "4746b485c4",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --tag": {
+      "aliases": [],
+      "arg": "<tag...>",
+      "descHash": "a1577ed269",
+      "optional": true,
+      "type": "<tag...>"
+    },
+    "plugin eval --threshold": {
+      "aliases": [],
+      "arg": "<0..1>",
+      "default": "1.0",
+      "descHash": "adb8cf050d",
+      "optional": true,
+      "type": "<0..1>"
+    },
+    "plugin eval --trust-plugin": {
+      "aliases": [],
+      "descHash": "e7652492e9",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin eval --verbose": {
+      "aliases": [],
+      "descHash": "2bc0620c4c",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin init --author": {
+      "aliases": [],
+      "arg": "<name>",
+      "default": "git config user.name",
+      "descHash": "48a3a17e54",
+      "optional": true,
+      "type": "<name>"
+    },
+    "plugin init --author-email": {
+      "aliases": [],
+      "arg": "<email>",
+      "default": "git config user.email",
+      "descHash": "89763eab6d",
+      "optional": true,
+      "type": "<email>"
+    },
+    "plugin init --description": {
+      "aliases": [],
+      "arg": "<text>",
+      "descHash": "cf21a93ada",
+      "optional": true,
+      "type": "<text>"
+    },
+    "plugin init --force": {
+      "aliases": [
+        "-f"
+      ],
+      "descHash": "4049ea2ee4",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin init --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin init --with": {
+      "aliases": [],
+      "arg": "<components...>",
+      "descHash": "933fca3049",
+      "optional": true,
+      "type": "<components...>"
+    },
+    "plugin install --accept-command": {
+      "aliases": [],
+      "arg": "<sha256>",
+      "descHash": "8423441de2",
+      "optional": true,
+      "type": "<sha256>"
+    },
+    "plugin install --config": {
+      "aliases": [],
+      "arg": "<key=value>",
+      "descHash": "411f73336c",
+      "optional": true,
+      "type": "<key=value>"
+    },
+    "plugin install --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin install --json": {
+      "aliases": [],
+      "descHash": "e167e81b94",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin install --registry": {
+      "aliases": [],
+      "arg": "<url>",
+      "descHash": "8fc86e9ff2",
+      "optional": true,
+      "type": "<url>"
+    },
+    "plugin install --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "\"user\"",
+      "descHash": "db90cb04b9",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "plugin install --yes": {
+      "aliases": [
+        "-y"
+      ],
+      "descHash": "c7489d5292",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin list --available": {
+      "aliases": [],
+      "descHash": "6432c2cecf",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin list --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin list --json": {
+      "aliases": [],
+      "descHash": "e4b707ac73",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin marketplace --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin prune --dry-run": {
+      "aliases": [],
+      "descHash": "4b2739d380",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin prune --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin prune --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "\"user\"",
+      "descHash": "b9fd7041e6",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "plugin prune --yes": {
+      "aliases": [
+        "-y"
+      ],
+      "descHash": "fc1037cf52",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin tag --dry-run": {
+      "aliases": [],
+      "descHash": "fbe315c51f",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin tag --force": {
+      "aliases": [
+        "-f"
+      ],
+      "descHash": "8cd04ee144",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin tag --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin tag --message": {
+      "aliases": [
+        "-m"
+      ],
+      "arg": "<msg>",
+      "descHash": "87e6ebdbe4",
+      "optional": true,
+      "type": "<msg>"
+    },
+    "plugin tag --push": {
+      "aliases": [],
+      "descHash": "b2a97133e2",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin tag --remote": {
+      "aliases": [],
+      "arg": "<name>",
+      "default": "\"origin\"",
+      "descHash": "27e74c7e29",
+      "optional": true,
+      "type": "<name>"
+    },
+    "plugin uninstall --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin uninstall --json": {
+      "aliases": [],
+      "descHash": "25267b7664",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin uninstall --keep-data": {
+      "aliases": [],
+      "descHash": "a5676b7e40",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin uninstall --prune": {
+      "aliases": [],
+      "descHash": "ef40693440",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin uninstall --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "\"user\"",
+      "descHash": "7b1ccff479",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "plugin uninstall --yes": {
+      "aliases": [
+        "-y"
+      ],
+      "descHash": "1a5bf00ba4",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin update --accept-command": {
+      "aliases": [],
+      "arg": "<sha256>",
+      "descHash": "8423441de2",
+      "optional": true,
+      "type": "<sha256>"
+    },
+    "plugin update --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin update --json": {
+      "aliases": [],
+      "descHash": "e167e81b94",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin update --scope": {
+      "aliases": [
+        "-s"
+      ],
+      "arg": "<scope>",
+      "default": "user",
+      "descHash": "09935d25c9",
+      "optional": true,
+      "type": "<scope>"
+    },
+    "plugin update --yes": {
+      "aliases": [
+        "-y"
+      ],
+      "descHash": "3d1cc0bf63",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin validate --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin validate --json": {
+      "aliases": [],
+      "descHash": "85a1a06021",
+      "optional": true,
+      "type": "boolean"
+    },
+    "plugin validate --strict": {
+      "aliases": [],
+      "descHash": "7be9f0b942",
+      "optional": true,
+      "type": "boolean"
+    },
+    "project --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "project purge --all": {
+      "aliases": [],
+      "descHash": "dcb2b75f49",
+      "optional": true,
+      "type": "boolean"
+    },
+    "project purge --dry-run": {
+      "aliases": [],
+      "descHash": "a94ee55e27",
+      "optional": true,
+      "type": "boolean"
+    },
+    "project purge --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "project purge --interactive": {
+      "aliases": [
+        "-i"
+      ],
+      "descHash": "9aaa474c58",
+      "optional": true,
+      "type": "boolean"
+    },
+    "project purge --yes": {
+      "aliases": [
+        "-y"
+      ],
+      "descHash": "5cb270e2b3",
+      "optional": true,
+      "type": "boolean"
+    },
+    "setup-token --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "ultrareview --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    },
+    "ultrareview --json": {
+      "aliases": [],
+      "descHash": "42fdb1762e",
+      "optional": true,
+      "type": "boolean"
+    },
+    "ultrareview --no-post": {
+      "aliases": [],
+      "descHash": "18c39485ed",
+      "optional": true,
+      "type": "boolean"
+    },
+    "ultrareview --post": {
+      "aliases": [],
+      "descHash": "7f3a78cf3c",
+      "optional": true,
+      "type": "boolean"
+    },
+    "ultrareview --timeout": {
+      "aliases": [],
+      "arg": "<minutes>",
+      "default": "45",
+      "descHash": "7e4f740e2a",
+      "optional": true,
+      "type": "<minutes>"
+    },
+    "update --help": {
+      "aliases": [
+        "-h"
+      ],
+      "descHash": "a61ceacab0",
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  "manifestVersion": 1,
+  "source": {
+    "binary": "/opt/homebrew/bin/claude",
+    "kind": "cli-help",
+    "version": "2.1.278"
+  }
+}

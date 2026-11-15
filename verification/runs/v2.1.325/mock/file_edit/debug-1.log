@@ -1,0 +1,219 @@
+2026-11-15T18:34:33.734Z [DEBUG] MDM settings load completed in 0ms
+2026-11-15T18:34:33.736Z [DEBUG] Config file read as missing at start-up: looking again.
+2026-11-15T18:34:33.736Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T18:34:33.737Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T18:34:33.737Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: none
+2026-11-15T18:34:33.738Z [DEBUG] [init] configureGlobalMTLS starting
+2026-11-15T18:34:33.738Z [DEBUG] [init] configureGlobalMTLS complete
+2026-11-15T18:34:33.738Z [DEBUG] [init] configureGlobalAgents starting
+2026-11-15T18:34:33.738Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-11-15T18:34:33.738Z [DEBUG] CA certs: Loaded 118 bundled root certificates
+2026-11-15T18:34:33.747Z [DEBUG] CA certs: system store returned empty
+2026-11-15T18:34:33.747Z [DEBUG] CA certs: Dropped blocked certificate 40f6af0346a99aa1cd1d555a4e9cce62c7f9634603ee406615833dc8c8d00367 from bundled
+2026-11-15T18:34:33.748Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T18:34:33.748Z [DEBUG] [init] configureGlobalAgents complete
+2026-11-15T18:34:33.749Z [DEBUG] Error log sink initialized
+2026-11-15T18:34:33.750Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/settings.json
+2026-11-15T18:34:33.750Z [ERROR] Failed to save config with lock: Error: ENOENT: no such file or directory, lstat '/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json'
+2026-11-15T18:34:33.751Z [DEBUG] Setting permissions for new file: 600
+2026-11-15T18:34:33.751Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.6c9415db2062
+2026-11-15T18:34:33.751Z [DEBUG] Temp file written successfully, size: 84 bytes
+2026-11-15T18:34:33.751Z [DEBUG] Created /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.752Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T18:34:33.752Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.cb8eb34a3c43
+2026-11-15T18:34:33.752Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.752Z [DEBUG] Temp file written successfully, size: 167 bytes
+2026-11-15T18:34:33.752Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.cb8eb34a3c43 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.752Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json written atomically
+2026-11-15T18:34:33.753Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T18:34:33.753Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.e3b6d3b13810
+2026-11-15T18:34:33.753Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.753Z [DEBUG] Temp file written successfully, size: 203 bytes
+2026-11-15T18:34:33.753Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.e3b6d3b13810 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.753Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json written atomically
+2026-11-15T18:34:33.753Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T18:34:33.753Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.3933d1b898dd
+2026-11-15T18:34:33.754Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.754Z [DEBUG] Temp file written successfully, size: 230 bytes
+2026-11-15T18:34:33.754Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.3933d1b898dd to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.754Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json written atomically
+2026-11-15T18:34:33.754Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T18:34:33.754Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.544acb61d435
+2026-11-15T18:34:33.754Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.754Z [DEBUG] Temp file written successfully, size: 278 bytes
+2026-11-15T18:34:33.754Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.544acb61d435 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.754Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json written atomically
+2026-11-15T18:34:33.755Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T18:34:33.755Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.5fa0c86dc9a7
+2026-11-15T18:34:33.755Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.755Z [DEBUG] Temp file written successfully, size: 304 bytes
+2026-11-15T18:34:33.755Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.5fa0c86dc9a7 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.755Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json written atomically
+2026-11-15T18:34:33.761Z [DEBUG] [Claude in Chrome] Disabled: OAuth token has no scope accepted by /api/oauth/validate (needs user:profile, user:office, or user:ccr_inference; env-var and setup-token sessions default to user:inference only)
+2026-11-15T18:34:33.772Z [DEBUG] [ToolSearch:optimistic] mode=tst, ENABLE_TOOL_SEARCH=undefined, result=true
+2026-11-15T18:34:33.772Z [DEBUG] [STARTUP] Loading MCP configs...
+2026-11-15T18:34:33.772Z [DEBUG] [STARTUP] Running setup()...
+2026-11-15T18:34:33.774Z [DEBUG] Loading skills from: managed=/Library/Application Support/ClaudeCode/.claude/skills, user=/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/skills, project=[]
+2026-11-15T18:34:33.775Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/agents: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/agents'
+2026-11-15T18:34:33.775Z [DEBUG] installed_plugins.json doesn't exist, returning empty V2 object
+2026-11-15T18:34:33.775Z [DEBUG] Found 3 plugins (3 enabled, 0 disabled)
+2026-11-15T18:34:33.775Z [DEBUG] getPluginSkills: Processing 3 enabled plugins
+2026-11-15T18:34:33.775Z [DEBUG] Checking plugin cc-plugin-agents-md: skillsPath=none, skillsPaths=0 paths
+2026-11-15T18:34:33.775Z [DEBUG] Checking plugin cc-plugin-privacy: skillsPath=none, skillsPaths=0 paths
+2026-11-15T18:34:33.775Z [DEBUG] Checking plugin cc-plugin-plugin-authoring: skillsPath=none, skillsPaths=0 paths
+2026-11-15T18:34:33.775Z [DEBUG] Total plugin workflows loaded: 0
+2026-11-15T18:34:33.775Z [DEBUG] Total plugin commands loaded: 0
+2026-11-15T18:34:33.775Z [DEBUG] Total plugin skills loaded: 0 (0 duplicate/user-owned entries skipped)
+2026-11-15T18:34:33.775Z [DEBUG] Total plugin agents loaded: 0
+2026-11-15T18:34:33.776Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/commands: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/commands'
+2026-11-15T18:34:33.776Z [DEBUG] Loaded 0 unique skills (0 unconditional, 0 conditional, managed: 0, user: 0, project: 0, additional: 0, legacy commands: 0)
+2026-11-15T18:34:33.777Z [INFO] [uds-messaging] Listening: /tmp/cc-socks/18202.sock
+2026-11-15T18:34:33.778Z [DEBUG] [uds-messaging] Inject messages (auth line optional here): { echo '{"type":"auth","token":"[REDACTED]"$CLAUDE_CODE_MESSAGING_TOKEN"'"}'; echo '{"type":"user","message":{"role":"user","content":"hello"}}'; } | socat - UNIX-CONNECT:/tmp/cc-socks/18202.sock
+2026-11-15T18:34:33.780Z [DEBUG] [uds-messaging] Connect when the data is ready (e.g. out=$(cmd); printf '%s\n' "$out" | nc -U "$CLAUDE_CODE_MESSAGING_SOCKET" — or the socat form above): a connection that sends no complete line within 30000 ms is closed
+2026-11-15T18:34:33.780Z [DEBUG] Error log sink initialized
+2026-11-15T18:34:33.781Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/.claude/settings.json
+2026-11-15T18:34:33.782Z [DEBUG] cc-plugin-sec-default@builtin not seated: no managed settings and not a Team or Enterprise organization (none)
+2026-11-15T18:34:33.782Z [DEBUG] [STARTUP] setup() completed in 10ms
+2026-11-15T18:34:33.782Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T18:34:33.782Z [DEBUG] Cleared proxy agent cache
+2026-11-15T18:34:33.783Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/.claude/settings.local.json
+2026-11-15T18:34:33.783Z [DEBUG] [STARTUP] Loading commands and agents...
+2026-11-15T18:34:33.784Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 31 bundled skills, 1 builtin plugin skills
+2026-11-15T18:34:33.786Z [DEBUG] [STARTUP] Commands and agents loaded in 3ms
+2026-11-15T18:34:33.786Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-11-15T18:34:33.786Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-11-15T18:34:33.786Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2026-11-15T18:34:33.786Z [DEBUG] Starting background startup prefetches
+2026-11-15T18:34:33.787Z [DEBUG] [Bootstrap] Skipped: Nonessential traffic disabled
+2026-11-15T18:34:33.787Z [DEBUG] [STARTUP] MCP configs resolved in 0ms (awaited at +15ms)
+2026-11-15T18:34:33.787Z [DEBUG] Artifacts MCP server not added: managed_or_strict_mcp_config (strict_mcp_config)
+2026-11-15T18:34:33.787Z [DEBUG] Total LSP servers loaded: 0
+2026-11-15T18:34:33.787Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2026-11-15T18:34:33.787Z [DEBUG] LSP manager initialized with 0 servers
+2026-11-15T18:34:33.787Z [DEBUG] LSP server manager initialized successfully
+2026-11-15T18:34:33.787Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2026-11-15T18:34:33.788Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T18:34:33.788Z [DEBUG] Cleared proxy agent cache
+2026-11-15T18:34:33.788Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.788Z [DEBUG] [MCP] --mcp-config servers running fully async (nonblocking)
+2026-11-15T18:34:33.788Z [DEBUG] [MCP] claude.ai connectors running fully async (nonblocking)
+2026-11-15T18:34:33.788Z [DEBUG] [auto-mode] verifyAutoModeGateAccess: enabledState=enabled disabledBySettings=false model=claude-haiku-5-5 modelSupported=true disableFastModeBreakerFires=false carouselAvailable=true canEnterAuto=true
+2026-11-15T18:34:33.788Z [DEBUG] [servedCatalog] off (essential_traffic)
+2026-11-15T18:34:33.791Z [DEBUG] plugin cc-plugin-agents-md: no pluginConfigs["agents-md@builtin" or "cc-plugin-agents-md@builtin"].options in user, --settings or managed settings (project settings are not read); every option is its default
+2026-11-15T18:34:33.792Z [DEBUG] hooks native host made (for the plugins the binary carries)
+2026-11-15T18:34:33.792Z [DEBUG] hooks module cc-plugin-agents-md@builtin loaded (native, environment 1, tier builtin); events: session.start,prompt.context,command.run,session.compact,prompt.submit,turn.start,turn.complete,agent.spawn,tool.call,prompt.mention
+2026-11-15T18:34:33.792Z [DEBUG] hooks module cc-plugin-plugin-authoring@builtin loaded (native, environment 2, tier builtin); events: skill.prompt,tool.check,tool.call
+2026-11-15T18:34:33.792Z [DEBUG] hooks module cc-plugin-privacy@builtin loaded (native, environment 3, tier builtin); events: tool.check
+2026-11-15T18:34:33.793Z [DEBUG] engine.create: no plugin-provided interfaces; $ built for cc-plugin-agents-md,cc-plugin-plugin-authoring,cc-plugin-privacy
+2026-11-15T18:34:33.793Z [DEBUG] plugin.register: cc-plugin-agents-md (builtin, cc-plugin-agents-md@builtin), judged by core alone: admitted
+2026-11-15T18:34:33.793Z [DEBUG] plugin.register: cc-plugin-plugin-authoring (builtin, cc-plugin-plugin-authoring@builtin), judged by core alone: admitted
+2026-11-15T18:34:33.793Z [DEBUG] plugin.register: cc-plugin-privacy (builtin, cc-plugin-privacy@builtin), judged by core alone: admitted
+2026-11-15T18:34:33.793Z [DEBUG] Registered 0 hooks from 3 plugins
+2026-11-15T18:34:33.794Z [DEBUG] settings.read: the engine's merge was raised (the loaded plugins changed) in 0.3 ms; 0 keys answered otherwise than the files.
+2026-11-15T18:34:33.794Z [DEBUG] settings.read: the engine's merge is not raised again (the loaded plugins changed): neither the loaded plugins nor the settings changed.
+2026-11-15T18:34:33.798Z [DEBUG] [ScheduledTasks] scheduler start() — enabled=false, hasTasks=false
+2026-11-15T18:34:33.799Z [DEBUG] session.start: raised (surface none, not interactive)
+2026-11-15T18:34:33.799Z [DEBUG] [claudeai-mcp] Disabled: API-key auth precedence active
+2026-11-15T18:34:33.800Z [DEBUG] hooks module cc-plugin-agents-md@builtin session.start settled in 0.7ms (native link, next() included)
+2026-11-15T18:34:33.800Z [DEBUG] installPluginsForHeadless: starting
+2026-11-15T18:34:33.800Z [DEBUG] installPluginsForHeadless: no marketplaces declared
+2026-11-15T18:34:33.800Z [DEBUG] memory index backfill: ENOENT: no such file or directory, scandir '/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/projects/-private-tmp-claude-501--Users-user-Development-other-project-459f0484-dabf-4eb9-807f-8143c0170df0-scratchpad-verify-runs-v2-1-325-mock-file-edit-cwd/memory/'
+2026-11-15T18:34:33.802Z [DEBUG] $.fs.ancestors (cc-plugin-agents-md): project memory is off
+2026-11-15T18:34:33.802Z [DEBUG] $.fs.ancestors (cc-plugin-agents-md): project memory is off
+2026-11-15T18:34:33.802Z [DEBUG] hooks module cc-plugin-agents-md@builtin prompt.context settled in 0.3ms (native link, next() included)
+2026-11-15T18:34:33.803Z [DEBUG] [sessionRegistry] sweep permitted (domain darwin)
+2026-11-15T18:34:33.806Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T18:34:33.806Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.7178ce804e78
+2026-11-15T18:34:33.806Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/output-styles: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/output-styles'
+2026-11-15T18:34:33.806Z [DEBUG] Total plugin output styles loaded: 0
+2026-11-15T18:34:33.807Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.808Z [DEBUG] Watching /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd for /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/.claude to appear
+2026-11-15T18:34:33.808Z [DEBUG] Watching for changes in setting files /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/settings.json...
+2026-11-15T18:34:33.808Z [DEBUG] [startupWorkGate] open (host_initialized) after 26ms; running 5 held task(s): tengu_init, permission_context_log, plugin_init, telemetry_init, idle_startup_work
+2026-11-15T18:34:33.812Z [DEBUG] act_dont_rederive_arm_active source=growthbook
+2026-11-15T18:34:33.812Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.815Z [DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+2026-11-15T18:34:33.815Z [DEBUG] LSP Diagnostics: Checking registry - 0 pending
+2026-11-15T18:34:33.815Z [DEBUG] Sending 13 skills via attachment (initial)
+2026-11-15T18:34:33.815Z [DEBUG] Hooks: checkForNewResponses returning 0 responses, 0 hooks still pending
+2026-11-15T18:34:33.818Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.818Z [DEBUG] [session-notices] advertise=false mode=default flag=false(disabled) pollChannel=false ownEventsOnly=false remote=false remoteEnv=false nonInteractive=true
+2026-11-15T18:34:33.819Z [DEBUG] [engine] turn 1 start
+2026-11-15T18:34:33.820Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.start settled in 1.2ms (native link, next() included)
+2026-11-15T18:34:33.820Z [DEBUG] hooks module cc-plugin-agents-md@builtin prompt.submit settled in 3.4ms (native link, next() included)
+2026-11-15T18:34:33.821Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T18:34:33.827Z [DEBUG] Dynamic tool loading: 0/13 deferred tools included
+2026-11-15T18:34:33.828Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.325.598; cc_entrypoint=sdk-cli;
+2026-11-15T18:34:33.828Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.828Z [DEBUG] $.store.set (cc-plugin-agents-md@builtin): usage-rows-queued
+2026-11-15T18:34:33.829Z [DEBUG] Temp file written successfully, size: 384 bytes
+2026-11-15T18:34:33.829Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.7178ce804e78 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.829Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.830Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T18:34:33.831Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-11-15T18:34:33.831Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json written atomically
+2026-11-15T18:34:33.831Z [DEBUG] [startupWorkGate] a turn started during the idle release; 5 task(s) wait for it
+2026-11-15T18:34:33.831Z [DEBUG] [startupWorkGate] draining remainder (turn_started) after 49ms; running 5 held task(s): tengu_init, permission_context_log, plugin_init, telemetry_init, idle_startup_work
+2026-11-15T18:34:33.832Z [DEBUG] Stream started - received first chunk
+2026-11-15T18:34:33.832Z [DEBUG] [API:timing] first byte after 3ms
+2026-11-15T18:34:33.842Z [DEBUG] "Permission suggestions for Write: [\n  {\n    \"type\": \"setMode\",\n    \"mode\": \"acceptEdits\",\n    \"destination\": \"session\"\n  }\n]"
+2026-11-15T18:34:33.842Z [DEBUG] hooks module cc-plugin-privacy@builtin tool.check settled in 3.7ms (native link, next() included)
+2026-11-15T18:34:33.843Z [DEBUG] executePermissionRequestHooks called for tool: Write
+2026-11-15T18:34:33.844Z [DEBUG] Initialized versioned plugins system with 0 plugins
+2026-11-15T18:34:33.844Z [INFO] [Stall] tool_dispatch_start tool=Write toolUseId=toolu_mock0068 permissionDecisionMs=6
+2026-11-15T18:34:33.845Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-11-15T18:34:33.845Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+2026-11-15T18:34:33.847Z [DEBUG] [3P telemetry] Event dropped (no event logger initialized): plugin_loaded
+2026-11-15T18:34:33.847Z [DEBUG] Plugin autoupdate: command-source refresh disabled by tengu_plugin_command_source_refresh (still excluding command-sourced plugins from the regular pass)
+2026-11-15T18:34:33.847Z [DEBUG] Plugin autoupdate: skipped (auto-updater disabled)
+2026-11-15T18:34:33.848Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T18:34:33.848Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.98c9cb6852aa
+2026-11-15T18:34:33.848Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.848Z [DEBUG] Temp file written successfully, size: 811 bytes
+2026-11-15T18:34:33.848Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json.tmp.18202.98c9cb6852aa to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json
+2026-11-15T18:34:33.848Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/config/.claude.json written atomically
+2026-11-15T18:34:33.849Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt.tmp.18202.f1169d284e88
+2026-11-15T18:34:33.849Z [DEBUG] Temp file written successfully, size: 6 bytes
+2026-11-15T18:34:33.849Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt.tmp.18202.f1169d284e88 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt
+2026-11-15T18:34:33.850Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt written atomically
+2026-11-15T18:34:33.850Z [INFO] [Stall] tool_dispatch_end tool=Write toolUseId=toolu_mock0068 outcome=ok durationMs=6
+2026-11-15T18:34:33.852Z [DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+2026-11-15T18:34:33.852Z [DEBUG] LSP Diagnostics: Checking registry - 0 pending
+2026-11-15T18:34:33.852Z [DEBUG] Hooks: checkForNewResponses returning 0 responses, 0 hooks still pending
+2026-11-15T18:34:33.853Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T18:34:33.854Z [DEBUG] Dynamic tool loading: 0/13 deferred tools included
+2026-11-15T18:34:33.854Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.325.598; cc_entrypoint=sdk-cli;
+2026-11-15T18:34:33.854Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.855Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.855Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T18:34:33.855Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-11-15T18:34:33.856Z [DEBUG] Stream started - received first chunk
+2026-11-15T18:34:33.856Z [DEBUG] [API:timing] first byte after 1ms
+2026-11-15T18:34:33.860Z [DEBUG] "Permission suggestions for Edit: [\n  {\n    \"type\": \"setMode\",\n    \"mode\": \"acceptEdits\",\n    \"destination\": \"session\"\n  }\n]"
+2026-11-15T18:34:33.860Z [DEBUG] hooks module cc-plugin-privacy@builtin tool.check settled in 1.7ms (native link, next() included)
+2026-11-15T18:34:33.860Z [DEBUG] executePermissionRequestHooks called for tool: Edit
+2026-11-15T18:34:33.861Z [INFO] [Stall] tool_dispatch_start tool=Edit toolUseId=toolu_mock0071 permissionDecisionMs=3
+2026-11-15T18:34:33.862Z [DEBUG] Preserving file permissions: 100644
+2026-11-15T18:34:33.862Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt.tmp.18202.eeb887928fd5
+2026-11-15T18:34:33.862Z [DEBUG] Applied original permissions to temp file
+2026-11-15T18:34:33.862Z [DEBUG] Temp file written successfully, size: 12 bytes
+2026-11-15T18:34:33.862Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt.tmp.18202.eeb887928fd5 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt
+2026-11-15T18:34:33.862Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/v2.1.325/mock/file_edit/cwd/hello.txt written atomically
+2026-11-15T18:34:33.862Z [INFO] [Stall] tool_dispatch_end tool=Edit toolUseId=toolu_mock0071 outcome=ok durationMs=1
+2026-11-15T18:34:33.863Z [DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+2026-11-15T18:34:33.863Z [DEBUG] LSP Diagnostics: Checking registry - 0 pending
+2026-11-15T18:34:33.864Z [DEBUG] Hooks: checkForNewResponses returning 0 responses, 0 hooks still pending
+2026-11-15T18:34:33.864Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T18:34:33.865Z [DEBUG] Dynamic tool loading: 0/13 deferred tools included
+2026-11-15T18:34:33.865Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.325.598; cc_entrypoint=sdk-cli;
+2026-11-15T18:34:33.865Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.865Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.866Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T18:34:33.866Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-11-15T18:34:33.866Z [DEBUG] Stream started - received first chunk
+2026-11-15T18:34:33.866Z [DEBUG] [API:timing] first byte after 1ms
+2026-11-15T18:34:33.868Z [DEBUG] [engine] turn 1 end (turns=3 usage in=75 out=6 cost=$0.0000 api=12ms stop=end_turn resultLen=29)
+2026-11-15T18:34:33.868Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T18:34:33.869Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.complete settled in 0.1ms (native link, next() included)
+2026-11-15T18:34:33.870Z [DEBUG] [uds-messaging] Shutting down
+2026-11-15T18:34:33.871Z [DEBUG] LSP server manager shut down successfully

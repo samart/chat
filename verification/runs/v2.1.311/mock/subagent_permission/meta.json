@@ -1,0 +1,10 @@
+{
+  "scenario": "subagent_permission",
+  "target": "mock",
+  "sessionId": "b2bb5d54-5fcc-4958-9b96-8dfbde965ded",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

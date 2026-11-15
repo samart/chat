@@ -1,0 +1,15 @@
+{
+  "scenario": "resume",
+  "target": "mock",
+  "sessionId": "997c2640-62ed-4ee1-b81e-b2d0516bfcc6",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  },
+  "r2": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

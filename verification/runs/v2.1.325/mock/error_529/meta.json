@@ -1,0 +1,10 @@
+{
+  "scenario": "error_529",
+  "target": "mock",
+  "sessionId": "20ddc6a6-3f79-4d81-ad92-b2d6cb88682b",
+  "r1": {
+    "code": 1,
+    "signal": null,
+    "stderr": ""
+  }
+}

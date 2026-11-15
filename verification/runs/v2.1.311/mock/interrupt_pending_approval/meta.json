@@ -1,0 +1,10 @@
+{
+  "scenario": "interrupt_pending_approval",
+  "target": "mock",
+  "sessionId": "1c0ddc33-62e3-4495-be91-ec14584c6058",
+  "r1": {
+    "code": 1,
+    "signal": null,
+    "stderr": ""
+  }
+}

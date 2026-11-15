@@ -1,0 +1,10 @@
+{
+  "scenario": "subagent_forward_text",
+  "target": "mock",
+  "sessionId": "2ae688ee-a1fb-42b1-a76a-2f17484f5816",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

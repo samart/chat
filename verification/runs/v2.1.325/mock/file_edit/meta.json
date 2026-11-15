@@ -1,0 +1,10 @@
+{
+  "scenario": "file_edit",
+  "target": "mock",
+  "sessionId": "ad25f888-1510-4c42-9367-05459e8852a9",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

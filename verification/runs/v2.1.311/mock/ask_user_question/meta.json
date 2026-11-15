@@ -1,0 +1,10 @@
+{
+  "scenario": "ask_user_question",
+  "target": "mock",
+  "sessionId": "f894d9ed-4a6f-4dd3-be0f-1f03c6c6c2bc",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

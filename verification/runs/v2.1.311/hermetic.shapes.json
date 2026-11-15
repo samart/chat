@@ -1,0 +1,1437 @@
+{
+  "in:control_request/mcp_message": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "optional": true
+              },
+              "jsonrpc": {
+                "type": "string"
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "initialize",
+                  "notifications/initialized",
+                  "tools/list"
+                ]
+              },
+              "params": {
+                "type": "object",
+                "properties": {
+                  "capabilities": {
+                    "type": "object",
+                    "properties": {}
+                  },
+                  "clientInfo": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "version": {
+                        "type": "string"
+                      },
+                      "websiteUrl": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "protocolVersion": {
+                    "type": "string"
+                  }
+                },
+                "optional": true
+              }
+            }
+          },
+          "server_name": {
+            "type": "string"
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "mcp_message"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string",
+        "format": [
+          "uuid"
+        ]
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "in:control_response/__probe_unknown_subtype__/error": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string",
+            "enum": [
+              "Unsupported control request subtype: __probe_unknown_subtype__"
+            ]
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "error"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/get_context_usage/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "agents": {
+                "type": "array"
+              },
+              "apiUsage": {
+                "type": "null"
+              },
+              "autoCompactThreshold": {
+                "type": "integer"
+              },
+              "autocompactSource": {
+                "type": "string",
+                "enum": [
+                  "model-default"
+                ]
+              },
+              "categories": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "color": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "string"
+                    },
+                    "isDeferred": {
+                      "type": "boolean",
+                      "optional": true
+                    },
+                    "kind": {
+                      "type": "string",
+                      "enum": [
+                        "buffer",
+                        "deferred",
+                        "free",
+                        "used"
+                      ]
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "tokens": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "gridRows": {
+                "type": "array",
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "categoryName": {
+                        "type": "string"
+                      },
+                      "color": {
+                        "type": "string"
+                      },
+                      "isFilled": {
+                        "type": "boolean"
+                      },
+                      "percentage": {
+                        "type": "integer"
+                      },
+                      "squareFullness": {
+                        "type": [
+                          "integer",
+                          "number"
+                        ]
+                      },
+                      "tokens": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              },
+              "isAutoCompactEnabled": {
+                "type": "boolean"
+              },
+              "maxTokens": {
+                "type": "integer"
+              },
+              "mcpInstructions": {
+                "type": "array"
+              },
+              "mcpTools": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "isLoaded": {
+                      "type": "boolean"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "serverName": {
+                      "type": "string"
+                    },
+                    "tokens": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "memoryFiles": {
+                "type": "array"
+              },
+              "messageBreakdown": {
+                "type": "object",
+                "properties": {
+                  "assistantMessageTokens": {
+                    "type": "integer"
+                  },
+                  "attachmentTokens": {
+                    "type": "integer"
+                  },
+                  "attachmentsByType": {
+                    "type": "array"
+                  },
+                  "redirectedContextTokens": {
+                    "type": "integer"
+                  },
+                  "toolCallTokens": {
+                    "type": "integer"
+                  },
+                  "toolCallsByType": {
+                    "type": "array"
+                  },
+                  "toolResultTokens": {
+                    "type": "integer"
+                  },
+                  "unattributedTokens": {
+                    "type": "integer"
+                  },
+                  "userMessageTokens": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "model": {
+                "type": "string"
+              },
+              "percentage": {
+                "type": "integer"
+              },
+              "rawMaxTokens": {
+                "type": "integer"
+              },
+              "skills": {
+                "type": "object",
+                "properties": {
+                  "includedSkills": {
+                    "type": "integer"
+                  },
+                  "skillFrontmatter": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "source": {
+                          "type": "string",
+                          "enum": [
+                            "built-in"
+                          ]
+                        },
+                        "tokens": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "tokens": {
+                    "type": "integer"
+                  },
+                  "totalSkills": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "slashCommands": {
+                "type": "object",
+                "properties": {
+                  "includedCommands": {
+                    "type": "integer"
+                  },
+                  "tokens": {
+                    "type": "integer"
+                  },
+                  "totalCommands": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "totalTokens": {
+                "type": "integer"
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/get_settings/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "applied": {
+                "type": "object",
+                "properties": {
+                  "advisor": {
+                    "type": "null"
+                  },
+                  "effort": {
+                    "type": "string"
+                  },
+                  "model": {
+                    "type": "string"
+                  },
+                  "ultracode": {
+                    "type": "boolean"
+                  },
+                  "ultracodeAvailable": {
+                    "type": "boolean"
+                  },
+                  "ultracodeRequested": {
+                    "type": "boolean"
+                  }
+                }
+              },
+              "effective": {
+                "type": "object",
+                "properties": {}
+              },
+              "sources": {
+                "type": "array"
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/initialize/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "pending_permission_requests": {
+            "type": "array"
+          },
+          "pending_user_dialog_requests": {
+            "type": "array"
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "account": {
+                "type": "object",
+                "properties": {
+                  "apiKeySource": {
+                    "type": "string"
+                  },
+                  "apiProvider": {
+                    "type": "string",
+                    "enum": [
+                      "firstParty"
+                    ]
+                  },
+                  "tokenSource": {
+                    "type": "string"
+                  }
+                }
+              },
+              "agents": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "model": {
+                      "type": "string",
+                      "optional": true
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "analytics_disabled": {
+                "type": "boolean"
+              },
+              "available_output_styles": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "capabilities": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "claude_code_version": {
+                "type": "string"
+              },
+              "commands": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "aliases": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "optional": true
+                    },
+                    "argumentHint": {
+                      "type": "string"
+                    },
+                    "builtin": {
+                      "type": "boolean"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "current_permission_mode": {
+                "type": "string",
+                "enum": [
+                  "default"
+                ]
+              },
+              "fast_mode_disabled_reason": {
+                "type": "string",
+                "enum": [
+                  "sdk_opt_in_required"
+                ]
+              },
+              "fast_mode_state": {
+                "type": "string",
+                "enum": [
+                  "off"
+                ]
+              },
+              "feedback_mode": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "disabled"
+                    ]
+                  }
+                }
+              },
+              "hooks_applied": {
+                "type": "boolean"
+              },
+              "ide_rc_auto_enable_gate": {
+                "type": "boolean"
+              },
+              "models": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "description": {
+                      "type": "string"
+                    },
+                    "displayName": {
+                      "type": "string"
+                    },
+                    "resolvedModel": {
+                      "type": "string"
+                    },
+                    "supportedEffortLevels": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "supportsAdaptiveThinking": {
+                      "type": "boolean"
+                    },
+                    "supportsAutoMode": {
+                      "type": "boolean"
+                    },
+                    "supportsEffort": {
+                      "type": "boolean"
+                    },
+                    "supportsFastMode": {
+                      "type": "boolean",
+                      "optional": true
+                    },
+                    "supportsThinkingOff": {
+                      "type": "boolean"
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "output_style": {
+                "type": "string",
+                "enum": [
+                  "default"
+                ]
+              },
+              "pid": {
+                "type": "integer"
+              },
+              "remote_control_auto_connect_default": {
+                "type": "boolean"
+              },
+              "remote_control_auto_enable": {
+                "type": "boolean"
+              },
+              "remote_control_auto_on_by_default": {
+                "type": "boolean"
+              },
+              "remote_control_available": {
+                "type": "boolean"
+              },
+              "session_state": {
+                "type": "string",
+                "enum": [
+                  "idle"
+                ]
+              },
+              "user_output_styles_dir": {
+                "type": "string",
+                "format": [
+                  "path"
+                ]
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/interrupt/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "still_queued": {
+                "type": "array"
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/mcp_status/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "mcpServers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "config": {
+                      "type": "object",
+                      "properties": {
+                        "args": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "format": [
+                              "path"
+                            ]
+                          }
+                        },
+                        "command": {
+                          "type": "string",
+                          "format": [
+                            "path"
+                          ]
+                        },
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "stdio"
+                          ]
+                        }
+                      },
+                      "optional": true
+                    },
+                    "error": {
+                      "type": "string",
+                      "enum": [
+                        "ENOENT: no such file or directory, posix_spawn 'stdio'"
+                      ],
+                      "optional": true
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "scope": {
+                      "type": "string",
+                      "enum": [
+                        "dynamic"
+                      ]
+                    },
+                    "serverInfo": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "version": {
+                          "type": "string"
+                        }
+                      },
+                      "optional": true
+                    },
+                    "source": {
+                      "type": "string",
+                      "enum": [
+                        "dynamic",
+                        "sdk"
+                      ]
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "connected",
+                        "failed"
+                      ]
+                    },
+                    "tools": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "annotations": {
+                            "type": "object",
+                            "properties": {}
+                          },
+                          "name": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "optional": true
+                    },
+                    "transport": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/rewind_files/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "canRewind": {
+                "type": "boolean"
+              },
+              "error": {
+                "type": "string",
+                "enum": [
+                  "File rewinding is not enabled."
+                ]
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/set_max_thinking_tokens/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/set_model/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "model": {
+                "type": "string"
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/set_permission_mode/error": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "error_code": {
+            "type": "string"
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "error"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:control_response/set_permission_mode/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string"
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "type": "string",
+                "enum": [
+                  "default",
+                  "plan"
+                ]
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  },
+  "in:system/background_tasks_changed": {
+    "type": "object",
+    "properties": {
+      "session_id": {
+        "type": "string",
+        "format": [
+          "uuid"
+        ]
+      },
+      "subtype": {
+        "type": "string",
+        "enum": [
+          "background_tasks_changed"
+        ]
+      },
+      "tasks": {
+        "type": "array"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "system"
+        ]
+      },
+      "uuid": {
+        "type": "string",
+        "format": [
+          "uuid"
+        ]
+      }
+    }
+  },
+  "in:system/status": {
+    "type": "object",
+    "properties": {
+      "permissionMode": {
+        "type": "string",
+        "enum": [
+          "default",
+          "plan"
+        ]
+      },
+      "session_id": {
+        "type": "string",
+        "format": [
+          "uuid"
+        ]
+      },
+      "status": {
+        "type": "null"
+      },
+      "subtype": {
+        "type": "string",
+        "enum": [
+          "status"
+        ]
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "system"
+        ]
+      },
+      "uuid": {
+        "type": "string",
+        "format": [
+          "uuid"
+        ]
+      }
+    }
+  },
+  "out:control_request/__probe_unknown_subtype__": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "__probe_unknown_subtype__"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/get_context_usage": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "get_context_usage"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/get_settings": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "get_settings"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/initialize": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "hooks": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "hookCallbackIds": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "matcher": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "sdkMcpServers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "optional": true
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "initialize"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/interrupt": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "interrupt"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/mcp_status": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "mcp_status"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/rewind_files": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "dry_run": {
+            "type": "boolean"
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "rewind_files"
+            ]
+          },
+          "user_message_id": {
+            "type": "string",
+            "format": [
+              "uuid"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/set_max_thinking_tokens": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "max_thinking_tokens": {
+            "type": "integer"
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "set_max_thinking_tokens"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/set_model": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "model": {
+            "type": "string"
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "set_model"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_request/set_permission_mode": {
+    "type": "object",
+    "properties": {
+      "request": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "__bogus__",
+              "default",
+              "plan"
+            ]
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "set_permission_mode"
+            ]
+          }
+        }
+      },
+      "request_id": {
+        "type": "string"
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_request"
+        ]
+      }
+    }
+  },
+  "out:control_response/mcp_message/success": {
+    "type": "object",
+    "properties": {
+      "response": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": [
+              "uuid"
+            ]
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "mcp_response": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "jsonrpc": {
+                    "type": "string"
+                  },
+                  "result": {
+                    "type": "object",
+                    "properties": {
+                      "capabilities": {
+                        "type": "object",
+                        "properties": {
+                          "tools": {
+                            "type": "object",
+                            "properties": {}
+                          }
+                        },
+                        "optional": true
+                      },
+                      "protocolVersion": {
+                        "type": "string",
+                        "optional": true
+                      },
+                      "serverInfo": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "version": {
+                            "type": "string"
+                          }
+                        },
+                        "optional": true
+                      },
+                      "tools": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "description": {
+                              "type": "string"
+                            },
+                            "inputSchema": {
+                              "type": "object",
+                              "properties": {
+                                "properties": {
+                                  "type": "object",
+                                  "properties": {}
+                                },
+                                "type": {
+                                  "type": "string",
+                                  "enum": [
+                                    "object"
+                                  ]
+                                }
+                              }
+                            },
+                            "name": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "optional": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "subtype": {
+            "type": "string",
+            "enum": [
+              "success"
+            ]
+          }
+        }
+      },
+      "type": {
+        "type": "string",
+        "enum": [
+          "control_response"
+        ]
+      }
+    }
+  }
+}

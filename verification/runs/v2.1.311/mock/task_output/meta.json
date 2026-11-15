@@ -1,0 +1,10 @@
+{
+  "scenario": "task_output",
+  "target": "mock",
+  "sessionId": "b392e745-4828-4cf8-9b58-d8feaeb1c676",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,167 @@
+2026-11-15T17:49:22.422Z [DEBUG] MDM settings load completed in 0ms
+2026-11-15T17:49:22.424Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:49:22.424Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: none
+2026-11-15T17:49:22.425Z [DEBUG] [init] configureGlobalMTLS starting
+2026-11-15T17:49:22.425Z [DEBUG] [init] configureGlobalMTLS complete
+2026-11-15T17:49:22.425Z [DEBUG] [init] configureGlobalAgents starting
+2026-11-15T17:49:22.425Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-11-15T17:49:22.425Z [DEBUG] CA certs: Loaded 121 bundled root certificates
+2026-11-15T17:49:22.434Z [DEBUG] CA certs: system store returned empty
+2026-11-15T17:49:22.434Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:49:22.434Z [DEBUG] [init] configureGlobalAgents complete
+2026-11-15T17:49:22.434Z [DEBUG] Git remote URL: null
+2026-11-15T17:49:22.434Z [DEBUG] No git remote URL found
+2026-11-15T17:49:22.435Z [DEBUG] Error log sink initialized
+2026-11-15T17:49:22.435Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/settings.json
+2026-11-15T17:49:22.453Z [ERROR] Failed to save config with lock: Error: ENOENT: no such file or directory, lstat '/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json'
+2026-11-15T17:49:22.454Z [DEBUG] Setting permissions for new file: 600
+2026-11-15T17:49:22.454Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.75cea91aa26c
+2026-11-15T17:49:22.454Z [DEBUG] Temp file written successfully, size: 84 bytes
+2026-11-15T17:49:22.454Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.75cea91aa26c to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.454Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.455Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:49:22.455Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.968813152cd6
+2026-11-15T17:49:22.455Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:49:22.455Z [DEBUG] Temp file written successfully, size: 167 bytes
+2026-11-15T17:49:22.455Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.968813152cd6 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.455Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.455Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:49:22.455Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.8b4a37e8be52
+2026-11-15T17:49:22.456Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:49:22.456Z [DEBUG] Temp file written successfully, size: 203 bytes
+2026-11-15T17:49:22.456Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.8b4a37e8be52 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.456Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.456Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:49:22.456Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.10d6b9e79883
+2026-11-15T17:49:22.456Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:49:22.456Z [DEBUG] Temp file written successfully, size: 242 bytes
+2026-11-15T17:49:22.456Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.10d6b9e79883 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.456Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.457Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:49:22.457Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.efbd7fd21a41
+2026-11-15T17:49:22.457Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:49:22.457Z [DEBUG] Temp file written successfully, size: 269 bytes
+2026-11-15T17:49:22.457Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.efbd7fd21a41 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.457Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.457Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:49:22.457Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.da2a646c6d2a
+2026-11-15T17:49:22.458Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:49:22.458Z [DEBUG] Temp file written successfully, size: 317 bytes
+2026-11-15T17:49:22.458Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.da2a646c6d2a to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.458Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.458Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:49:22.458Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.7939c5679348
+2026-11-15T17:49:22.458Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:49:22.458Z [DEBUG] Temp file written successfully, size: 343 bytes
+2026-11-15T17:49:22.458Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.7939c5679348 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.458Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.461Z [DEBUG] [Claude in Chrome] Disabled: OAuth token has no scope accepted by /api/oauth/validate (needs user:profile, user:office, or user:ccr_inference; env-var and setup-token sessions default to user:inference only)
+2026-11-15T17:49:22.471Z [DEBUG] [ToolSearch:optimistic] disabled: ANTHROPIC_BASE_URL=http://127.0.0.1:8787 is not a first-party Anthropic host. Set ENABLE_TOOL_SEARCH=true (or auto / auto:N) if your proxy forwards tool_reference blocks.
+2026-11-15T17:49:22.471Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/cwd/.claude/settings.json
+2026-11-15T17:49:22.471Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/cwd/.claude/settings.local.json
+2026-11-15T17:49:22.471Z [DEBUG] [STARTUP] Loading MCP configs...
+2026-11-15T17:49:22.472Z [DEBUG] [STARTUP] Running setup()...
+2026-11-15T17:49:22.474Z [DEBUG] installed_plugins.json doesn't exist, returning empty V2 object
+2026-11-15T17:49:22.474Z [DEBUG] Found 0 plugins (0 enabled, 0 disabled)
+2026-11-15T17:49:22.475Z [DEBUG] getPluginSkills: Processing 0 enabled plugins
+2026-11-15T17:49:22.475Z [DEBUG] Total plugin workflows loaded: 0
+2026-11-15T17:49:22.475Z [DEBUG] Total plugin commands loaded: 0
+2026-11-15T17:49:22.475Z [DEBUG] Total plugin skills loaded: 0 (0 duplicate/user-owned entries skipped)
+2026-11-15T17:49:22.475Z [DEBUG] Loading skills from: managed=/Library/Application Support/ClaudeCode/.claude/skills, user=/private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/skills, project=[]
+2026-11-15T17:49:22.475Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/agents: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/agents'
+2026-11-15T17:49:22.475Z [DEBUG] Total plugin agents loaded: 0
+2026-11-15T17:49:22.475Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/commands: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/commands'
+2026-11-15T17:49:22.476Z [DEBUG] Loaded 0 unique skills (0 unconditional, 0 conditional, managed: 0, user: 0, project: 0, additional: 0, legacy commands: 0)
+2026-11-15T17:49:22.477Z [INFO] [uds-messaging] Listening: /tmp/cc-socks/12045.sock
+2026-11-15T17:49:22.477Z [INFO] [uds-messaging] Inject messages (auth line optional here): { echo '{"type":"auth","token":"[REDACTED]"$CLAUDE_CODE_MESSAGING_TOKEN"'"}'; echo '{"type":"user","message":{"role":"user","content":"hello"}}'; } | socat - UNIX-CONNECT:/tmp/cc-socks/12045.sock
+2026-11-15T17:49:22.477Z [INFO] [uds-messaging] Connect when the data is ready (e.g. out=$(cmd); printf '%s\n' "$out" | nc -U "$CLAUDE_CODE_MESSAGING_SOCKET" — or the socat form above): a connection that sends no complete line within 30000 ms is closed
+2026-11-15T17:49:22.478Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T17:49:22.478Z [DEBUG] Error log sink initialized
+2026-11-15T17:49:22.478Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/cwd/.claude/settings.json
+2026-11-15T17:49:22.478Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/settings.json
+2026-11-15T17:49:22.478Z [DEBUG] installed plugins' hooks modules not loaded: rollout flag (tengu_plugin_hooks_modules) is off, from the default (GrowthBook is off for this session: a third-party provider, or telemetry opted out); built-in plugins load regardless
+2026-11-15T17:49:22.478Z [DEBUG] sec-default@builtin not seated: installed plugins' hooks modules are off in this process
+2026-11-15T17:49:22.479Z [DEBUG] Registered 0 hooks from 0 plugins
+2026-11-15T17:49:22.479Z [DEBUG] [STARTUP] setup() completed in 7ms
+2026-11-15T17:49:22.479Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T17:49:22.479Z [DEBUG] Cleared proxy agent cache
+2026-11-15T17:49:22.479Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:49:22.480Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/cwd/.claude/settings.local.json
+2026-11-15T17:49:22.480Z [DEBUG] [STARTUP] Loading commands and agents...
+2026-11-15T17:49:22.481Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 40 bundled skills, 0 builtin plugin skills
+2026-11-15T17:49:22.482Z [DEBUG] [STARTUP] Commands and agents loaded in 2ms
+2026-11-15T17:49:22.483Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-11-15T17:49:22.483Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-11-15T17:49:22.483Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2026-11-15T17:49:22.483Z [DEBUG] Starting background startup prefetches
+2026-11-15T17:49:22.483Z [DEBUG] [Bootstrap] Skipped: Nonessential traffic disabled
+2026-11-15T17:49:22.499Z [DEBUG] [STARTUP] MCP configs resolved in 1ms (awaited at +28ms)
+2026-11-15T17:49:22.500Z [DEBUG] Total LSP servers loaded: 0
+2026-11-15T17:49:22.500Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T17:49:22.500Z [DEBUG] Cleared proxy agent cache
+2026-11-15T17:49:22.500Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T17:49:22.501Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2026-11-15T17:49:22.501Z [DEBUG] LSP manager initialized with 0 servers
+2026-11-15T17:49:22.501Z [DEBUG] Initialized versioned plugins system with 0 plugins
+2026-11-15T17:49:22.501Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:22.501Z [DEBUG] [MCP] --mcp-config servers running fully async (nonblocking)
+2026-11-15T17:49:22.501Z [DEBUG] [MCP] claude.ai connectors running fully async (nonblocking)
+2026-11-15T17:49:22.501Z [DEBUG] LSP server manager initialized successfully
+2026-11-15T17:49:22.501Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2026-11-15T17:49:22.503Z [DEBUG] [auto-mode] verifyAutoModeGateAccess: enabledState=enabled disabledBySettings=false model=claude-haiku-4-5-20251001 modelSupported=false disableFastModeBreakerFires=false carouselAvailable=false canEnterAuto=false
+2026-11-15T17:49:22.503Z [WARN] auto mode disabled: model claude-haiku-4-5-20251001 does not support auto mode
+2026-11-15T17:49:22.503Z [DEBUG] [auto-mode] kickOutOfAutoIfNeeded applying: ctx.mode=default ctx.prePlanMode=undefined reason=model
+2026-11-15T17:49:22.503Z [DEBUG] [auto-mode] verifyAutoModeGateAccess setAvailable: true -> false
+2026-11-15T17:49:22.503Z [DEBUG] [servedCatalog] off (essential_traffic)
+2026-11-15T17:49:22.506Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-11-15T17:49:22.506Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+2026-11-15T17:49:22.507Z [DEBUG] Plugin autoupdate: command-source refresh disabled by tengu_plugin_command_source_refresh (still excluding command-sourced plugins from the regular pass)
+2026-11-15T17:49:22.508Z [DEBUG] Plugin autoupdate: skipped (auto-updater disabled)
+2026-11-15T17:49:22.512Z [DEBUG] [ScheduledTasks] scheduler start() — enabled=false, hasTasks=false
+2026-11-15T17:49:22.512Z [DEBUG] session.start: raised (surface none, not interactive)
+2026-11-15T17:49:22.512Z [DEBUG] [claudeai-mcp] Disabled: API-key auth precedence active
+2026-11-15T17:49:22.514Z [DEBUG] installPluginsForHeadless: starting
+2026-11-15T17:49:22.514Z [DEBUG] installPluginsForHeadless: no marketplaces declared
+2026-11-15T17:49:22.515Z [DEBUG] [sessionRegistry] sweep permitted (domain darwin)
+2026-11-15T17:49:22.516Z [DEBUG] Ripgrep first use test: PASSED (mode=embedded, path=/opt/homebrew/lib/node_modules/@anthropic-ai/claude-code/bin/claude.exe)
+2026-11-15T17:49:22.516Z [DEBUG] "rg error (signal=undefined, code=2, stderr: rg: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/plugins/cache: IO error for operation on /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/plugins/cache: No such file or directory (os error 2)\n), 0 results"
+2026-11-15T17:49:22.516Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/output-styles: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/output-styles'
+2026-11-15T17:49:22.516Z [DEBUG] Total plugin output styles loaded: 0
+2026-11-15T17:49:22.517Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:22.517Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T17:49:22.517Z [DEBUG] Writing to temp file: /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.d4c416f19022
+2026-11-15T17:49:22.517Z [DEBUG] Watching /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/cwd for /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/cwd/.claude to appear
+2026-11-15T17:49:22.517Z [DEBUG] Watching for changes in setting files /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/settings.json...
+2026-11-15T17:49:22.518Z [DEBUG] Applied original permissions to temp file
+2026-11-15T17:49:22.518Z [DEBUG] Temp file written successfully, size: 423 bytes
+2026-11-15T17:49:22.518Z [DEBUG] Renaming /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json.tmp.12045.d4c416f19022 to /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json
+2026-11-15T17:49:22.518Z [DEBUG] File /private/tmp/claude-501/-Users-user-Development-other-project/459f0484-dabf-4eb9-807f-8143c0170df0/scratchpad/verify/runs/mock/error_500/config/.claude.json written atomically
+2026-11-15T17:49:22.521Z [DEBUG] act_dont_rederive_arm_active source=growthbook
+2026-11-15T17:49:22.523Z [DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+2026-11-15T17:49:22.523Z [DEBUG] LSP Diagnostics: Checking registry - 0 pending
+2026-11-15T17:49:22.523Z [DEBUG] Hooks: Found 0 total hooks in registry
+2026-11-15T17:49:22.523Z [DEBUG] Sending 12 skills via attachment (initial)
+2026-11-15T17:49:22.523Z [DEBUG] Hooks: checkForNewResponses returning 0 responses
+2026-11-15T17:49:22.524Z [WARN] [3P telemetry] Event dropped (no event logger initialized): user_prompt
+2026-11-15T17:49:22.525Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:22.525Z [DEBUG] [session-notices] advertise=false mode=default flag=false(disabled) pollChannel=false remote=false remoteEnv=false nonInteractive=true
+2026-11-15T17:49:22.526Z [DEBUG] [engine] turn 1 start
+2026-11-15T17:49:22.536Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.278.3ea; cc_entrypoint=sdk-cli;
+2026-11-15T17:49:22.536Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:22.537Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:22.538Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:22.538Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-4-5-20251001
+2026-11-15T17:49:22.539Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-11-15T17:49:22.539Z [DEBUG] Git remote URL: null
+2026-11-15T17:49:22.539Z [DEBUG] No git remote URL found
+2026-11-15T17:49:22.540Z [ERROR] API error (attempt 1/2): 500 500 {"type":"error","error":{"type":"api_error","message":"mock: internal error"}}
+2026-11-15T17:49:22.824Z [DEBUG] [fs.watch probe] verdict: delivers
+2026-11-15T17:49:23.060Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:23.061Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-4-5-20251001
+2026-11-15T17:49:23.062Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-11-15T17:49:23.065Z [ERROR] API error (attempt 2/2): 500 500 {"type":"error","error":{"type":"api_error","message":"mock: internal error"}}
+2026-11-15T17:49:23.065Z [ERROR] Error in API request: 500 {"type":"error","error":{"type":"api_error","message":"mock: internal error"}}
+2026-11-15T17:49:23.070Z [DEBUG] [engine] turn 1 end (turns=1 usage in=0 out=0 cost=$0.0000 api=0ms stop=stop_sequence resultLen=0)
+2026-11-15T17:49:23.070Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T17:49:23.074Z [DEBUG] [uds-messaging] Shutting down
+2026-11-15T17:49:23.076Z [DEBUG] LSP server manager shut down successfully

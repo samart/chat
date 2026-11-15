@@ -1,0 +1,10 @@
+{
+  "scenario": "interrupt",
+  "target": "mock",
+  "sessionId": "84d21361-555e-4c09-bad1-21a03bb7ccd3",
+  "r1": {
+    "code": 1,
+    "signal": null,
+    "stderr": ""
+  }
+}

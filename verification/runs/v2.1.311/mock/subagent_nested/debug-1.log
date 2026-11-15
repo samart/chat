@@ -1,0 +1,258 @@
+2026-11-15T19:14:48.200Z [DEBUG] MDM settings load completed in 1ms
+2026-11-15T19:14:48.202Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Library/Application Support/ClaudeCode/managed-settings.json
+2026-11-15T19:14:48.202Z [DEBUG] CA certs: Config fallback - globalEnv keys: , settingsEnv keys: none
+2026-11-15T19:14:48.203Z [DEBUG] [init] configureGlobalMTLS starting
+2026-11-15T19:14:48.203Z [DEBUG] [init] configureGlobalMTLS complete
+2026-11-15T19:14:48.203Z [DEBUG] [init] configureGlobalAgents starting
+2026-11-15T19:14:48.203Z [DEBUG] CA certs: stores=bundled,system, extraCertsPath=undefined
+2026-11-15T19:14:48.203Z [DEBUG] CA certs: Loaded 118 bundled root certificates
+2026-11-15T19:14:48.212Z [DEBUG] CA certs: system store returned empty
+2026-11-15T19:14:48.214Z [DEBUG] CA certs: Dropped blocked certificate 40f6af0346a99aa1cd1d555a4e9cce62c7f9634603ee406615833dc8c8d00367 from bundled
+2026-11-15T19:14:48.217Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T19:14:48.218Z [DEBUG] [init] configureGlobalAgents complete
+2026-11-15T19:14:48.218Z [DEBUG] Error log sink initialized
+2026-11-15T19:14:48.219Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/settings.json
+2026-11-15T19:14:48.219Z [ERROR] Failed to save config with lock: Error: ENOENT: no such file or directory, lstat '/Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json'
+2026-11-15T19:14:48.220Z [DEBUG] Setting permissions for new file: 600
+2026-11-15T19:14:48.220Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.d630186757b5
+2026-11-15T19:14:48.220Z [DEBUG] Temp file written successfully, size: 84 bytes
+2026-11-15T19:14:48.220Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.d630186757b5 to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.220Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.221Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.221Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.d598206f2913
+2026-11-15T19:14:48.221Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.221Z [DEBUG] Temp file written successfully, size: 167 bytes
+2026-11-15T19:14:48.221Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.d598206f2913 to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.221Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.222Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.222Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.5461487ceb29
+2026-11-15T19:14:48.222Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.222Z [DEBUG] Temp file written successfully, size: 203 bytes
+2026-11-15T19:14:48.222Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.5461487ceb29 to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.222Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.222Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.222Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.e5973f201869
+2026-11-15T19:14:48.222Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.223Z [DEBUG] Temp file written successfully, size: 242 bytes
+2026-11-15T19:14:48.223Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.e5973f201869 to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.223Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.223Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.223Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.abd63286c6e1
+2026-11-15T19:14:48.223Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.223Z [DEBUG] Temp file written successfully, size: 269 bytes
+2026-11-15T19:14:48.223Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.abd63286c6e1 to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.224Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.224Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.224Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.885ad0015c61
+2026-11-15T19:14:48.224Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.224Z [DEBUG] Temp file written successfully, size: 317 bytes
+2026-11-15T19:14:48.224Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.885ad0015c61 to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.224Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.224Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.224Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.67a7297c718e
+2026-11-15T19:14:48.225Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.225Z [DEBUG] Temp file written successfully, size: 343 bytes
+2026-11-15T19:14:48.225Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.67a7297c718e to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.225Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.229Z [DEBUG] [Claude in Chrome] Disabled: OAuth token has no scope accepted by /api/oauth/validate (needs user:profile, user:office, or user:ccr_inference; env-var and setup-token sessions default to user:inference only)
+2026-11-15T19:14:48.239Z [DEBUG] [ToolSearch:optimistic] mode=tst, ENABLE_TOOL_SEARCH=undefined, result=true
+2026-11-15T19:14:48.240Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/cwd/.claude/settings.json
+2026-11-15T19:14:48.240Z [DEBUG] Broken symlink or missing file encountered for settings.json at path: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/cwd/.claude/settings.local.json
+2026-11-15T19:14:48.240Z [DEBUG] [STARTUP] Loading MCP configs...
+2026-11-15T19:14:48.240Z [DEBUG] [STARTUP] Running setup()...
+2026-11-15T19:14:48.242Z [DEBUG] Loading skills from: managed=/Library/Application Support/ClaudeCode/.claude/skills, user=/Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/skills, project=[]
+2026-11-15T19:14:48.243Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/agents: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/agents'
+2026-11-15T19:14:48.243Z [DEBUG] installed_plugins.json doesn't exist, returning empty V2 object
+2026-11-15T19:14:48.243Z [DEBUG] Found 2 plugins (2 enabled, 0 disabled)
+2026-11-15T19:14:48.243Z [DEBUG] getPluginSkills: Processing 2 enabled plugins
+2026-11-15T19:14:48.243Z [DEBUG] Checking plugin cc-plugin-agents-md: skillsPath=none, skillsPaths=0 paths
+2026-11-15T19:14:48.243Z [DEBUG] Checking plugin cc-plugin-plugin-authoring: skillsPath=none, skillsPaths=0 paths
+2026-11-15T19:14:48.243Z [DEBUG] Total plugin workflows loaded: 0
+2026-11-15T19:14:48.243Z [DEBUG] Total plugin commands loaded: 0
+2026-11-15T19:14:48.243Z [DEBUG] Total plugin skills loaded: 0 (0 duplicate/user-owned entries skipped)
+2026-11-15T19:14:48.243Z [DEBUG] Total plugin agents loaded: 0
+2026-11-15T19:14:48.244Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/commands: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/commands'
+2026-11-15T19:14:48.244Z [DEBUG] Loaded 0 unique skills (0 unconditional, 0 conditional, managed: 0, user: 0, project: 0, additional: 0, legacy commands: 0)
+2026-11-15T19:14:48.245Z [INFO] [uds-messaging] Listening: /tmp/cc-socks/30335.sock
+2026-11-15T19:14:48.245Z [INFO] [uds-messaging] Inject messages (auth line optional here): { echo '{"type":"auth","token":"[REDACTED]"$CLAUDE_CODE_MESSAGING_TOKEN"'"}'; echo '{"type":"user","message":{"role":"user","content":"hello"}}'; } | socat - UNIX-CONNECT:/tmp/cc-socks/30335.sock
+2026-11-15T19:14:48.248Z [INFO] [uds-messaging] Connect when the data is ready (e.g. out=$(cmd); printf '%s\n' "$out" | nc -U "$CLAUDE_CODE_MESSAGING_SOCKET" — or the socat form above): a connection that sends no complete line within 30000 ms is closed
+2026-11-15T19:14:48.248Z [DEBUG] Error log sink initialized
+2026-11-15T19:14:48.249Z [DEBUG] cc-plugin-sec-default@builtin not seated: no managed settings and not a Team or Enterprise organization (none)
+2026-11-15T19:14:48.249Z [DEBUG] [STARTUP] setup() completed in 9ms
+2026-11-15T19:14:48.249Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T19:14:48.249Z [DEBUG] Cleared proxy agent cache
+2026-11-15T19:14:48.249Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T19:14:48.250Z [DEBUG] [STARTUP] Loading commands and agents...
+2026-11-15T19:14:48.252Z [DEBUG] getSkills returning: 0 skill dir commands, 0 plugin skills, 37 bundled skills, 1 builtin plugin skills
+2026-11-15T19:14:48.253Z [DEBUG] [STARTUP] Commands and agents loaded in 3ms
+2026-11-15T19:14:48.254Z [DEBUG] [LSP MANAGER] initializeLspServerManager() called
+2026-11-15T19:14:48.254Z [DEBUG] [LSP MANAGER] Created manager instance, state=pending
+2026-11-15T19:14:48.254Z [DEBUG] [LSP MANAGER] Starting async initialization (generation 1)
+2026-11-15T19:14:48.254Z [DEBUG] Starting background startup prefetches
+2026-11-15T19:14:48.254Z [DEBUG] [Bootstrap] Skipped: Nonessential traffic disabled
+2026-11-15T19:14:48.254Z [DEBUG] [STARTUP] MCP configs resolved in 0ms (awaited at +14ms)
+2026-11-15T19:14:48.255Z [DEBUG] Cleared mTLS configuration cache
+2026-11-15T19:14:48.255Z [DEBUG] Cleared proxy agent cache
+2026-11-15T19:14:48.255Z [DEBUG] mTLS: Creating HTTPS agent with custom certificates
+2026-11-15T19:14:48.255Z [DEBUG] Total LSP servers loaded: 0
+2026-11-15T19:14:48.255Z [DEBUG] [LSP SERVER MANAGER] getAllLspServers returned 0 server(s)
+2026-11-15T19:14:48.255Z [DEBUG] LSP manager initialized with 0 servers
+2026-11-15T19:14:48.255Z [DEBUG] LSP server manager initialized successfully
+2026-11-15T19:14:48.255Z [DEBUG] LSP notification handlers registered successfully for all 0 server(s)
+2026-11-15T19:14:48.256Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.256Z [DEBUG] [MCP] --mcp-config servers running fully async (nonblocking)
+2026-11-15T19:14:48.256Z [DEBUG] [MCP] claude.ai connectors running fully async (nonblocking)
+2026-11-15T19:14:48.256Z [DEBUG] [auto-mode] verifyAutoModeGateAccess: enabledState=enabled disabledBySettings=false model=claude-haiku-5-5 modelSupported=true disableFastModeBreakerFires=false carouselAvailable=true canEnterAuto=true
+2026-11-15T19:14:48.256Z [DEBUG] [servedCatalog] off (essential_traffic)
+2026-11-15T19:14:48.258Z [DEBUG] plugin cc-plugin-agents-md: no pluginConfigs["agents-md@builtin" or "cc-plugin-agents-md@builtin"].options in user, --settings or managed settings (project settings are not read); every option is its default
+2026-11-15T19:14:48.259Z [DEBUG] hooks module cc-plugin-agents-md@builtin loaded (native, environment 1, tier builtin); events: session.start,prompt.context,command.run,session.compact,prompt.submit,turn.start,turn.complete,agent.spawn,tool.call,prompt.mention
+2026-11-15T19:14:48.259Z [DEBUG] hooks module cc-plugin-plugin-authoring@builtin loaded (native, environment 2, tier builtin); events: skill.prompt,tool.check,tool.call
+2026-11-15T19:14:48.260Z [DEBUG] engine.create: no plugin-provided interfaces; $ built for cc-plugin-agents-md,cc-plugin-plugin-authoring
+2026-11-15T19:14:48.260Z [DEBUG] plugin.register: cc-plugin-agents-md (builtin, cc-plugin-agents-md@builtin), judged by core alone: admitted
+2026-11-15T19:14:48.260Z [DEBUG] plugin.register: cc-plugin-plugin-authoring (builtin, cc-plugin-plugin-authoring@builtin), judged by core alone: admitted
+2026-11-15T19:14:48.260Z [DEBUG] Registered 0 hooks from 2 plugins
+2026-11-15T19:14:48.261Z [DEBUG] settings.read: the engine's merge was raised (the loaded plugins changed) in 0.3 ms; 0 keys answered otherwise than the files.
+2026-11-15T19:14:48.261Z [DEBUG] settings.read: the engine's merge is not raised again (the loaded plugins changed): neither the loaded plugins nor the settings changed.
+2026-11-15T19:14:48.264Z [DEBUG] [ScheduledTasks] scheduler start() — enabled=false, hasTasks=false
+2026-11-15T19:14:48.264Z [DEBUG] session.start: raised (surface none, not interactive)
+2026-11-15T19:14:48.265Z [DEBUG] [claudeai-mcp] Disabled: API-key auth precedence active
+2026-11-15T19:14:48.265Z [DEBUG] hooks module cc-plugin-agents-md@builtin session.start settled in 0.6ms (native link, next() included)
+2026-11-15T19:14:48.266Z [DEBUG] installPluginsForHeadless: starting
+2026-11-15T19:14:48.266Z [DEBUG] installPluginsForHeadless: no marketplaces declared
+2026-11-15T19:14:48.266Z [DEBUG] memory index backfill: ENOENT: no such file or directory, scandir '/Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/projects/-Users-user-Development-ai-chat-interface-specs-verification-runs-v2-1-311-mock-subagent-nested-cwd/memory/'
+2026-11-15T19:14:48.267Z [DEBUG] $.fs.ancestors (cc-plugin-agents-md): project memory is off
+2026-11-15T19:14:48.267Z [DEBUG] $.fs.ancestors (cc-plugin-agents-md): project memory is off
+2026-11-15T19:14:48.268Z [DEBUG] hooks module cc-plugin-agents-md@builtin prompt.context settled in 0.4ms (native link, next() included)
+2026-11-15T19:14:48.268Z [DEBUG] [sessionRegistry] sweep permitted (domain darwin)
+2026-11-15T19:14:48.271Z [DEBUG] Failed to stat directory /Library/Application Support/ClaudeCode/.claude/output-styles: ENOENT: no such file or directory, stat '/Library/Application Support/ClaudeCode/.claude/output-styles'
+2026-11-15T19:14:48.271Z [DEBUG] Total plugin output styles loaded: 0
+2026-11-15T19:14:48.271Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.272Z [DEBUG] Watching /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/cwd for /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/cwd/.claude to appear
+2026-11-15T19:14:48.272Z [DEBUG] Watching for changes in setting files /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/settings.json...
+2026-11-15T19:14:48.272Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.272Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.bf0ad322ff9a
+2026-11-15T19:14:48.272Z [DEBUG] [startupWorkGate] open (host_initialized) after 23ms; running 5 held task(s): tengu_init, permission_context_log, plugin_init, telemetry_init, idle_startup_work
+2026-11-15T19:14:48.276Z [DEBUG] act_dont_rederive_arm_active source=growthbook
+2026-11-15T19:14:48.276Z [DEBUG] $.store.set (cc-plugin-agents-md@builtin): usage-rows-queued
+2026-11-15T19:14:48.278Z [DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+2026-11-15T19:14:48.278Z [DEBUG] LSP Diagnostics: Checking registry - 0 pending
+2026-11-15T19:14:48.278Z [DEBUG] Sending 13 skills via attachment (initial)
+2026-11-15T19:14:48.279Z [DEBUG] Hooks: checkForNewResponses returning 0 responses, 0 hooks still pending
+2026-11-15T19:14:48.282Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.282Z [DEBUG] [session-notices] advertise=false mode=default flag=false(disabled) pollChannel=false ownEventsOnly=false remote=false remoteEnv=false nonInteractive=true
+2026-11-15T19:14:48.282Z [DEBUG] [engine] turn 1 start
+2026-11-15T19:14:48.283Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.start settled in 1.1ms (native link, next() included)
+2026-11-15T19:14:48.283Z [DEBUG] hooks module cc-plugin-agents-md@builtin prompt.submit settled in 3.1ms (native link, next() included)
+2026-11-15T19:14:48.284Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T19:14:48.290Z [DEBUG] Dynamic tool loading: 0/13 deferred tools included
+2026-11-15T19:14:48.291Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.311.c06; cc_entrypoint=sdk-cli;
+2026-11-15T19:14:48.291Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.291Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.292Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.293Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.293Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T19:14:48.294Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-11-15T19:14:48.294Z [DEBUG] Temp file written successfully, size: 423 bytes
+2026-11-15T19:14:48.294Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.bf0ad322ff9a to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.294Z [DEBUG] [startupWorkGate] a turn started during the idle release; 5 task(s) wait for it
+2026-11-15T19:14:48.294Z [DEBUG] [startupWorkGate] draining remainder (turn_started) after 45ms; running 5 held task(s): tengu_init, permission_context_log, plugin_init, telemetry_init, idle_startup_work
+2026-11-15T19:14:48.295Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.295Z [DEBUG] Stream started - received first chunk
+2026-11-15T19:14:48.295Z [DEBUG] [API:timing] first byte after 2ms
+2026-11-15T19:14:48.301Z [INFO] [Stall] tool_dispatch_start tool=Agent toolUseId=toolu_mock0063 permissionDecisionMs=0
+2026-11-15T19:14:48.304Z [DEBUG] Cleared all session hooks for session aed69773f797929b1
+2026-11-15T19:14:48.304Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.start settled in 0.9ms (native link, next() included)
+2026-11-15T19:14:48.304Z [DEBUG] Sending 13 skills via attachment (initial)
+2026-11-15T19:14:48.306Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T19:14:48.307Z [DEBUG] Dynamic tool loading: 0/11 deferred tools included
+2026-11-15T19:14:48.307Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.311.e50; cc_entrypoint=sdk-cli; cc_is_subagent=true;
+2026-11-15T19:14:48.307Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.307Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.308Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.308Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T19:14:48.308Z [DEBUG] [API REQUEST] /v1/messages source=agent:builtin:general-purpose
+2026-11-15T19:14:48.309Z [DEBUG] Initialized versioned plugins system with 0 plugins
+2026-11-15T19:14:48.309Z [DEBUG] Stream started - received first chunk
+2026-11-15T19:14:48.309Z [DEBUG] [API:timing] first byte after 1ms
+2026-11-15T19:14:48.312Z [DEBUG] [Perfetto] initializePerfettoTracing called, env value: undefined
+2026-11-15T19:14:48.312Z [DEBUG] [3P telemetry] isTelemetryEnabled=false (CLAUDE_CODE_ENABLE_TELEMETRY=undefined)
+2026-11-15T19:14:48.312Z [DEBUG] [3P telemetry] Event dropped (no event logger initialized): hook_execution_complete
+2026-11-15T19:14:48.312Z [INFO] [Stall] tool_dispatch_start tool=Agent toolUseId=toolu_mock0066 permissionDecisionMs=0
+2026-11-15T19:14:48.314Z [DEBUG] Cleared all session hooks for session a02ff4b4096fb2f54
+2026-11-15T19:14:48.314Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.start settled in 0.6ms (native link, next() included)
+2026-11-15T19:14:48.314Z [DEBUG] Sending 13 skills via attachment (initial)
+2026-11-15T19:14:48.315Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T19:14:48.316Z [DEBUG] Dynamic tool loading: 0/11 deferred tools included
+2026-11-15T19:14:48.316Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.311.e50; cc_entrypoint=sdk-cli; cc_is_subagent=true;
+2026-11-15T19:14:48.316Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.316Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.317Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.317Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T19:14:48.317Z [DEBUG] [API REQUEST] /v1/messages source=agent:builtin:general-purpose
+2026-11-15T19:14:48.318Z [DEBUG] Plugin autoupdate: command-source refresh disabled by tengu_plugin_command_source_refresh (still excluding command-sourced plugins from the regular pass)
+2026-11-15T19:14:48.318Z [DEBUG] Plugin autoupdate: skipped (auto-updater disabled)
+2026-11-15T19:14:48.319Z [DEBUG] Stream started - received first chunk
+2026-11-15T19:14:48.319Z [DEBUG] [API:timing] first byte after 2ms
+2026-11-15T19:14:48.324Z [INFO] [Stall] tool_dispatch_start tool=Bash toolUseId=toolu_mock0069 permissionDecisionMs=1
+2026-11-15T19:14:48.325Z [DEBUG] Creating shell snapshot for zsh (/bin/zsh)
+2026-11-15T19:14:48.325Z [DEBUG] Looking for shell config file: /Users/user/.zshrc
+2026-11-15T19:14:48.326Z [DEBUG] Snapshots directory: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/shell-snapshots
+2026-11-15T19:14:48.326Z [DEBUG] Creating snapshot at: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/shell-snapshots/snapshot-zsh-1794770088326-94zppd.sh
+2026-11-15T19:14:48.326Z [DEBUG] Execution timeout: 10000ms
+2026-11-15T19:14:48.327Z [DEBUG] Preserving file permissions: 100600
+2026-11-15T19:14:48.327Z [DEBUG] Writing to temp file: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.f8b6a5c7f9d2
+2026-11-15T19:14:48.327Z [DEBUG] Applied original permissions to temp file
+2026-11-15T19:14:48.327Z [DEBUG] Temp file written successfully, size: 719 bytes
+2026-11-15T19:14:48.327Z [DEBUG] Renaming /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json.tmp.30335.f8b6a5c7f9d2 to /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json
+2026-11-15T19:14:48.327Z [DEBUG] File /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/.claude.json written atomically
+2026-11-15T19:14:48.330Z [DEBUG] Spawn-env probe captured 60 keys
+2026-11-15T19:14:48.551Z [DEBUG] Shell snapshot created successfully (48409 bytes)
+2026-11-15T19:14:48.551Z [DEBUG] No session environment scripts found
+2026-11-15T19:14:48.552Z [DEBUG] Spawning shell without login (-l flag skipped)
+2026-11-15T19:14:48.559Z [INFO] [Stall] tool_dispatch_end tool=Bash toolUseId=toolu_mock0069 outcome=ok durationMs=235
+2026-11-15T19:14:48.562Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T19:14:48.562Z [DEBUG] Dynamic tool loading: 0/11 deferred tools included
+2026-11-15T19:14:48.563Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.311.e50; cc_entrypoint=sdk-cli; cc_is_subagent=true;
+2026-11-15T19:14:48.563Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.563Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.564Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.564Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T19:14:48.564Z [DEBUG] [API REQUEST] /v1/messages source=agent:builtin:general-purpose
+2026-11-15T19:14:48.565Z [DEBUG] Stream started - received first chunk
+2026-11-15T19:14:48.565Z [DEBUG] [API:timing] first byte after 1ms
+2026-11-15T19:14:48.566Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.complete settled in 0.2ms (native link, next() included)
+2026-11-15T19:14:48.566Z [INFO] [Stall] agent_completion agentId=a02ff4b4096fb2f54 agentType=general-purpose exitPath=completed durationMs=253 turns=2 finalStopReason=end_turn lastChunkAgeMs=1 lastToolUseId=toolu_mock0069 lastToolResultSeen=toolu_mock0069
+2026-11-15T19:14:48.578Z [INFO] [Stall] tool_dispatch_end tool=Agent toolUseId=toolu_mock0066 outcome=ok durationMs=266
+2026-11-15T19:14:48.580Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T19:14:48.581Z [DEBUG] Dynamic tool loading: 0/11 deferred tools included
+2026-11-15T19:14:48.581Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.311.e50; cc_entrypoint=sdk-cli; cc_is_subagent=true;
+2026-11-15T19:14:48.581Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.582Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.582Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.582Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T19:14:48.582Z [DEBUG] [API REQUEST] /v1/messages source=agent:builtin:general-purpose
+2026-11-15T19:14:48.583Z [DEBUG] Stream started - received first chunk
+2026-11-15T19:14:48.583Z [DEBUG] [API:timing] first byte after 1ms
+2026-11-15T19:14:48.584Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.complete settled in 0.1ms (native link, next() included)
+2026-11-15T19:14:48.584Z [INFO] [Stall] agent_completion agentId=aed69773f797929b1 agentType=general-purpose exitPath=completed durationMs=281 turns=2 finalStopReason=end_turn lastChunkAgeMs=1 lastToolUseId=toolu_mock0066 lastToolResultSeen=toolu_mock0066
+2026-11-15T19:14:48.584Z [INFO] [Stall] tool_dispatch_end tool=Agent toolUseId=toolu_mock0063 outcome=ok durationMs=283
+2026-11-15T19:14:48.586Z [DEBUG] LSP Diagnostics: getLSPDiagnosticAttachments called
+2026-11-15T19:14:48.586Z [DEBUG] LSP Diagnostics: Checking registry - 0 pending
+2026-11-15T19:14:48.586Z [DEBUG] Hooks: checkForNewResponses returning 0 responses, 0 hooks still pending
+2026-11-15T19:14:48.586Z [DEBUG] autocompact: tokens=[REDACTED] level=ok effectiveWindow=980000
+2026-11-15T19:14:48.587Z [DEBUG] Dynamic tool loading: 0/13 deferred tools included
+2026-11-15T19:14:48.587Z [DEBUG] attribution header x-anthropic-billing-header: cc_version=2.1.311.c06; cc_entrypoint=sdk-cli;
+2026-11-15T19:14:48.587Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.587Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.588Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.588Z [DEBUG] [API:timing] dispatching to firstParty model=claude-haiku-5-5
+2026-11-15T19:14:48.588Z [DEBUG] [API REQUEST] /v1/messages source=sdk
+2026-11-15T19:14:48.589Z [DEBUG] Stream started - received first chunk
+2026-11-15T19:14:48.589Z [DEBUG] [API:timing] first byte after 1ms
+2026-11-15T19:14:48.590Z [DEBUG] [engine] turn 1 end (turns=2 usage in=150 out=17 cost=$0.0000 api=23ms stop=end_turn resultLen=30)
+2026-11-15T19:14:48.590Z [DEBUG] Fast mode unavailable: Fast mode is not available in the Agent SDK
+2026-11-15T19:14:48.590Z [DEBUG] hooks module cc-plugin-agents-md@builtin turn.complete settled in 0.0ms (native link, next() included)
+2026-11-15T19:14:48.597Z [DEBUG] [fs.watch probe] verdict: delivers
+2026-11-15T19:14:50.096Z [DEBUG] [uds-messaging] Shutting down
+2026-11-15T19:14:50.099Z [DEBUG] LSP server manager shut down successfully
+2026-11-15T19:14:50.099Z [DEBUG] Cleaned up session snapshot: /Users/user/Development/ai/chat-interface-specs/verification/runs/v2.1.311/mock/subagent_nested/config/shell-snapshots/snapshot-zsh-1794770088326-94zppd.sh

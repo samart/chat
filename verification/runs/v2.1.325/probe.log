@@ -1,0 +1,14 @@
+initialize                   success
+mcp_status                   success
+get_settings                 success
+get_context_usage            success
+set_permission_mode_plan     success
+set_permission_mode_bogus    error  Cannot set permission mode: must be one of acceptEdits, auto, bypassPermissions, default, dontAsk, plan
+set_permission_mode_default  success
+set_model_haiku              success
+set_max_thinking_tokens      success
+interrupt_idle               success
+rewind_files_no_msg          success
+unknown_subtype              error  Unsupported control request subtype: __probe_unknown_subtype__
+initialize_again             success
+exit { code: 0, signal: null, ms: 4259 } cli->host requests: [ 'mcp_message', 'mcp_message', 'mcp_message' ]

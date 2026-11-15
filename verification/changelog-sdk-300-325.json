@@ -1,0 +1,1201 @@
+{
+  "range": [
+    "0.3.300",
+    "0.3.325"
+  ],
+  "releases": [
+    {
+      "version": "0.3.325",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "archiveSession()",
+            "archived",
+            "getSessionInfo()",
+            "listSessions()",
+            "unarchiveSession()"
+          ],
+          "text": "Added `archiveSession()` and `unarchiveSession()`, and an `archived` field on the sessions that `listSessions()` and `getSessionInfo()` return"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "Query.reloadPlugins()",
+            "refuseIfBusy"
+          ],
+          "text": "Added `refuseIfBusy` to `Query.reloadPlugins()` so a host can have a reload refused while the session is busy"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "enabledPlugins",
+            "managed_lock",
+            "plugin_errors",
+            "system/init"
+          ],
+          "text": "Added `managed_lock` to `plugin_errors` entries on `system/init`, naming the managed `enabledPlugins` entry that dropped a plugin copy"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "PreToolUse",
+            "hook_no_verdict",
+            "system/informational"
+          ],
+          "text": "Added a `system/informational` warning, tagged `hook_no_verdict`, when a `PreToolUse` hook can't run or answer, or times out, without refusing its tool call"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "config_file_invalid",
+            "invalid_config_file"
+          ],
+          "text": "Added `invalid_config_file` to the `config_file_invalid` startup failure result: the broken config file's path and its backup's path as fields"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "always_deny",
+            "disallowedTools",
+            "permissions.deny",
+            "system/init"
+          ],
+          "text": "Fixed deny rules (`disallowedTools`, `permissions.deny`, `always_deny`) that name an in-process SDK MCP tool or its server, or match it with a glob, leaving it in Claude's tool list and `system/init`"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "maxEffortLevel",
+            "supportedEffortLevels"
+          ],
+          "text": "Fixed `supportedEffortLevels` in model info listing effort levels above the organization's effort cap or the `maxEffortLevel` setting"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "autoAllowBashIfSandboxed: true",
+            "sandbox"
+          ],
+          "text": "Changed the `sandbox` option: sandboxed Bash commands are no longer auto-approved unless `autoAllowBashIfSandboxed: true` is set"
+        },
+        {
+          "verb": "Changed",
+          "protocol": false,
+          "idents": [],
+          "text": "Changed read-only git commands in a repository that isn't the working directory's, an additional directory's or a trusted one to go through the permission flow instead of being auto-approved"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "applyFlagSettings()"
+          ],
+          "text": "Changed `applyFlagSettings()` to reject when a value would make Claude Code discard its settings layer, applying nothing and keeping settings from earlier calls"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "canUseTool",
+            "suggestions"
+          ],
+          "text": "Changed `suggestions` on `canUseTool` for Bash and Monitor: a list of rules alone is sent only when saving it would allow that command"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "ProposeSkillsInput",
+            "edits",
+            "skillMd"
+          ],
+          "text": "Changed the `ProposeSkillsInput` type: a proposal can carry `edits`, and `skillMd` is optional"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.325"
+        }
+      ]
+    },
+    {
+      "version": "0.3.324",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.324"
+        }
+      ]
+    },
+    {
+      "version": "0.3.323",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "machinePolicy.didNotLoad",
+            "resolveSettings()"
+          ],
+          "text": "Added `machinePolicy.didNotLoad` (alpha) to `resolveSettings()`'s result, which tells a host when a machine policy source may be there and did not load"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "deniedModels",
+            "matchDeniedModels()"
+          ],
+          "text": "Added `matchDeniedModels()` (alpha), which tells a host which models a `deniedModels` list blocks, by Claude Code's own entry rules"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "hook-",
+            "parent_tool_use_id",
+            "tool_name",
+            "tool_progress",
+            "tool_use_id"
+          ],
+          "text": "Added the periodic `tool_progress` heartbeat while a turn waits on long-running hooks; `tool_name` is the hook event, `tool_use_id` begins `hook-`, `parent_tool_use_id` may name no tool call"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "1",
+            "CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES",
+            "agentProgressSummaries",
+            "true"
+          ],
+          "text": "Added `CLAUDE_CODE_DISABLE_AGENT_PROGRESS_SUMMARIES`: set to `1` to turn off subagent progress summaries even when `agentProgressSummaries` is `true` (available since 0.3.318)"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "tool_use_result"
+          ],
+          "text": "Added `tool_use_result` to a subagent's WebSearch result message when the search did not run or found nothing"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [],
+          "text": "Fixed progress notifications from SDK MCP servers being dropped for tool calls that were still running when the set of SDK MCP servers changed"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "resolveSettings()"
+          ],
+          "text": "Fixed `resolveSettings()` keeping its first reading of a macOS MDM profile or Windows registry policy for the life of the process: it now re-reads after 30 minutes, and sooner after a read that failed"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "forkSession()",
+            "upToMessageId"
+          ],
+          "text": "Fixed `forkSession()` with `upToMessageId`: forking at a compaction summary no longer brings back the messages kept after it, and forking at a compaction boundary keeps the conversation before it"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "getSessionMessages"
+          ],
+          "text": "Fixed `getSessionMessages` leaving out a queued prompt that directly follows a compaction summary"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            ".claude",
+            ".git",
+            "canUseTool"
+          ],
+          "text": "Fixed `canUseTool` suggestions including a Bash allow rule for commands that write to sensitive paths such as `.git` or `.claude`, where the rule did not stop the next request"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "SessionStart",
+            "initialize"
+          ],
+          "text": "Fixed most `initialize` options, such as agents and skills, being ignored when a `SessionStart` hook supplied the first message"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "needs-auth",
+            "setMcpServers()"
+          ],
+          "text": "Fixed an MCP server removed and re-added with `setMcpServers()` staying `needs-auth` with no tools when a tool call had tried to reach it in between"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "init.plugin_errors"
+          ],
+          "text": "Fixed `init.plugin_errors` omitting a plugin that only project settings enable but that isn't installed; it now reports it as not installed, with the install command"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "CLAUDE_CODE_SYNC_PLUGIN_INSTALL=1",
+            "init.plugin_errors"
+          ],
+          "text": "Changed `init.plugin_errors` to also list load errors of plugins that managed settings enable; a check on it can trip before the background install ends (`CLAUDE_CODE_SYNC_PLUGIN_INSTALL=1` waits)"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "supersedes"
+          ],
+          "text": "Changed `supersedes` on assistant messages to also be sent after a response whose tool call could not be parsed"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "PreToolUse",
+            "canUseTool"
+          ],
+          "text": "Changed what happens when a tool's permission check fails with an error after a `PreToolUse` hook allowed the call: it now goes to `canUseTool`, or is refused when there is no callback"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.323"
+        }
+      ]
+    },
+    {
+      "version": "0.3.322",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.322"
+        }
+      ]
+    },
+    {
+      "version": "0.3.321",
+      "bullets": [
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "canUseTool",
+            "decisionReason"
+          ],
+          "text": "Fixed `canUseTool` getting the app's own PreToolUse hook reason in `decisionReason` when another hook also asked"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "ask",
+            "defer"
+          ],
+          "text": "Fixed a PreToolUse hook's `ask` being lost when another hook's `defer` finished first and could not be honored"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "hooks",
+            "undefined"
+          ],
+          "text": "Fixed every hook being dropped when one event in the `hooks` option is set to `undefined`"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "WarmQuery.query()",
+            "resume",
+            "startup()"
+          ],
+          "text": "Fixed `WarmQuery.query()` with a string prompt hanging after `startup()` with `resume` when the resumed session finished a turn of its own before the prompt was sent"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            ".mcp.json",
+            "SpareProcess.claim()",
+            "setMcpServers"
+          ],
+          "text": "Fixed `setMcpServers` closing a folder's `.mcp.json` or local-scope MCP server when passed an in-process server of the same name, in sessions bound with `SpareProcess.claim()`"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "reloadPlugins()",
+            "reloadSkills()",
+            "system/init"
+          ],
+          "text": "Fixed `reloadSkills()`, `reloadPlugins()` and `system/init` dropping project skills, commands or agents that a worktree lacks after Claude entered it"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "importSessionToStore()"
+          ],
+          "text": "Fixed sessions hanging on save, and `importSessionToStore()` never rejecting, when memory ran out while a transcript was being read"
+        },
+        {
+          "verb": "Improved",
+          "protocol": true,
+          "idents": [
+            "continue",
+            "initialize",
+            "resume"
+          ],
+          "text": "Improved `resume` and `continue` on the bundled Claude Code binary: `initialize` is read during boot, so start-up work is less likely to run before your hooks are registered"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "num_turns: 0",
+            "result"
+          ],
+          "text": "Changed queued subagent reports in auto mode to share one model call: each keeps its own message and result, and all but the last end in an empty `result` with `num_turns: 0`"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "claude-in-chrome"
+          ],
+          "text": "Changed an SDK MCP server named `claude-in-chrome` to follow the organization's Claude in Chrome policy: where the policy denies it, the server is not connected"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.321"
+        }
+      ]
+    },
+    {
+      "version": "0.3.320",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.320"
+        }
+      ]
+    },
+    {
+      "version": "0.3.319",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "\"mcp_task\"",
+            "CLAUDE_AUTO_BACKGROUND_TASKS=1",
+            "task_type"
+          ],
+          "text": "Added MCP task support in SDK sessions (not on Bedrock, Vertex or Foundry): with `CLAUDE_AUTO_BACKGROUND_TASKS=1` and streaming input, an MCP task runs in the background with `task_type` `\"mcp_task\"`"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "SpareProcess.claim()",
+            "claude_code.session.count",
+            "prewarm()"
+          ],
+          "text": "Fixed the OpenTelemetry `claude_code.session.count` metric counting `prewarm()` processes that were never claimed; a pre-started process now counts once, when `SpareProcess.claim()` succeeds"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "/clear",
+            "session_writes_lost",
+            "transcript_session_ids"
+          ],
+          "text": "Fixed `session_writes_lost` listing the wrong session in `transcript_session_ids` after `/clear` in a session resumed from a transcript file outside the projects folder"
+        },
+        {
+          "verb": "Improved",
+          "protocol": true,
+          "idents": [
+            "ENOTEMPTY",
+            "deleteSession()"
+          ],
+          "text": "Improved `deleteSession()` to reject with `ENOTEMPTY` if the session's folder could not be fully deleted"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "session_writes_lost"
+          ],
+          "text": "Changed `session_writes_lost` to be sent only when the CLI exits 0; a run that ends on an error result now gets only the stderr line"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.319"
+        }
+      ]
+    },
+    {
+      "version": "0.3.318",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "credential_expires_at"
+          ],
+          "text": "Added an optional `credential_expires_at` field to result messages: when the stored claude.ai sign-in in use ends"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "config_file_invalid"
+          ],
+          "text": "Added the `config_file_invalid` startup failure reason, reported when a configuration file read at startup isn't valid JSON"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "cancel_queued"
+          ],
+          "text": "Fixed the interrupt response missing a message held behind a model change: it is now listed, cancelled with `cancel_queued`, and stopped at start-up as a queued message is"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "agentProgressSummaries"
+          ],
+          "text": "Changed `agentProgressSummaries`: while the subagent waits for a response on a likely-cold prompt cache, a summary can wait up to 5 minutes, and is not sent if the subagent ends first"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "PushNotificationInput",
+            "status"
+          ],
+          "text": "Changed `status` in `PushNotificationInput` to optional"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.318"
+        }
+      ]
+    },
+    {
+      "version": "0.3.317",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "\"block\"",
+            "onFailure"
+          ],
+          "text": "Added `onFailure` to hook matchers: with `\"block\"`, a hook that throws or returns invalid output blocks the action"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [],
+          "text": "Added a warning message in the stream when a hook callback fails"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "session_writes_lost"
+          ],
+          "text": "Added a `session_writes_lost` system message, sent after the last result when a full disk or disk quota kept the CLI from saving the session transcript or ~/.claude.json"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "--await-initialize",
+            "initialize_not_first",
+            "startup_failure_reason"
+          ],
+          "text": "Added `initialize_not_first` to `startup_failure_reason`, for a `--await-initialize` launch whose first stdin line is not the initialize request"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "task.description",
+            "tool_use_result"
+          ],
+          "text": "Added `task.description` to the TaskCreate tool's `tool_use_result`: the description the task was created with"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "lossy",
+            "readFile()",
+            "true"
+          ],
+          "text": "Added `lossy` to `readFile()` utf-8 answers: `true` when decoding replaced bytes that are not valid UTF-8"
+        },
+        {
+          "verb": "Removed",
+          "protocol": true,
+          "idents": [
+            "FileReadOutput",
+            "file_unchanged",
+            "sdk-tools.d.ts"
+          ],
+          "text": "Removed the `file_unchanged` variant of `FileReadOutput` in `sdk-tools.d.ts`; a repeated Read now returns the file content"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            ".mcp.json",
+            "SpareProcess.claim()",
+            "prewarm()",
+            "setMcpServers"
+          ],
+          "text": "Fixed `setMcpServers` closing a folder's `.mcp.json` and local-scope MCP servers in sessions started with `prewarm()` and bound with `SpareProcess.claim()`"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.317"
+        }
+      ]
+    },
+    {
+      "version": "0.3.316",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "--settings",
+            "Settings",
+            "blockReadsOutsideWorkingDirectories",
+            "permissions.blockReadsExemptPaths"
+          ],
+          "text": "Added `permissions.blockReadsExemptPaths` to the `Settings` type: paths, read only from `--settings` and settings the host sends, that `blockReadsOutsideWorkingDirectories` lets through without making them working directories"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.316"
+        }
+      ]
+    },
+    {
+      "version": "0.3.315",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.315"
+        }
+      ]
+    },
+    {
+      "version": "0.3.314",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "sandbox_required_unavailable",
+            "startup_failure_reason"
+          ],
+          "text": "Added `sandbox_required_unavailable` to `startup_failure_reason`, for the result Claude Code writes when a required sandbox cannot run"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "Settings",
+            "permissions.blockWritesOutsideWorkingDirectories"
+          ],
+          "text": "Added `permissions.blockWritesOutsideWorkingDirectories` to the `Settings` type"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "@anthropic-ai/claude-agent-sdk/core",
+            "prewarm()"
+          ],
+          "text": "Added `prewarm()` (alpha) to the `@anthropic-ai/claude-agent-sdk/core` entry point"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "settingSources"
+          ],
+          "text": "Fixed a settings file left out of `settingSources` still supplying some settings, such as auto mode rules and saved permission consents"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.314"
+        }
+      ]
+    },
+    {
+      "version": "0.3.313",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.313"
+        }
+      ]
+    },
+    {
+      "version": "0.3.312",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "Settings",
+            "autoMode",
+            "permissions.disableAutoMode",
+            "skipAutoPermissionPrompt",
+            "useAutoModeDuringPlan"
+          ],
+          "text": "Added `autoMode`, `skipAutoPermissionPrompt`, `useAutoModeDuringPlan` and `permissions.disableAutoMode` to the `Settings` type"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "annotations",
+            "ask_user_question_unanswered_v1",
+            "dismissed",
+            "replied_in_chat",
+            "skipped",
+            "system/init",
+            "unanswered"
+          ],
+          "text": "Added `unanswered` (`skipped`, `replied_in_chat` or `dismissed`) to AskUserQuestion answers' per-question `annotations`; send it only when `system/init` lists the `ask_user_question_unanswered_v1` capability"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "permissions.disableAutoMode: true",
+            "resolveSettings()"
+          ],
+          "text": "Fixed `resolveSettings()` returning mistyped managed auto-mode settings, such as `permissions.disableAutoMode: true`, as written instead of reading them as the CLI does; a user or project settings file whose auto-mode keys hold an invalid value is now skipped, as in the CLI"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.312"
+        }
+      ]
+    },
+    {
+      "version": "0.3.311",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "ModelUsage",
+            "cacheCreationEphemeral1hInputTokens",
+            "cacheCreationEphemeral5mInputTokens",
+            "cacheCreationInputTokens"
+          ],
+          "text": "Added `cacheCreationEphemeral5mInputTokens` and `cacheCreationEphemeral1hInputTokens` to `ModelUsage`, splitting `cacheCreationInputTokens` by cache lifetime"
+        },
+        {
+          "verb": "Changed",
+          "protocol": false,
+          "idents": [],
+          "text": "Changed background start-up work to wait until the first model request is sent, for about 10 seconds at most, when the first message arrives during start-up"
+        },
+        {
+          "verb": "Changed",
+          "protocol": false,
+          "idents": [],
+          "text": "Changed the minimum supported Node.js version from 18.0.0 to 18.14.0"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.311"
+        }
+      ]
+    },
+    {
+      "version": "0.3.310",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.310"
+        }
+      ]
+    },
+    {
+      "version": "0.3.309",
+      "bullets": [
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "allowedHttpHookUrls",
+            "disableAllHooks",
+            "disableSkillShellExecution",
+            "httpHookAllowedEnvVars",
+            "managedSettings"
+          ],
+          "text": "Fixed host-supplied `managedSettings` dropping `disableAllHooks`, `disableSkillShellExecution` and empty `allowedHttpHookUrls` / `httpHookAllowedEnvVars` lists"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "claude-agent-sdk",
+            "claude-agent-sdk-<uid>",
+            "extractFromBunfs()"
+          ],
+          "text": "Changed `extractFromBunfs()` to extract the embedded CLI into its own per-user temp directory (`claude-agent-sdk-<uid>`, or `claude-agent-sdk` on Windows) instead of Claude Code's temp root"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "extractFromBunfs()"
+          ],
+          "text": "Changed `extractFromBunfs()` to reuse an already-extracted file only when its bytes match the embedded binary, replacing it otherwise"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.309"
+        }
+      ]
+    },
+    {
+      "version": "0.3.308",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.308"
+        }
+      ]
+    },
+    {
+      "version": "0.3.307",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "command_lifecycle",
+            "lifecycle_wakeup_source_v1",
+            "scheduled_for",
+            "started",
+            "wakeup_source"
+          ],
+          "text": "Added `wakeup_source` to the `command_lifecycle` `started` frame of a scheduled wakeup or task, and `scheduled_for` for a wakeup (capability `lifecycle_wakeup_source_v1`), so a host can tell which one fired"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "initialize",
+            "onUserDialog",
+            "query()",
+            "supportedDialogKinds"
+          ],
+          "text": "Added `supportedDialogKinds` to browser SDK `query()`, sent on `initialize`; a non-empty list requires `onUserDialog`"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.307"
+        }
+      ]
+    },
+    {
+      "version": "0.3.306",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.306"
+        }
+      ]
+    },
+    {
+      "version": "0.3.305",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "fix",
+            "get_usage",
+            "recommendations"
+          ],
+          "text": "Added `recommendations` and `fix` to the `get_usage` response's behavior windows"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "setMcpServers"
+          ],
+          "text": "Fixed servers set with `setMcpServers` being replaced later in the session by a same-named server from the user's own settings"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "initializeTimeoutMs: null",
+            "null",
+            "startup()"
+          ],
+          "text": "Fixed `startup()` with `initializeTimeoutMs: null` counting time spent in SessionStart or Setup hooks against its 60-second limit; `null` now works like leaving the option out"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "prewarm()",
+            "startup()"
+          ],
+          "text": "Changed the `startup()` and `prewarm()` timeout error for a start with no open SessionStart or Setup hook: it lists possible causes and no longer says to check authentication and network"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.305"
+        }
+      ]
+    },
+    {
+      "version": "0.3.304",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "resumeSseStream(query)",
+            "suspendSseStream(query)"
+          ],
+          "text": "Added `suspendSseStream(query)` and `resumeSseStream(query)` to the browser SDK: close a query's event stream and reopen it later without ending the query"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "getContextUsage()"
+          ],
+          "text": "Added stable row ids to `getContextUsage()`, and, when the CLI answers on its own stdio, plugin ids, agent and skill file paths, and per-server MCP instruction token shares"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "initializeTimeoutMs",
+            "startup()"
+          ],
+          "text": "Fixed `startup()` timing out while a SessionStart or Setup command hook was running when no `initializeTimeoutMs` is passed: up to 10 minutes of that time no longer counts toward the 60-second limit, and the timeout error now says what the process reported"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "hook_progress",
+            "startup()"
+          ],
+          "text": "Fixed `startup()` keeping every `hook_progress` message of a running SessionStart or Setup hook in memory until it resolved; it now keeps only the newest one for each hook"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.304"
+        }
+      ]
+    },
+    {
+      "version": "0.3.303",
+      "bullets": [
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.303"
+        }
+      ]
+    },
+    {
+      "version": "0.3.302",
+      "bullets": [
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "structured_output"
+          ],
+          "text": "Fixed structured output results delivering a response's output as `structured_output` when the API refused that response; the result is now an error with no payload"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "default",
+            "permissionMode",
+            "permissionMode: 'auto'"
+          ],
+          "text": "Changed an omitted `permissionMode` to start in `default` mode on third-party providers, with telemetry off or on a fresh install; pass `permissionMode: 'auto'` to keep auto mode"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "CLAUDE_CODE_FORK_SUBAGENT=0",
+            "run_in_background",
+            "subagent_type: \"fork\""
+          ],
+          "text": "Changed fork subagents (`subagent_type: \"fork\"`) to be on by default in SDK sessions, as in the terminal; `run_in_background` is still offered, and `CLAUDE_CODE_FORK_SUBAGENT=0` turns them off"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.302"
+        }
+      ]
+    },
+    {
+      "version": "0.3.301",
+      "bullets": [
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "always_ask",
+            "always_deny",
+            "initialize",
+            "permission_policy",
+            "setMcpServers()",
+            "tools"
+          ],
+          "text": "Added per-tool permission policies to sdk-type MCP server configs: `tools` entries with `permission_policy` `always_ask` or `always_deny`, applied on `initialize` and `setMcpServers()`"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "BUILTIN_TOOL_NAMES",
+            "LEGACY_TOOL_NAME_ALIASES"
+          ],
+          "text": "Added `BUILTIN_TOOL_NAMES` and `LEGACY_TOOL_NAME_ALIASES` exports: the public built-in tool names and their earlier names, for checking permission rules and tool settings"
+        },
+        {
+          "verb": "Added",
+          "protocol": true,
+          "idents": [
+            "Query.reloadPlugins()",
+            "addPlugins"
+          ],
+          "text": "Added `addPlugins` to `Query.reloadPlugins()` so a host can load more plugin folders into a running session"
+        },
+        {
+          "verb": "Fixed",
+          "protocol": true,
+          "idents": [
+            "setModel()"
+          ],
+          "text": "Fixed `setModel()` with a model ID failing while the account is at its five-hour or weekly usage limit; the model now applies and the next message reports the limit"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "api_error_status",
+            "authentication_failed",
+            "error",
+            "invalid_request",
+            "null"
+          ],
+          "text": "Changed the error when a full disk keeps the login from being refreshed: `error` is now `invalid_request`, not `authentication_failed`, and `api_error_status` is `null`, not 401"
+        },
+        {
+          "verb": "Changed",
+          "protocol": true,
+          "idents": [
+            "_meta.ui",
+            "_meta.ui.visibility",
+            "mcpServerStatus()"
+          ],
+          "text": "Changed `mcpServerStatus()` to still report a tool's `_meta.ui.visibility` when the rest of its `_meta.ui` fails validation"
+        },
+        {
+          "verb": "Updated",
+          "protocol": false,
+          "idents": [],
+          "text": "Updated to parity with Claude Code v2.1.301"
+        }
+      ]
+    }
+  ],
+  "counts": {
+    "releases": 25,
+    "bullets": 114,
+    "protocolBullets": 86
+  },
+  "crossCheck": {
+    "explained": [
+      "sdkMessages:result:error_during_execution changed-shape",
+      "sdkMessages:result:error_max_budget_usd changed-shape",
+      "sdkMessages:result:error_max_structured_output_retries changed-shape",
+      "sdkMessages:result:error_max_turns changed-shape",
+      "sdkMessages:result:success changed-shape",
+      "sdkMessages:system:init changed-shape",
+      "sdkMessages:system:session_writes_lost added",
+      "stdoutWire:result:error_during_execution changed-shape",
+      "stdoutWire:result:error_max_budget_usd changed-shape",
+      "stdoutWire:result:error_max_structured_output_retries changed-shape",
+      "stdoutWire:result:error_max_turns changed-shape",
+      "stdoutWire:result:success changed-shape",
+      "stdoutWire:system:init changed-shape",
+      "stdoutWire:system:session_writes_lost added",
+      "controlRequests:initialize changed-shape",
+      "controlRequests:reload_plugins changed-shape",
+      "controlResponses:SDKControlGetContextUsageResponse changed-shape",
+      "controlResponses:SDKControlReadFileResponse changed-shape",
+      "tools:AskUserQuestionOutput changed-shape",
+      "tools:FileReadOutput changed-shape",
+      "tools:ProposeSkillsInput changed-shape",
+      "tools:PushNotificationInput changed-shape",
+      "tools:TaskCreateOutput changed-shape",
+      "queryMethods:reloadPlugins changed-shape",
+      "settings:autoMode added",
+      "settings:permissions changed-shape",
+      "settings:sandbox changed-shape",
+      "settings:skipAutoPermissionPrompt added",
+      "settings:useAutoModeDuringPlan added",
+      "exports:BUILTIN_TOOL_NAMES added",
+      "exports:LEGACY_TOOL_NAME_ALIASES added",
+      "exports:ModelUsage changed-shape",
+      "exports:Query changed-shape",
+      "exports:Settings changed-shape",
+      "exports:archiveSession added",
+      "exports:matchDeniedModels added",
+      "exports:unarchiveSession added",
+      "stringEnums:BUILTIN_TOOL_NAMES added",
+      "stringEnums:SDKStartupFailureReason changed-shape"
+    ],
+    "silent": [
+      "controlRequests:mcp_call changed-shape",
+      "controlRequests:mcp_status changed-shape",
+      "controlRequests:set_has_subscribers added",
+      "controlResponses:SDKControlGetUsageResponse changed-shape",
+      "controlResponses:SDKControlInitializeResponse changed-shape",
+      "tools:AgentOutput changed-shape",
+      "tools:ArtifactInput changed-shape",
+      "tools:ArtifactOutput changed-shape",
+      "tools:BashOutput changed-shape",
+      "tools:CronDeleteOutput changed-shape",
+      "tools:GlobOutput changed-shape",
+      "tools:GrepOutput changed-shape",
+      "tools:ProjectsOutput changed-shape",
+      "settings:additionalMarketplaces changed-shape",
+      "settings:allowedMarketplaces changed-shape",
+      "settings:attributionProject added",
+      "settings:attributionProjectPolicy added",
+      "settings:blockedMarketplaces changed-shape",
+      "settings:disableReplyCheck added",
+      "settings:disableWindowsBashCommandSplit added",
+      "settings:extraKnownMarketplaces changed-shape",
+      "settings:sshHostCommands added",
+      "settings:strictKnownMarketplaces changed-shape",
+      "exports:DeniedModelsMatch added",
+      "exports:HookCallbackMatcher changed-shape",
+      "exports:McpSdkServerConfig changed-shape",
+      "exports:ResolvedSettings changed-shape",
+      "exports:SDKControlGetContextUsageResponse changed-shape",
+      "exports:SDKControlGetUsageResponse changed-shape",
+      "exports:SDKControlInitializeResponse changed-shape",
+      "exports:SDKControlPermissionRulesState changed-shape",
+      "exports:SDKControlReadFileResponse changed-shape",
+      "exports:SDKMessage changed-shape",
+      "exports:SDKPermissionRuleEntry changed-shape",
+      "exports:SDKResultError changed-shape",
+      "exports:SDKResultSuccess changed-shape",
+      "exports:SDKSessionInfo changed-shape",
+      "exports:SDKSessionWritesLostMessage added",
+      "exports:SDKStartupFailureReason changed-shape",
+      "exports:SDKSystemMessage changed-shape",
+      "exports:USAGE_TRANSITION_PREFIXES changed-shape",
+      "stringEnums:USAGE_TRANSITION_PREFIXES changed-shape"
+    ]
+  }
+}

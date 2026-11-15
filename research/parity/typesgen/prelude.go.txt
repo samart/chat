@@ -1,0 +1,538 @@
+// Package claude holds the wire types and API-surface types of the Claude Agent
+// SDK (TypeScript @anthropic-ai/claude-agent-sdk), re-expressed in Go.
+//
+// Target: Agent SDK 0.3.311 / Claude Code CLI 2.1.311. Declarations added after
+// 0.3.311 (up to 0.3.325) are kept so a newer CLI decodes fully; each one is
+// marked "since 0.3.3xx (not in 0.3.311)". Where the changelog does not name
+// the release, the marker gives the range 0.3.312-0.3.325.
+//
+// Conventions
+//
+//   - JSON tags are the exact wire names, which mix snake_case and camelCase
+//     exactly as the CLI does.
+//   - Optional TS fields carry omitempty. Optional numbers, booleans and
+//     objects are pointers, so a zero value is not confused with "absent".
+//     A required TS field typed `T | null` is a pointer without omitempty.
+//   - TS `number` is float64, except fields that are always integers (token
+//     counts, counts, indexes, byte sizes), which are int.
+//   - TS `unknown` and the unions that do not map to a Go type are json.RawMessage.
+//     `Record<string, unknown>` is map[string]any.
+//   - Unions use one pattern throughout. A union is a struct that holds its
+//     discriminator(s) (for example Type and Subtype) and the complete Raw JSON.
+//     Typed As<Variant>() accessors and Decode() decode Raw on demand, and
+//     New<Union>(v) wraps a variant for sending. A union whose discriminator
+//     is not known to this package still decodes, and Raw keeps it intact.
+//   - Every wire struct keeps the JSON it was decoded from in Raw (`json:"-"`).
+//     MarshalJSON writes the declared fields, then re-adds every key from Raw
+//     that the struct does not declare. It also re-adds a declared key that
+//     omitempty dropped but whose value is unchanged since decoding, such as
+//     an explicit null, "" or []. Decode then encode is therefore lossless,
+//     though key order is not kept. A newer CLI's extra fields are never
+//     dropped.
+//   - Decoding is tolerant. A field whose JSON type does not match its Go type
+//     is left zero, and the rest of the value still decodes, with Raw intact.
+//   - Wire structs whose discriminator is a fixed string literal fill it in
+//     on MarshalJSON when it is left empty.
+//   - No type here holds a function. TS callbacks (canUseTool, hooks,
+//     onElicitation, onUserDialog, MCP tool handlers, spawnClaudeCodeProcess,
+//     stderr) become data. Each one is either a boolean flag in Options or a
+//     callback id (HookCallbackMatcher.HookCallbackIDs), and the matching
+//     control_request / control_response payloads are types in this package.
+//     A gRPC host can forward them over the network.
+//
+// The bulk of this file is generated from sdk.d.ts. The section before the
+// "generated" banner is written by hand.
+package claude
+
+import (
+	"bytes"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"reflect"
+	"sync"
+)
+
+// SDKVersion and CLIVersion are the versions these types target.
+const (
+	SDKVersion = "0.3.311"
+	CLIVersion = "2.1.311"
+)
+
+// ---------------------------------------------------------------------------
+// Union and raw-preservation helpers
+// ---------------------------------------------------------------------------
+
+// ErrVariantMismatch is returned by an As<Variant> accessor whose discriminator does not match.
+var ErrVariantMismatch = errors.New("claude: union variant mismatch")
+
+// ErrUnknownVariant is returned by Decode for a discriminator this package does not model.
+var ErrUnknownVariant = errors.New("claude: unknown union variant")
+
+func asVariant[T any](raw json.RawMessage, ok bool, union, variant string) (*T, error) {
+	if !ok {
+		return nil, fmt.Errorf("%w: %s is not %s", ErrVariantMismatch, union, variant)
+	}
+	v := new(T)
+	if len(raw) == 0 {
+		return v, nil
+	}
+	if err := json.Unmarshal(raw, v); err != nil {
+		return nil, err
+	}
+	return v, nil
+}
+
+func unknownVariant(union string, raw json.RawMessage) error {
+	head := raw
+	if len(head) > 120 {
+		head = head[:120]
+	}
+	return fmt.Errorf("%w: %s %s", ErrUnknownVariant, union, head)
+}
+
+// unmarshalUnion records the complete JSON and peeks the string discriminators.
+// It never fails on a well-formed value: a non-object or a non-string
+// discriminator just leaves the discriminator fields empty.
+func unmarshalUnion(b []byte, raw *json.RawMessage, keys []string, dst ...*string) error {
+	for _, d := range dst {
+		*d = ""
+	}
+	if bytes.Equal(bytes.TrimSpace(b), []byte("null")) {
+		*raw = nil
+		return nil
+	}
+	if !json.Valid(b) {
+		return fmt.Errorf("claude: invalid JSON in union value")
+	}
+	*raw = append(json.RawMessage(nil), b...)
+	var m map[string]json.RawMessage
+	if json.Unmarshal(b, &m) != nil {
+		return nil
+	}
+	for i, k := range keys {
+		if v, ok := m[k]; ok {
+			var s string
+			if json.Unmarshal(v, &s) == nil {
+				*dst[i] = s
+			}
+		}
+	}
+	return nil
+}
+
+func marshalUnion(raw json.RawMessage) ([]byte, error) {
+	if len(raw) == 0 {
+		return []byte("null"), nil
+	}
+	return raw, nil
+}
+
+func wrapUnion(v any, u json.Unmarshaler) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+	return u.UnmarshalJSON(b)
+}
+
+func peekBool(raw json.RawMessage, key string) bool {
+	var m map[string]json.RawMessage
+	if json.Unmarshal(raw, &m) != nil {
+		return false
+	}
+	var b bool
+	return json.Unmarshal(m[key], &b) == nil && b
+}
+
+// unmarshalKeep decodes b into dst (a pointer to a method-less copy of the
+// struct type) and stores b in raw. JSON type mismatches are tolerated.
+func unmarshalKeep(b []byte, dst any, raw *json.RawMessage) error {
+	if err := json.Unmarshal(b, dst); err != nil {
+		var te *json.UnmarshalTypeError
+		if !errors.As(err, &te) {
+			return err
+		}
+	}
+	*raw = append(json.RawMessage(nil), b...)
+	return nil
+}
+
+var fieldIndexCache sync.Map // reflect.Type -> map[string][]int
+
+func jsonFieldIndex(t reflect.Type) map[string][]int {
+	if m, ok := fieldIndexCache.Load(t); ok {
+		return m.(map[string][]int)
+	}
+	m := map[string][]int{}
+	for i := 0; i < t.NumField(); i++ {
+		f := t.Field(i)
+		tag := f.Tag.Get("json")
+		if tag == "-" || !f.IsExported() {
+			continue
+		}
+		name := f.Name
+		if tag != "" {
+			if j := bytes.IndexByte([]byte(tag), ','); j >= 0 {
+				tag = tag[:j]
+			}
+			if tag != "" {
+				name = tag
+			}
+		}
+		m[name] = f.Index
+	}
+	fieldIndexCache.Store(t, m)
+	return m
+}
+
+// marshalKeep encodes v (a method-less copy of a wire struct) and merges back
+// keys from raw: undeclared keys always; declared keys when the field still
+// holds exactly what raw decodes to (the original bytes are kept), or when the
+// raw value never fit the field's Go type and the field is still zero.
+func marshalKeep(v any, raw json.RawMessage) ([]byte, error) {
+	out, err := json.Marshal(v)
+	if err != nil || len(raw) == 0 {
+		return out, err
+	}
+	var rawObj map[string]json.RawMessage
+	if json.Unmarshal(raw, &rawObj) != nil || rawObj == nil {
+		return out, nil
+	}
+	var outObj map[string]json.RawMessage
+	if err := json.Unmarshal(out, &outObj); err != nil {
+		return nil, err
+	}
+	rv := reflect.ValueOf(v)
+	idx := jsonFieldIndex(rv.Type())
+	changed := false
+	for k, val := range rawObj {
+		cur, present := outObj[k]
+		if present && bytes.Equal(cur, val) {
+			continue
+		}
+		fi, known := idx[k]
+		if !known {
+			outObj[k], changed = val, true
+			continue
+		}
+		fv := rv.FieldByIndex(fi)
+		probe := reflect.New(fv.Type())
+		perr := json.Unmarshal(val, probe.Interface())
+		switch {
+		case perr == nil && reflect.DeepEqual(probe.Elem().Interface(), fv.Interface()):
+			// Unchanged since decoding: keep the original bytes (explicit null, "", [], number formatting).
+			outObj[k], changed = val, true
+		case perr != nil && fv.IsZero():
+			// The JSON value never fit the Go type (tolerated on decode) and was not set since: keep it.
+			outObj[k], changed = val, true
+		}
+	}
+	if !changed {
+		return out, nil
+	}
+	return json.Marshal(outObj)
+}
+
+// ---------------------------------------------------------------------------
+// Hand-written types
+// ---------------------------------------------------------------------------
+
+// Settings is a Claude Code settings object (TS: Settings, the generated
+// settings.json interface: about 180 keys, every one optional). It is kept as
+// a generic map. Hosts pass it through and do not interpret it.
+type Settings = map[string]any
+
+// HookJSONOutput is what a hook callback answers. On the wire it is the
+// `response` payload of the control_response to a hook_callback request (TS:
+// HookJSONOutput = AsyncHookJSONOutput | SyncHookJSONOutput). The
+// discriminator is the boolean "async". Async is true for
+// AsyncHookJSONOutput and false for SyncHookJSONOutput.
+type HookJSONOutput struct {
+	// Async is the "async" discriminator (true only for AsyncHookJSONOutput).
+	Async bool `json:"-"`
+	// Raw is the complete JSON of the value.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (u *HookJSONOutput) UnmarshalJSON(b []byte) error {
+	if err := unmarshalUnion(b, &u.Raw, nil); err != nil {
+		return err
+	}
+	u.Async = peekBool(u.Raw, "async")
+	return nil
+}
+func (u HookJSONOutput) MarshalJSON() ([]byte, error) { return marshalUnion(u.Raw) }
+
+// NewHookJSONOutput wraps an AsyncHookJSONOutput or SyncHookJSONOutput.
+func NewHookJSONOutput(v any) (HookJSONOutput, error) {
+	var u HookJSONOutput
+	err := wrapUnion(v, &u)
+	return u, err
+}
+
+// AsAsyncHookJSONOutput decodes u as AsyncHookJSONOutput.
+func (u HookJSONOutput) AsAsyncHookJSONOutput() (*AsyncHookJSONOutput, error) {
+	return asVariant[AsyncHookJSONOutput](u.Raw, u.Async, "HookJSONOutput", "AsyncHookJSONOutput")
+}
+
+// AsSyncHookJSONOutput decodes u as SyncHookJSONOutput.
+func (u HookJSONOutput) AsSyncHookJSONOutput() (*SyncHookJSONOutput, error) {
+	return asVariant[SyncHookJSONOutput](u.Raw, !u.Async, "HookJSONOutput", "SyncHookJSONOutput")
+}
+
+// Decode returns *AsyncHookJSONOutput or *SyncHookJSONOutput.
+func (u HookJSONOutput) Decode() (any, error) {
+	if u.Async {
+		return u.AsAsyncHookJSONOutput()
+	}
+	return u.AsSyncHookJSONOutput()
+}
+
+// Text returns the content of a MessageParam whose content is a plain string.
+func (m MessageParam) Text() (string, bool) {
+	var s string
+	if json.Unmarshal(m.Content, &s) != nil {
+		return "", false
+	}
+	return s, true
+}
+
+// Blocks returns the content of a MessageParam as content blocks. A
+// string content comes back as one TextBlock.
+func (m MessageParam) Blocks() ([]ContentBlock, error) {
+	if s, ok := m.Text(); ok {
+		cb, err := NewContentBlock(TextBlock{Type: "text", Text: s})
+		return []ContentBlock{cb}, err
+	}
+	var bs []ContentBlock
+	err := json.Unmarshal(m.Content, &bs)
+	return bs, err
+}
+
+// SDKMessage returns u as a Message when it is one of the SDKMessage
+// variants, so neither a control frame, keep_alive nor active_goal.
+func (u StdoutMessage) SDKMessage() (Message, bool) {
+	switch u.Type {
+	case "control_request", "control_response", "control_cancel_request", "keep_alive", "active_goal":
+		return Message{}, false
+	}
+	return Message{Type: u.Type, Subtype: u.Subtype, Raw: u.Raw}, true
+}
+
+// ResultMessage returns m as a ResultMessage union when it is a result
+// message (TS: SDKResultMessage = SDKResultSuccess | SDKResultError).
+func (m Message) ResultMessage() (ResultMessage, bool) {
+	if m.Type != "result" {
+		return ResultMessage{}, false
+	}
+	return ResultMessage{Type: m.Type, Subtype: m.Subtype, Raw: m.Raw}, true
+}
+
+// --- Control payloads that sdk.mjs 0.3.311 sends or reads but sdk.d.ts does not declare ---
+
+// SetMcpPermissionModeOverrideRequest is sent by Query.setMcpPermissionModeOverride.
+// The subtype is "set_mcp_permission_mode_override". It is not in the d.ts
+// control-request union, and its shape comes from sdk.mjs 0.3.311.
+type SetMcpPermissionModeOverrideRequest struct {
+	// Subtype is always "set_mcp_permission_mode_override".
+	Subtype    string `json:"subtype"`
+	ServerName string `json:"serverName"`
+	// Mode is "default", "auto" or null (clear the override).
+	Mode *string `json:"mode"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *SetMcpPermissionModeOverrideRequest) UnmarshalJSON(b []byte) error {
+	type plain SetMcpPermissionModeOverrideRequest
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v SetMcpPermissionModeOverrideRequest) MarshalJSON() ([]byte, error) {
+	type plain SetMcpPermissionModeOverrideRequest
+	if v.Subtype == "" {
+		v.Subtype = "set_mcp_permission_mode_override"
+	}
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// SetMcpPermissionModeOverrideResponse is the success payload for
+// set_mcp_permission_mode_override. Its shape comes from sdk.d.ts
+// Query.setMcpPermissionModeOverride.
+type SetMcpPermissionModeOverrideResponse struct {
+	Warning string `json:"warning,omitempty"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *SetMcpPermissionModeOverrideResponse) UnmarshalJSON(b []byte) error {
+	type plain SetMcpPermissionModeOverrideResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v SetMcpPermissionModeOverrideResponse) MarshalJSON() ([]byte, error) {
+	type plain SetMcpPermissionModeOverrideResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// McpStatusResponse is the success payload for mcp_status. Query.mcpServerStatus
+// returns response.mcpServers.
+type McpStatusResponse struct {
+	McpServers []McpServerStatus `json:"mcpServers"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *McpStatusResponse) UnmarshalJSON(b []byte) error {
+	type plain McpStatusResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v McpStatusResponse) MarshalJSON() ([]byte, error) {
+	type plain McpStatusResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// BackgroundTasksResponse is the success payload for background_tasks.
+// Query.backgroundTasks returns `backgrounded ?? true`.
+type BackgroundTasksResponse struct {
+	Backgrounded *bool `json:"backgrounded,omitempty"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *BackgroundTasksResponse) UnmarshalJSON(b []byte) error {
+	type plain BackgroundTasksResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v BackgroundTasksResponse) MarshalJSON() ([]byte, error) {
+	type plain BackgroundTasksResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// McpMessageResponse is the success payload the host returns for an
+// mcp_message request: the in-process MCP server's JSON-RPC reply. For a
+// notification it is {"jsonrpc":"2.0","result":{},"id":0}.
+type McpMessageResponse struct {
+	McpResponse json.RawMessage `json:"mcp_response"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *McpMessageResponse) UnmarshalJSON(b []byte) error {
+	type plain McpMessageResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v McpMessageResponse) MarshalJSON() ([]byte, error) {
+	type plain McpMessageResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// CanUseToolResponse is the success payload the host returns for a
+// can_use_tool request. It is the PermissionResult with toolUseID set to the
+// request's tool_use_id: the SDK sends {...result, toolUseID}.
+type CanUseToolResponse = PermissionResult
+
+// --- Success payloads that sdk.d.ts does not declare. These shapes were seen in captured CLI 2.1.311 control_responses. ---
+
+// ListModelsResponse is the success payload for list_models (observed; not declared in sdk.d.ts).
+type ListModelsResponse struct {
+	Models []ModelInfo `json:"models"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *ListModelsResponse) UnmarshalJSON(b []byte) error {
+	type plain ListModelsResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v ListModelsResponse) MarshalJSON() ([]byte, error) {
+	type plain ListModelsResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// GetSessionCostResponse is the success payload for get_session_cost: the
+// formatted /usage text (observed; not declared in sdk.d.ts).
+type GetSessionCostResponse struct {
+	Text string `json:"text"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *GetSessionCostResponse) UnmarshalJSON(b []byte) error {
+	type plain GetSessionCostResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v GetSessionCostResponse) MarshalJSON() ([]byte, error) {
+	type plain GetSessionCostResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// GetSettingsResponse is the success payload for get_settings: the effective
+// merged settings, the raw per-source settings, and the values in force
+// (observed; not declared in sdk.d.ts).
+type GetSettingsResponse struct {
+	Effective Settings          `json:"effective"`
+	Sources   []json.RawMessage `json:"sources"`
+	Applied   map[string]any    `json:"applied,omitempty"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *GetSettingsResponse) UnmarshalJSON(b []byte) error {
+	type plain GetSettingsResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v GetSettingsResponse) MarshalJSON() ([]byte, error) {
+	type plain GetSettingsResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// SetPermissionModeResponse is the success payload for set_permission_mode:
+// the mode now in force (observed; not declared in sdk.d.ts, and the TS SDK
+// ignores it).
+type SetPermissionModeResponse struct {
+	Mode PermissionMode `json:"mode"`
+	// Raw is the JSON this value was decoded from.
+	Raw json.RawMessage `json:"-"`
+}
+
+func (v *SetPermissionModeResponse) UnmarshalJSON(b []byte) error {
+	type plain SetPermissionModeResponse
+	return unmarshalKeep(b, (*plain)(v), &v.Raw)
+}
+func (v SetPermissionModeResponse) MarshalJSON() ([]byte, error) {
+	type plain SetPermissionModeResponse
+	return marshalKeep(plain(v), v.Raw)
+}
+
+// ErrorCode returns the machine-readable error_code of a control error
+// (e.g. "reload_plugins_busy"). The CLI sends it and sdk.mjs reads it, but
+// sdk.d.ts does not declare it, so it is read from Raw.
+func (v ControlErrorResponse) ErrorCode() string {
+	var m struct {
+		ErrorCode string `json:"error_code"`
+	}
+	_ = json.Unmarshal(v.Raw, &m)
+	return m.ErrorCode
+}
+
+// ControlRequestSubtypes lists every control-request subtype in the
+// 0.3.311 sdk.d.ts union (ControlRequestInner), by direction. "host" means
+// the SDK host sends it to the CLI, and "cli" means the CLI sends it to the
+// host. set_has_subscribers is a later addition and is not listed.
+var ControlRequestSubtypes = map[string]string{
+	"initialize": "host", "interrupt": "host", "set_permission_mode": "host", "set_model": "host",
+	"set_max_thinking_tokens": "host", "rename_session": "host", "set_color": "host", "mcp_status": "host",
+	"get_context_usage": "host", "get_session_cost": "host", "list_models": "host", "get_usage": "host",
+	"get_binary_version": "host", "mcp_call": "host", "file_suggestions": "host", "rewind_files": "host",
+	"cancel_async_message": "host", "read_file": "host", "seed_read_state": "host", "mcp_set_servers": "host",
+	"register_repo_root": "host", "reload_plugins": "host", "reload_skills": "host", "reload_output_styles": "host",
+	"mcp_reconnect": "host", "mcp_toggle": "host", "stop_task": "host", "background_tasks": "host",
+	"get_task_output": "host", "apply_flag_settings": "host", "get_settings": "host", "get_hooks_listing": "host",
+	"update_settings": "host", "list_permission_rules": "host", "mcp_read_resource": "host",
+	"can_use_tool": "cli", "hook_callback": "cli", "mcp_message": "cli", "elicitation": "cli", "request_user_dialog": "cli",
+}
+
+// ---------------------------------------------------------------------------
+// generated from sdk.d.ts below this line
+// ---------------------------------------------------------------------------
+

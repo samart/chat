@@ -1,0 +1,10 @@
+{
+  "scenario": "subagent_stop_bg",
+  "target": "mock",
+  "sessionId": "8953f098-5ebc-4763-bdec-dfafd2c32201",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

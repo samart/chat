@@ -1,0 +1,1415 @@
+{
+  "manifestVersion": 1,
+  "source": {
+    "kind": "settings-schema",
+    "version": "2.1.325",
+    "$id": "https://www.schemastore.org/claude-code-settings.json"
+  },
+  "settings": {
+    "$schema": {
+      "optional": true,
+      "type": "string",
+      "descHash": "aa5c993856"
+    },
+    "additionalMarketplaces": {
+      "optional": true,
+      "type": "object",
+      "descHash": "c0c743d13a"
+    },
+    "advisorModel": {
+      "optional": true,
+      "type": "string",
+      "descHash": "3dbd13be9a"
+    },
+    "agent": {
+      "optional": true,
+      "type": "string",
+      "descHash": "82f1c9bb9f"
+    },
+    "agentPushNotifEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "0caf1f97dd"
+    },
+    "allowAllClaudeAiMcps": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "70a01559f7"
+    },
+    "allowClaudeInChromeWithManagedMcp": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "ccff49ed67"
+    },
+    "allowManagedHooksOnly": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "7e02990552"
+    },
+    "allowManagedMcpServersOnly": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "aa30480762"
+    },
+    "allowManagedPermissionRulesOnly": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "d4ac05326f"
+    },
+    "allowedChannelPlugins": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "649b00f31c"
+    },
+    "allowedHttpHookUrls": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "96852b1af6"
+    },
+    "allowedMarketplaces": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "6e0d56c137"
+    },
+    "allowedMcpServers": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "660500b1f9"
+    },
+    "allowedProviders": {
+      "optional": true,
+      "type": "array<enum(anthropic|anthropicAws|bedrock|customEndpoint|foundry|gateway|mantle|vertex)>",
+      "descHash": "cf0cf6dbe6"
+    },
+    "alwaysThinkingEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "3f397a0834"
+    },
+    "apiKeyHelper": {
+      "optional": true,
+      "type": "string",
+      "descHash": "fe4e33419e"
+    },
+    "appendPlugins": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "44db755af8"
+    },
+    "askUserQuestionTimeout": {
+      "optional": true,
+      "type": "enum(10m|5m|60s|never)",
+      "descHash": "3de509ff4d"
+    },
+    "attribution": {
+      "optional": true,
+      "type": "boolean | object",
+      "descHash": "419b3b0817"
+    },
+    "attributionProject": {
+      "optional": true,
+      "type": "string",
+      "descHash": "25259d4532"
+    },
+    "attributionProjectPolicy": {
+      "optional": true,
+      "type": "object",
+      "descHash": "80d3521940"
+    },
+    "attributionProjectPolicy.default": {
+      "optional": true,
+      "type": "string",
+      "descHash": "0e76a71217"
+    },
+    "autoCompactEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "ff3892e427"
+    },
+    "autoCompactWindow": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "ddf388464e"
+    },
+    "autoContinueAtUsageLimit": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "541de9e41e"
+    },
+    "autoDreamEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "d9aee186f7"
+    },
+    "autoMemoryDirectory": {
+      "optional": true,
+      "type": "string",
+      "descHash": "3e117ebe29"
+    },
+    "autoMemoryEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "84e846eb89"
+    },
+    "autoMode": {
+      "optional": true,
+      "type": "object",
+      "descHash": "a6271c3a76"
+    },
+    "autoMode.allow": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "0dd37b3c67"
+    },
+    "autoMode.classifyAllShell": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "cbe5033894"
+    },
+    "autoMode.environment": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "c7e0777343"
+    },
+    "autoMode.hard_deny": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "5bb6b705c2"
+    },
+    "autoMode.soft_deny": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "e4422c0fb6"
+    },
+    "autoScrollEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "d9a6cadf58"
+    },
+    "autoUpdatesChannel": {
+      "optional": true,
+      "type": "enum(latest|rc|stable)",
+      "descHash": "0c7e51a65f"
+    },
+    "autoUploadSessions": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "09065b85e5"
+    },
+    "availableModels": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "b9111128c8"
+    },
+    "availableModelsMatch": {
+      "optional": true,
+      "type": "enum(exact|prefix)",
+      "descHash": "d6c87b67a5"
+    },
+    "awsAuthRefresh": {
+      "optional": true,
+      "type": "string",
+      "descHash": "bbe137e2d4"
+    },
+    "awsCredentialExport": {
+      "optional": true,
+      "type": "string",
+      "descHash": "ceda9f019e"
+    },
+    "bashEditDiffEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "71bafde818"
+    },
+    "bashOutputMaxChars": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "100dc9defc"
+    },
+    "blockedMarketplaces": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "cdb0953dbc"
+    },
+    "channelsEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "0aa2c4d772"
+    },
+    "claudeMd": {
+      "optional": true,
+      "type": "string",
+      "descHash": "4e04a93a46"
+    },
+    "claudeMdExcludes": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "386b4d680a"
+    },
+    "cleanupPeriodDays": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "385e6157d4"
+    },
+    "companyAnnouncements": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "7ece98b5be"
+    },
+    "crossSessionInbound": {
+      "optional": true,
+      "type": "enum(accept|hold|refuse)",
+      "descHash": "b94c8abcbb"
+    },
+    "daemonColdStart": {
+      "optional": true,
+      "type": "enum(ask|transient)",
+      "descHash": "f1f3c18b49"
+    },
+    "defaultShell": {
+      "optional": true,
+      "type": "enum(bash|powershell)",
+      "descHash": "2561333936"
+    },
+    "defaultView": {
+      "optional": true,
+      "type": "enum(chat|transcript)",
+      "descHash": "73b42af9bb"
+    },
+    "deniedMcpServers": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "06d101adb6"
+    },
+    "deniedModels": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "1752e13f26"
+    },
+    "desktopSessionCleanupPeriodDays": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "30f22a0dbd"
+    },
+    "dialogExpiry": {
+      "optional": true,
+      "type": "enum(10m|5m|60s|never)",
+      "descHash": "1714556a2d"
+    },
+    "disableAgentView": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c25f0ef753"
+    },
+    "disableAllHooks": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "7e1e9c4aa1"
+    },
+    "disableArtifact": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c2929b9c55",
+      "deprecated": true
+    },
+    "disableAutoMode": {
+      "optional": true,
+      "type": "enum(disable)",
+      "descHash": "07cb3e81bf"
+    },
+    "disableBundledSkills": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "7639c79b85"
+    },
+    "disableClaudeAiConnectors": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "a11eb658a3"
+    },
+    "disableCommandPluginSources": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "540975f50e"
+    },
+    "disableDeepLinkRegistration": {
+      "optional": true,
+      "type": "enum(disable)",
+      "descHash": "6648ec75bc"
+    },
+    "disableRemoteControl": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "45589bf698"
+    },
+    "disableReplyCheck": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "5302c979b2"
+    },
+    "disableSideloadFlags": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "b78307462c"
+    },
+    "disableSkillShellExecution": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "2456e94c0e"
+    },
+    "disableWindowsBashCommandSplit": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "9d92e0b4c9"
+    },
+    "disableWorkflows": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "04c04b1f66"
+    },
+    "disabledMcpjsonServers": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "1b1dcb4d5f"
+    },
+    "editorMode": {
+      "optional": true,
+      "type": "enum(normal|vim)",
+      "descHash": "6e605909a9"
+    },
+    "effortLevel": {
+      "optional": true,
+      "type": "enum(high|low|medium|xhigh)",
+      "descHash": "f42ada5ab4"
+    },
+    "emojiCompletionEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "d9c5121d95"
+    },
+    "enableAllProjectMcpServers": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "125a00c1aa"
+    },
+    "enableArtifact": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c8e02f48d3"
+    },
+    "enableWorkflows": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "ded250aafc"
+    },
+    "enabledMcpjsonServers": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "20f8ccd70a"
+    },
+    "enabledPlugins": {
+      "optional": true,
+      "type": "object",
+      "descHash": "795d624b4f"
+    },
+    "enforceAvailableModels": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "86200c3dd0"
+    },
+    "env": {
+      "optional": true,
+      "type": "object",
+      "descHash": "ce13c5fda4"
+    },
+    "extraKnownMarketplaces": {
+      "optional": true,
+      "type": "object",
+      "descHash": "cab5ae2187"
+    },
+    "fallbackModel": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "bfe65ae3b1"
+    },
+    "fastMode": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "7165130dff"
+    },
+    "fastModePerSessionOptIn": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "537ad09b44"
+    },
+    "feedbackDrafts": {
+      "optional": true,
+      "type": "enum(notify|off|quiet)",
+      "descHash": "182eacae28"
+    },
+    "feedbackSurveyRate": {
+      "optional": true,
+      "type": "number",
+      "descHash": "6261974c55"
+    },
+    "fileCheckpointingEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "3817035535"
+    },
+    "fileSuggestion": {
+      "optional": true,
+      "type": "object",
+      "descHash": "e3f7fee89e"
+    },
+    "fileSuggestion.command": {
+      "optional": false,
+      "type": "string",
+      "descHash": "e3b0c44298"
+    },
+    "fileSuggestion.type": {
+      "optional": false,
+      "type": "const(command)",
+      "descHash": "e3b0c44298"
+    },
+    "footerLinksRegexes": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "2d2de71bbe"
+    },
+    "forceLoginGatewayUrl": {
+      "optional": true,
+      "type": "string",
+      "descHash": "f68d51a8df"
+    },
+    "forceLoginMethod": {
+      "optional": true,
+      "type": "enum(claudeai|console|gateway)",
+      "descHash": "3c716fc389"
+    },
+    "forceLoginOrgUUID": {
+      "optional": true,
+      "type": "array<string> | string",
+      "descHash": "b998c3ecb6"
+    },
+    "forceRemoteSettingsRefresh": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "727cb0cc35"
+    },
+    "gatewayInternalNetworks": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "2b508c562e"
+    },
+    "gcpAuthRefresh": {
+      "optional": true,
+      "type": "string",
+      "descHash": "d9e0f8a34a"
+    },
+    "hooks": {
+      "optional": true,
+      "type": "object",
+      "descHash": "eb6b5d8217"
+    },
+    "httpHookAllowedEnvVars": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "574d385b05"
+    },
+    "idleCompaction": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "ab3180862e"
+    },
+    "includeCoAuthoredBy": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c9dbd8da7f",
+      "deprecated": true
+    },
+    "includeGitInstructions": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "a5a61ab069"
+    },
+    "inputNeededNotifEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "528a9e8a54"
+    },
+    "isolatePeerMachines": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "6f9f88d25e"
+    },
+    "keybindingFlavor": {
+      "optional": true,
+      "type": "enum(classic|readline)",
+      "descHash": "c4ff025fa0",
+      "deprecated": true
+    },
+    "language": {
+      "optional": true,
+      "type": "string",
+      "descHash": "2f2c5c38e8"
+    },
+    "managedMcpServers": {
+      "optional": true,
+      "type": "object",
+      "descHash": "9ad8b7f5ef"
+    },
+    "managedSourcesBehavior": {
+      "optional": true,
+      "type": "enum(first-wins|merge)",
+      "descHash": "9e35fa110c"
+    },
+    "maxEffortLevel": {
+      "optional": true,
+      "type": "enum(high|low|max|medium|xhigh)",
+      "descHash": "d74da3fecb"
+    },
+    "maxProseWidth": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "cb83856129"
+    },
+    "minimumVersion": {
+      "optional": true,
+      "type": "string",
+      "descHash": "1aac14a551"
+    },
+    "model": {
+      "optional": true,
+      "type": "string",
+      "descHash": "3b7812d907"
+    },
+    "modelOverrides": {
+      "optional": true,
+      "type": "object",
+      "descHash": "866a7f4182"
+    },
+    "modelPicker": {
+      "optional": true,
+      "type": "object",
+      "descHash": "5135f29a7d"
+    },
+    "modelPicker.options": {
+      "optional": false,
+      "type": "array<object>",
+      "descHash": "ff8b0b0eec"
+    },
+    "modelPicker.replaceBuiltInOptions": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "235be883aa"
+    },
+    "modelPricing": {
+      "optional": true,
+      "type": "object",
+      "descHash": "fea6f7a6e4"
+    },
+    "modelPricing.multiplier": {
+      "optional": true,
+      "type": "number",
+      "descHash": "e3b0c44298"
+    },
+    "modelPricing.overrides": {
+      "optional": true,
+      "type": "object",
+      "descHash": "e3b0c44298"
+    },
+    "modelSettings": {
+      "optional": true,
+      "type": "object",
+      "descHash": "7576ccfa41"
+    },
+    "otelHeadersHelper": {
+      "optional": true,
+      "type": "string",
+      "descHash": "ada2a74c8e"
+    },
+    "outputStyle": {
+      "optional": true,
+      "type": "string",
+      "descHash": "97387f9de9"
+    },
+    "parentSettingsBehavior": {
+      "optional": true,
+      "type": "enum(first-wins|merge)",
+      "descHash": "a81fc3a073"
+    },
+    "permissions": {
+      "optional": true,
+      "type": "object",
+      "descHash": "b43ca92bfb"
+    },
+    "permissions.additionalDirectories": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "c5de9749d0"
+    },
+    "permissions.allow": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "e855b87b5c"
+    },
+    "permissions.ask": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "f9dd0adffc"
+    },
+    "permissions.blockReadsExemptPaths": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "270bc15679"
+    },
+    "permissions.blockReadsOutsideWorkingDirectories": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "9db7e205fa"
+    },
+    "permissions.blockWritesOutsideWorkingDirectories": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "3f6ce4529d"
+    },
+    "permissions.defaultMode": {
+      "optional": true,
+      "type": "enum(acceptEdits|auto|bypassPermissions|default|dontAsk|manual|plan)",
+      "descHash": "9689f385c8"
+    },
+    "permissions.deny": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "c98214c959"
+    },
+    "permissions.denyInsteadOfPrompting": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "6c2f13201f"
+    },
+    "permissions.disableAutoMode": {
+      "optional": true,
+      "type": "enum(disable)",
+      "descHash": "07cb3e81bf"
+    },
+    "permissions.disableBypassPermissionsMode": {
+      "optional": true,
+      "type": "enum(disable)",
+      "descHash": "f63350777c"
+    },
+    "permissions.workingDirectoriesAsGiven": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "4ef012ae21"
+    },
+    "plansDirectory": {
+      "optional": true,
+      "type": "string",
+      "descHash": "abb5e082e4"
+    },
+    "pluginConfigs": {
+      "optional": true,
+      "type": "object",
+      "descHash": "ff1ee4123e"
+    },
+    "pluginSuggestionMarketplaces": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "68dda27ead"
+    },
+    "pluginTrustMessage": {
+      "optional": true,
+      "type": "string",
+      "descHash": "733fe98eb5"
+    },
+    "policyHelper": {
+      "optional": true,
+      "type": "object",
+      "descHash": "5e8e16a31f"
+    },
+    "policyHelper.path": {
+      "optional": false,
+      "type": "string",
+      "descHash": "6b005c5ac7"
+    },
+    "policyHelper.refreshIntervalMs": {
+      "optional": true,
+      "type": "const(0) | integer",
+      "descHash": "e3b0c44298"
+    },
+    "policyHelper.timeoutMs": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "e3b0c44298"
+    },
+    "prUrlTemplate": {
+      "optional": true,
+      "type": "string",
+      "descHash": "167299ec3d"
+    },
+    "precomputeCompactionEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "a5830eff8e"
+    },
+    "preferredNotifChannel": {
+      "optional": true,
+      "type": "enum(auto|ghostty|iterm2|iterm2_with_bell|kitty|notifications_disabled|terminal_bell)",
+      "descHash": "1db80c66b7"
+    },
+    "prefersReducedMotion": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "6b0ffe85ec"
+    },
+    "prependPlugins": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "f0ea37c95f"
+    },
+    "processWrapper": {
+      "optional": true,
+      "type": "string",
+      "descHash": "7ca30cd223"
+    },
+    "promptCacheTtl": {
+      "optional": true,
+      "type": "enum(1h|5m)",
+      "descHash": "fcbdc8b71f"
+    },
+    "promptSuggestionEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "2ff552c73c"
+    },
+    "proxyAuthHelper": {
+      "optional": true,
+      "type": "string",
+      "descHash": "bde830351e"
+    },
+    "remote": {
+      "optional": true,
+      "type": "object",
+      "descHash": "f7bf746304"
+    },
+    "remote.defaultEnvironmentId": {
+      "optional": true,
+      "type": "string",
+      "descHash": "cfc47c2420"
+    },
+    "remoteControlAtStartup": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "e0b2bb6ffe"
+    },
+    "requiredMaximumVersion": {
+      "optional": true,
+      "type": "string",
+      "descHash": "fbd3b774eb"
+    },
+    "requiredMinimumVersion": {
+      "optional": true,
+      "type": "string",
+      "descHash": "4f323ae2d5"
+    },
+    "respectGitignore": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "86cae8e8ef"
+    },
+    "respondToBashCommands": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c1de464a96"
+    },
+    "sandbox": {
+      "optional": true,
+      "type": "object",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.allowAppleEvents": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "f197bd131e"
+    },
+    "sandbox.allowNestedUserNamespaces": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "df795b178e"
+    },
+    "sandbox.allowUnsandboxedCommands": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "637d323694"
+    },
+    "sandbox.autoAllowBashIfSandboxed": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "70a01797f7"
+    },
+    "sandbox.bwrapPath": {
+      "optional": true,
+      "type": "string",
+      "descHash": "bf9fcfe630"
+    },
+    "sandbox.credentials": {
+      "optional": true,
+      "type": "object",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.credentials.allowPlaintextInject": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c061c16d38"
+    },
+    "sandbox.credentials.awsPairs": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "bb0d274ab3"
+    },
+    "sandbox.credentials.envVars": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "997a40dffd"
+    },
+    "sandbox.credentials.files": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "e8fd93ec02"
+    },
+    "sandbox.credentials.sigv4": {
+      "optional": true,
+      "type": "object",
+      "descHash": "37fc503499"
+    },
+    "sandbox.credentials.sigv4.presigned": {
+      "optional": true,
+      "type": "enum(deny|passthrough)",
+      "descHash": "aa1b7c6a1c"
+    },
+    "sandbox.credentials.sigv4.sigv4a": {
+      "optional": true,
+      "type": "enum(deny|passthrough)",
+      "descHash": "b44beb7c41"
+    },
+    "sandbox.credentials.sigv4.streaming": {
+      "optional": true,
+      "type": "enum(deny|passthrough)",
+      "descHash": "8059070beb"
+    },
+    "sandbox.enableWeakerNestedSandbox": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "0964f23353"
+    },
+    "sandbox.enableWeakerNetworkIsolation": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "3731b53d95"
+    },
+    "sandbox.enabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "ef6826e327"
+    },
+    "sandbox.excludedCommands": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "b5e8a6c478"
+    },
+    "sandbox.failIfUnavailable": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "22b8194dea"
+    },
+    "sandbox.filesystem": {
+      "optional": true,
+      "type": "object",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.filesystem.allowManagedReadPathsOnly": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c7db699408"
+    },
+    "sandbox.filesystem.allowRead": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "b4c36f7091"
+    },
+    "sandbox.filesystem.allowWrite": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "0c8b6afaa1"
+    },
+    "sandbox.filesystem.denyRead": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "be48f80833"
+    },
+    "sandbox.filesystem.denyWrite": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "ae785d0555"
+    },
+    "sandbox.filesystem.disabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "9e9a199bfa"
+    },
+    "sandbox.ignoreViolations": {
+      "optional": true,
+      "type": "object",
+      "descHash": "250c79cf0c"
+    },
+    "sandbox.network": {
+      "optional": true,
+      "type": "object",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.network.allowAllUnixSockets": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "97c34262b2"
+    },
+    "sandbox.network.allowLocalBinding": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "e7237c1086"
+    },
+    "sandbox.network.allowMachLookup": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "326d78147b"
+    },
+    "sandbox.network.allowManagedDomainsOnly": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "67c7f37d86"
+    },
+    "sandbox.network.allowUnixSockets": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "61d21e2dfc"
+    },
+    "sandbox.network.allowedDomains": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "3dc5aa9b00"
+    },
+    "sandbox.network.deniedDomains": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "35d40b2648"
+    },
+    "sandbox.network.httpProxyPort": {
+      "optional": true,
+      "type": "number",
+      "descHash": "f3165631fa"
+    },
+    "sandbox.network.socksProxyPort": {
+      "optional": true,
+      "type": "number",
+      "descHash": "114f858c1e"
+    },
+    "sandbox.network.strictAllowlist": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "6ec8d458de"
+    },
+    "sandbox.network.tlsTerminate": {
+      "optional": true,
+      "type": "object",
+      "descHash": "2df6127dd3"
+    },
+    "sandbox.network.tlsTerminate.caCertPath": {
+      "optional": true,
+      "type": "string",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.network.tlsTerminate.caKeyPath": {
+      "optional": true,
+      "type": "string",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.ripgrep": {
+      "optional": true,
+      "type": "object",
+      "descHash": "dd68719453"
+    },
+    "sandbox.ripgrep.args": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.ripgrep.command": {
+      "optional": false,
+      "type": "string",
+      "descHash": "e3b0c44298"
+    },
+    "sandbox.socatPath": {
+      "optional": true,
+      "type": "string",
+      "descHash": "59691454e8"
+    },
+    "showClearContextOnPlanAccept": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "fdd2bf1656"
+    },
+    "showMessageTimestamps": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "03118c9333"
+    },
+    "showThinkingSummaries": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "9b0314a8ab"
+    },
+    "showTurnDuration": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "145e70b81c"
+    },
+    "skillListingBudgetFraction": {
+      "optional": true,
+      "type": "number",
+      "descHash": "d4d745a793"
+    },
+    "skillListingMaxDescChars": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "df0c49253f"
+    },
+    "skillOverrides": {
+      "optional": true,
+      "type": "object",
+      "descHash": "6740fc72b3"
+    },
+    "skipAutoPermissionPrompt": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "0a84423aaf"
+    },
+    "skipDangerousModePermissionPrompt": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "5d61dc69dc"
+    },
+    "skipWebFetchPreflight": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c599063f09"
+    },
+    "spellcheck": {
+      "optional": true,
+      "type": "object",
+      "descHash": "5fd42b367f"
+    },
+    "spellcheck.checker": {
+      "optional": true,
+      "type": "string",
+      "descHash": "f59da8e20a"
+    },
+    "spellcheck.color": {
+      "optional": true,
+      "type": "string",
+      "descHash": "e223a722ec"
+    },
+    "spellcheck.enabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "f004458c3e"
+    },
+    "spellcheck.language": {
+      "optional": true,
+      "type": "string",
+      "descHash": "cfd9d0e5bb"
+    },
+    "spinnerTipsEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "fb73a77638"
+    },
+    "spinnerTipsOverride": {
+      "optional": true,
+      "type": "object",
+      "descHash": "f470deb372"
+    },
+    "spinnerTipsOverride.excludeDefault": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "e3b0c44298"
+    },
+    "spinnerTipsOverride.label": {
+      "optional": true,
+      "type": "string",
+      "descHash": "72074e9e58"
+    },
+    "spinnerTipsOverride.tips": {
+      "optional": true,
+      "type": "array<object | string>",
+      "descHash": "e3b0c44298"
+    },
+    "spinnerTipsOverride.tipsFile": {
+      "optional": true,
+      "type": "string",
+      "descHash": "0fcac4075f"
+    },
+    "spinnerVerbs": {
+      "optional": true,
+      "type": "object",
+      "descHash": "be5a4fceae"
+    },
+    "spinnerVerbs.mode": {
+      "optional": false,
+      "type": "enum(append|replace)",
+      "descHash": "e3b0c44298"
+    },
+    "spinnerVerbs.verbs": {
+      "optional": false,
+      "type": "array<string>",
+      "descHash": "e3b0c44298"
+    },
+    "sshConfigs": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "e702b336c1"
+    },
+    "sshHostCommands": {
+      "optional": true,
+      "type": "array<any>",
+      "descHash": "9753f6abfd"
+    },
+    "statusLine": {
+      "optional": true,
+      "type": "object",
+      "descHash": "fb701654c8"
+    },
+    "statusLine.command": {
+      "optional": false,
+      "type": "string",
+      "descHash": "e3b0c44298"
+    },
+    "statusLine.hideVimModeIndicator": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "e8652effd3"
+    },
+    "statusLine.padding": {
+      "optional": true,
+      "type": "number",
+      "descHash": "e3b0c44298"
+    },
+    "statusLine.refreshInterval": {
+      "optional": true,
+      "type": "number",
+      "descHash": "db184a21fc"
+    },
+    "statusLine.type": {
+      "optional": false,
+      "type": "const(command)",
+      "descHash": "e3b0c44298"
+    },
+    "strictKnownMarketplaces": {
+      "optional": true,
+      "type": "array<object>",
+      "descHash": "9f1cb33088"
+    },
+    "strictPluginOnlyCustomization": {
+      "optional": true,
+      "type": "array<enum(agents|hooks|mcp|skills)> | boolean",
+      "descHash": "b197ffdf43"
+    },
+    "subagentPromptCacheTtl": {
+      "optional": true,
+      "type": "enum(1h|5m)",
+      "descHash": "0d66eff177"
+    },
+    "subagentStatusLine": {
+      "optional": true,
+      "type": "object",
+      "descHash": "f28ce99a49",
+      "deprecated": true
+    },
+    "subagentStatusLine.command": {
+      "optional": false,
+      "type": "string",
+      "descHash": "e3b0c44298"
+    },
+    "subagentStatusLine.type": {
+      "optional": false,
+      "type": "const(command)",
+      "descHash": "e3b0c44298"
+    },
+    "switchModelsOnFlag": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "f4abf84e92"
+    },
+    "syncClaudeAiPlugins": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "7391e11d76"
+    },
+    "syncClaudeAiSkills": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "52ca66a557"
+    },
+    "syntaxHighlightingDisabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "0b6de747b8"
+    },
+    "taskOutputMaxChars": {
+      "optional": true,
+      "type": "integer",
+      "descHash": "016c739baf",
+      "deprecated": true
+    },
+    "teammateMode": {
+      "optional": true,
+      "type": "enum(auto|in-process|iterm2|tmux)",
+      "descHash": "0620bd87ff"
+    },
+    "terminalProgressBarEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "9ce18e4b1a"
+    },
+    "terminalTitleFromRename": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "671ec74ea7"
+    },
+    "theme": {
+      "optional": true,
+      "type": "enum(auto|dark|dark-ansi|dark-daltonized|light|light-ansi|light-daltonized) | string",
+      "descHash": "5c512452de"
+    },
+    "timeFormat": {
+      "optional": true,
+      "type": "enum(12-hour|24-hour|24-hour-utc|auto) | string",
+      "descHash": "c3f731d44f"
+    },
+    "timeZone": {
+      "optional": true,
+      "type": "string",
+      "descHash": "fc07a7c750"
+    },
+    "todoFeatureEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "6d7d07c0d4"
+    },
+    "tui": {
+      "optional": true,
+      "type": "enum(default|fullscreen)",
+      "descHash": "f02d725dcf"
+    },
+    "ultracode": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "40ed928f68"
+    },
+    "useAutoModeDuringPlan": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "090fdd70cd"
+    },
+    "verbose": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "7805ed6884"
+    },
+    "viewMode": {
+      "optional": true,
+      "type": "enum(default|focus|verbose)",
+      "descHash": "d21c8af95e"
+    },
+    "vimInsertModeRemaps": {
+      "optional": true,
+      "type": "object",
+      "descHash": "ead2b3f2f8"
+    },
+    "voice": {
+      "optional": true,
+      "type": "object",
+      "descHash": "68dde20304"
+    },
+    "voice.autoSubmit": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "f85c275603"
+    },
+    "voice.enabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "e3b0c44298"
+    },
+    "voice.mode": {
+      "optional": true,
+      "type": "enum(hold|tap)",
+      "descHash": "e2a7a35e21"
+    },
+    "voiceEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "7915b57ea7"
+    },
+    "wheelScrollAccelerationEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "b32a8ce314"
+    },
+    "workflowKeywordTriggerEnabled": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "c98ce3de75"
+    },
+    "workflowSizeGuideline": {
+      "optional": true,
+      "type": "enum(large|medium|small|unrestricted)",
+      "descHash": "59cdfeede2"
+    },
+    "worktree": {
+      "optional": true,
+      "type": "object",
+      "descHash": "bc26def52f"
+    },
+    "worktree.baseRef": {
+      "optional": true,
+      "type": "enum(fresh|head)",
+      "descHash": "d2e7ef69f8"
+    },
+    "worktree.bgIsolation": {
+      "optional": true,
+      "type": "enum(none|worktree)",
+      "descHash": "8e3b27609f"
+    },
+    "worktree.location": {
+      "optional": true,
+      "type": "string",
+      "descHash": "4b5b643f82"
+    },
+    "worktree.sparsePaths": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "4bfc824483"
+    },
+    "worktree.symlinkDirectories": {
+      "optional": true,
+      "type": "array<string>",
+      "descHash": "c8329305bd"
+    },
+    "wslInheritsWindowsSettings": {
+      "optional": true,
+      "type": "boolean",
+      "descHash": "dbc2fc177c"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "scenario": "tool_deny",
+  "target": "mock",
+  "sessionId": "6b2afebe-9431-4967-ba38-f2b55a39bc72",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

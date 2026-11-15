@@ -1,0 +1,14 @@
+out:control_request/initialize
+in:control_response/initialize/success
+out:user/string
+in:system/init
+in:system/status
+in:stream_event/message_start
+in:stream_event/content_block_start/text
+in:stream_event/content_block_delta/text_delta+
+in:assistant/text
+in:stream_event/content_block_stop
+in:stream_event/message_delta
+in:stream_event/message_stop
+in:result/success
+harness:harness_exit

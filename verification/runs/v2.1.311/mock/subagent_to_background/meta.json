@@ -1,0 +1,10 @@
+{
+  "scenario": "subagent_to_background",
+  "target": "mock",
+  "sessionId": "37659bf9-8bf8-4fa8-9190-b08be0842acb",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

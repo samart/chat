@@ -1,0 +1,10 @@
+{
+  "scenario": "slash_prompt_command",
+  "target": "mock",
+  "sessionId": "8081930a-70e9-401e-96c7-b6fde2b41c74",
+  "r1": {
+    "code": 0,
+    "signal": null,
+    "stderr": ""
+  }
+}

@@ -1,0 +1,1420 @@
+[
+  {
+    "section": "sdkMessages",
+    "key": "assistant",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "agent_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "conversation_reset",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "timestamp",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "trigger",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "'clear' | 'plan_mode_exit' | 'fresh_session' | 'onboarding'"
+        }
+      },
+      {
+        "op": "+",
+        "field": "user_message_uuid",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "result:success",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "first_text_post_queue_wait_ms",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      {
+        "op": "+",
+        "field": "first_text_post_queued_behind",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "'durable_post' | 'ephemeral_post' | 'retry_backoff' | 'hold' | 'none'"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:background_tasks_changed",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "tasks",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "{ task_id: string; task_type: string; description: string; ambient?: boolean; }[]"
+          },
+          "to": {
+            "optional": false,
+            "type": "{ task_id: string; run_id?: string; task_type: string; subagent_type?: string; description: string; parent_task_id?: string; ambient?: boolean; }[]"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:informational",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "tag",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:init",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "plugin_errors",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ plugin: string; type: string; message: string; path?: string; }[]"
+        }
+      },
+      {
+        "op": "+",
+        "field": "view_mode",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "'focus' | 'default'"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:task_notification",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:task_progress",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:task_started",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "parent_task_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "system:task_updated",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "user",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "agent_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "client_composed",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "true"
+        }
+      },
+      {
+        "op": "+",
+        "field": "inline_pastes",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string[]"
+        }
+      }
+    ]
+  },
+  {
+    "section": "sdkMessages",
+    "key": "user#SDKUserMessageReplay",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "client_composed",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "true"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "assistant",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "agent_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "conversation_reset",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "timestamp",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "trigger",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "'clear' | 'plan_mode_exit' | 'fresh_session' | 'onboarding'"
+        }
+      },
+      {
+        "op": "+",
+        "field": "user_message_uuid",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "result:success",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "first_text_post_queue_wait_ms",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      },
+      {
+        "op": "+",
+        "field": "first_text_post_queued_behind",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "'durable_post' | 'ephemeral_post' | 'retry_backoff' | 'hold' | 'none'"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:background_tasks_changed",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "tasks",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "{ task_id: string; task_type: string; description: string; ambient?: boolean; }[]"
+          },
+          "to": {
+            "optional": false,
+            "type": "{ task_id: string; run_id?: string; task_type: string; subagent_type?: string; description: string; parent_task_id?: string; ambient?: boolean; }[]"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:informational",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "tag",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:init",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "plugin_errors",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "{ plugin: string; type: string; message: string; path?: string; }[]"
+        }
+      },
+      {
+        "op": "+",
+        "field": "view_mode",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "'focus' | 'default'"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:task_notification",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:task_progress",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:task_started",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "parent_task_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "system:task_updated",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "run_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "user",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "agent_id",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "client_composed",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "true"
+        }
+      },
+      {
+        "op": "+",
+        "field": "inline_pastes",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string[]"
+        }
+      }
+    ]
+  },
+  {
+    "section": "stdoutWire",
+    "key": "user#SDKUserMessageReplay",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "client_composed",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "true"
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlRequests",
+    "key": "elicitation",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "property_order",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string[]"
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlRequests",
+    "key": "get_task_output",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": "SDKControlGetTaskOutputRequest",
+      "fields": [
+        "subtype",
+        "task_id"
+      ]
+    }
+  },
+  {
+    "section": "controlRequests",
+    "key": "initialize",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "sdkMcpServerManifestsOrigin",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "'host_per_send'"
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlRequests",
+    "key": "mcp_read_resource",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": "SDKControlMcpReadResourceRequest",
+      "fields": [
+        "serverName",
+        "subtype",
+        "uri"
+      ]
+    }
+  },
+  {
+    "section": "controlResponses",
+    "key": "SDKControlGetTaskOutputResponse",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": "SDKControlGetTaskOutputResponse",
+      "fields": [
+        "output",
+        "total_bytes",
+        "truncated"
+      ]
+    }
+  },
+  {
+    "section": "controlResponses",
+    "key": "SDKControlGetUsageResponse",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "behaviors",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "{ day: { request_count: number; session_count: number; behaviors: { key: 'cache_miss' | 'long_context' | 'subagent_heavy' | 'high_parallel' | 'cron'; pct: number; count: number; }[]; agents: { name: string; pct: number; }[]; skills: { name: string; pct: number; }[]; plugins: { name: string; pct: number; }[]; mcp_servers: { name: string; pct: number; }[]; }; week: { request_count: number; session_count: number; behaviors: { key: 'cache_miss' | 'long_context' | 'subagent_heavy' | 'high_parallel' | 'cron'; pct: number; count: number; }[]; agents: { name: string; pct: number; }[]; skills: { name: string; pct: number; }[]; plugins: { name: string; pct: number; }[]; mcp_servers: { name: string; pct: number; }[]; }; } | null"
+          },
+          "to": {
+            "optional": false,
+            "type": "{ day: { request_count: number; session_count: number; behaviors: { key: 'cache_miss' | 'long_context' | 'subagent_heavy' | 'high_parallel' | 'cron' | 'max_effort' | 'workflow' | 'always_on_context' | 'large_tool_results'; pct: number; count: number; }[]; agents: { name: string; pct: number; }[]; skills: { name: string; pct: number; }[]; plugins: { name: string; pct: number; }[]; mcp_servers: { name: string; pct: number; }[]; }; week: { request_count: number; session_count: number; behaviors: { key: 'cache_miss' | 'long_context' | 'subagent_heavy' | 'high_parallel' | 'cron' | 'max_effort' | 'workflow' | 'always_on_context' | 'large_tool_results'; pct: number; count: number; }[]; agents: { name: string; pct: number; }[]; skills: { name: string; pct: number; }[]; plugins: { name: string; pct: number; }[]; mcp_servers: { name: string; pct: number; }[]; }; } | null"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlResponses",
+    "key": "SDKControlInitializeResponse",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "claude_code_version",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      },
+      {
+        "op": "+",
+        "field": "sdk_mcp_manifests_parked",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "Record<string, 'parked' | 'already_connected' | 'protocol_version_mismatch' | 'malformed' | 'not_honoured'>"
+        }
+      }
+    ]
+  },
+  {
+    "section": "controlResponses",
+    "key": "SDKControlMcpReadResourceResponse",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": "SDKControlMcpReadResourceResponse",
+      "fields": [
+        "contents"
+      ]
+    }
+  },
+  {
+    "section": "tools",
+    "key": "AgentInput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "effort",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "\"low\" | \"medium\" | \"high\" | \"xhigh\" | \"max\""
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "AgentOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable"
+  },
+  {
+    "section": "tools",
+    "key": "ArtifactInput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "action",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": true,
+            "type": "\"publish\" | \"list\" | \"read\" | \"list_types\" | \"watch\" | \"unwatch\" | \"status\" | \"upload_asset\" | \"list_assets\" | \"read_asset\" | \"delete_asset\""
+          },
+          "to": {
+            "optional": true,
+            "type": "\"publish\" | \"list\" | \"read\" | \"list_types\" | \"watch\" | \"unwatch\" | \"status\" | \"upload_asset\" | \"list_assets\" | \"read_asset\" | \"delete_asset\" | \"pin\" | \"unpin\""
+          }
+        }
+      },
+      {
+        "op": "+",
+        "field": "pin",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "ArtifactOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable"
+  },
+  {
+    "section": "tools",
+    "key": "CronCreateOutput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "nextFireAt",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "CronListOutput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "jobs",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "{ id: string; cron: string; humanSchedule: string; prompt: string; recurring?: boolean; durable?: boolean; }[]"
+          },
+          "to": {
+            "optional": false,
+            "type": "{ id: string; cron: string; humanSchedule: string; prompt: string; recurring?: boolean; durable?: boolean; nextFireAt?: number; }[]"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "FileReadInput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "allow_large",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "boolean"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "OfferChromeSetupInput",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": null,
+      "fields": [
+        "reason"
+      ]
+    }
+  },
+  {
+    "section": "tools",
+    "key": "OfferChromeSetupOutput",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "typeName": null,
+      "fields": [
+        "outcome"
+      ]
+    }
+  },
+  {
+    "section": "tools",
+    "key": "ReadNotificationsOutput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "notifications",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "{ notification_id: string; origin: string; queued_at: string; content: string; }[]"
+          },
+          "to": {
+            "optional": false,
+            "type": "{ notification_id: string; origin: string; queued_at: string; content: string; arrived_at?: string; }[]"
+          }
+        }
+      },
+      {
+        "op": "+",
+        "field": "read_at",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "string"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "ToolInputSchemas",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable"
+  },
+  {
+    "section": "tools",
+    "key": "ToolOutputSchemas",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable"
+  },
+  {
+    "section": "tools",
+    "key": "WebFetchInput",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "+",
+        "field": "offset",
+        "impact": "additive",
+        "value": {
+          "optional": true,
+          "type": "number"
+        }
+      }
+    ]
+  },
+  {
+    "section": "tools",
+    "key": "WebSearchOutput",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": [
+      {
+        "op": "~",
+        "field": "results",
+        "impact": "neutral",
+        "value": {
+          "from": {
+            "optional": false,
+            "type": "({ tool_use_id: string; content: { title: string; url: string; }[]; } | string)[]"
+          },
+          "to": {
+            "optional": false,
+            "type": "({ tool_use_id: string; content: { title: string; url: string; snippet?: string; }[]; } | string)[]"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "section": "options",
+    "key": "verbatimPrompts",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "queryMethods",
+    "key": "readMcpResource",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": false,
+      "type": "(serverName: string, uri: string): Promise<SDKControlMcpReadResourceResponse>;",
+      "tags": [
+        "alpha"
+      ]
+    }
+  },
+  {
+    "section": "settings",
+    "key": "allowClaudeInChromeWithManagedMcp",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "allowedProviders",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "('anthropic' | 'customEndpoint' | 'bedrock' | 'vertex' | 'foundry' | 'anthropicAws' | 'mantle' | 'gateway')[]"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "attribution",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "{ commit?: string; pr?: string; sessionUrl?: boolean; [k: string]: unknown; }"
+      },
+      "to": {
+        "optional": true,
+        "type": "boolean | { commit?: string; pr?: string; sessionUrl?: boolean; [k: string]: unknown; }"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "availableModelsMatch",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "'prefix' | 'exact'"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "deniedModels",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "string[]"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "hooks",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "{ [k: string]: { matcher?: string; hooks: ({ type: 'command'; command: string; args?: string[]; if?: string; shell?: 'bash' | 'powershell'; timeout?: number; statusMessage?: string; once?: boolean; async?: boolean; asyncRewake?: boolean; } | { type: 'prompt'; prompt: string; if?: string; timeout?: number; model?: string; continueOnBlock?: boolean; statusMessage?: string; once?: boolean; } | { type: 'agent'; prompt: string; if?: string; timeout?: number; model?: string; statusMessage?: string; once?: boolean; } | { type: 'http'; url: string; if?: string; timeout?: number; headers?: { [k: string]: string; }; allowedEnvVars?: string[]; statusMessage?: string; once?: boolean; } | { type: 'mcp_tool'; server: string; tool: string; input?: { [k: string]: unknown; }; if?: string; timeout?: number; statusMessage?: string; once?: boolean; })[]; }[]; }"
+      },
+      "to": {
+        "optional": true,
+        "type": "{ [k: string]: { matcher?: string; hooks: ({ type: 'command'; command: string; args?: string[]; if?: string; shell?: 'bash' | 'powershell'; timeout?: number; onFailure?: 'continue' | 'block'; statusMessage?: string; once?: boolean; async?: boolean; asyncRewake?: boolean; } | { type: 'prompt'; prompt: string; if?: string; timeout?: number; model?: string; continueOnBlock?: boolean; statusMessage?: string; once?: boolean; } | { type: 'agent'; prompt: string; if?: string; timeout?: number; model?: string; statusMessage?: string; once?: boolean; } | { type: 'http'; url: string; if?: string; timeout?: number; onFailure?: 'continue' | 'block'; headers?: { [k: string]: string; }; allowedEnvVars?: string[]; statusMessage?: string; once?: boolean; } | { type: 'mcp_tool'; server: string; tool: string; input?: { [k: string]: unknown; }; if?: string; timeout?: number; statusMessage?: string; once?: boolean; })[]; }[]; }"
+      }
+    }
+  },
+  {
+    "section": "settings",
+    "key": "idleCompaction",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "boolean"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "maxProseWidth",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "optional": true,
+      "type": "number"
+    }
+  },
+  {
+    "section": "settings",
+    "key": "modelSettings",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "from": {
+        "optional": true,
+        "type": "{ [k: string]: { effortLevel?: 'low' | 'medium' | 'high' | 'xhigh'; maxEffortLevel?: 'low' | 'medium' | 'high' | 'xhigh' | 'max'; [k: string]: unknown; }; }"
+      },
+      "to": {
+        "optional": true,
+        "type": "{ [k: string]: { effortLevel?: 'low' | 'medium' | 'high' | 'xhigh'; maxEffortLevel?: 'low' | 'medium' | 'high' | 'xhigh' | 'max'; autoCompactWindow?: 'auto' | number; [k: string]: unknown; }; }"
+      }
+    }
+  },
+  {
+    "section": "exports",
+    "key": "AgentDefinition",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "ClaimOptions",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "TypeAlias",
+      "shapeHash": "b7d276cd998f",
+      "tags": [
+        "alpha"
+      ]
+    }
+  },
+  {
+    "section": "exports",
+    "key": "McpServerStatus",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "NonNullableUsage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "Options",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "Query",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKAssistantMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKBackgroundTasksChangedMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKControlGetUsageResponse",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKControlInitializeResponse",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKControlMcpReadResourceResponse",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "TypeAlias",
+      "shapeHash": "0db69485e128"
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKConversationResetMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKInformationalMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKMessageOrigin",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKRateLimitInfo",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKResultSuccess",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKStartupFailureReason",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKSystemMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKTaskNotificationMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKTaskProgressMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKTaskStartedMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKTaskUpdatedMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKUserMessage",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SDKUserMessageReplay",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "Settings",
+    "change": "changed-shape",
+    "impact": "neutral",
+    "stability": "stable",
+    "detail": {
+      "tags": null,
+      "signature": null
+    }
+  },
+  {
+    "section": "exports",
+    "key": "SpareProcess",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "Interface",
+      "shapeHash": "1d69da655475",
+      "tags": [
+        "alpha"
+      ]
+    }
+  },
+  {
+    "section": "exports",
+    "key": "prewarm",
+    "change": "added",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "kind": "Function",
+      "shapeHash": "d341e1c4d130",
+      "tags": [
+        "alpha"
+      ],
+      "signature": "function prewarm(_params?: { options?: Options; initializeTimeoutMs?: number; }): Promise<SpareProcess>;"
+    }
+  },
+  {
+    "section": "stringEnums",
+    "key": "SDKStartupFailureReason",
+    "change": "changed-shape",
+    "impact": "additive",
+    "stability": "stable",
+    "detail": {
+      "added": [
+        "org_config_refused",
+        "org_config_required_unavailable",
+        "provider_not_allowed"
+      ],
+      "removed": []
+    }
+  }
+]
